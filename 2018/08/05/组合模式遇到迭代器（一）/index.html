@@ -1,0 +1,664 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="设计模式,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="引入：最近开发过程中，遇到场景组、场景嵌套的情况，看到代码中运用了组合模式。于是乎，温习了组合模式的应用场景和设计过程。同时，在组合模式运用的过程中，很自然地会出现遍历的情况，这时候迭代器模式就有用武之地。">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组合模式遇到迭代器（一）">
+<meta property="og:url" content="http://yoursite.com/2018/08/05/组合模式遇到迭代器（一）/index.html">
+<meta property="og:site_name" content="飞鸿踏雪泥">
+<meta property="og:description" content="引入：最近开发过程中，遇到场景组、场景嵌套的情况，看到代码中运用了组合模式。于是乎，温习了组合模式的应用场景和设计过程。同时，在组合模式运用的过程中，很自然地会出现遍历的情况，这时候迭代器模式就有用武之地。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn.nlark.com/__puml/b6b371c8ef0ee3241f39a768b0b6fe60.svg">
+<meta property="og:image" content="https://cdn.nlark.com/__puml/ab998bb0480fda99250a92109542e380.svg">
+<meta property="og:updated_time" content="2019-08-10T05:08:01.599Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="组合模式遇到迭代器（一）">
+<meta name="twitter:description" content="引入：最近开发过程中，遇到场景组、场景嵌套的情况，看到代码中运用了组合模式。于是乎，温习了组合模式的应用场景和设计过程。同时，在组合模式运用的过程中，很自然地会出现遍历的情况，这时候迭代器模式就有用武之地。">
+<meta name="twitter:image" content="https://cdn.nlark.com/__puml/b6b371c8ef0ee3241f39a768b0b6fe60.svg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+
+
+
+
+  <title> 组合模式遇到迭代器（一） | 飞鸿踏雪泥 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">飞鸿踏雪泥</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/05/组合模式遇到迭代器（一）/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chengshuo">
+    <meta itemprop="description" content>
+    <meta itemprop="image" content="/uploads/i.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="飞鸿踏雪泥">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="飞鸿踏雪泥" src>
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                组合模式遇到迭代器（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-05T20:11:35+08:00">
+                2018-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工作/" itemprop="url" rel="index">
+                    <span itemprop="name">工作</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>引入：最近开发过程中，遇到场景组、场景嵌套的情况，看到代码中运用了组合模式。于是乎，温习了组合模式的应用场景和设计过程。同时，在组合模式运用的过程中，很自然地会出现遍历的情况，这时候迭代器模式就有用武之地。</p>
+</blockquote>
+<a id="more"></a>
+
+<h4 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h4><p>为了更好地说明，我用一个生活中的case进行阐述。菜单和子菜单是生活中常见的名称。菜单包含子菜单和其他选项，子菜单里会有子子菜单和其他选项，依次类推，嵌套结构。<br>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">文档菜单</span><br><span class="line">   - 新标签页</span><br><span class="line">   - 打开</span><br><span class="line">      - 通过链接打开</span><br><span class="line">      - 最近使用</span><br><span class="line">           - 按日期</span><br><span class="line">           - 使用记录</span><br><span class="line">   - 分享</span><br><span class="line">      - 钉钉分享</span><br><span class="line">      - Email分享</span><br><span class="line">      - 微信分享</span><br><span class="line">   - 关闭</span><br></pre></td></tr></table></figure>
+
+<p>我们如何在系统中表达这种关系，同时让使用者（调用方）不需要理解其中的细节就可以直接处理其中的子菜单和其他选项呢？</p>
+<hr>
+<p>其实，这种情况就非常适合使用组合模式，<strong>组合模式允许系统将对象组合成树形结构来表现“整体|部分”的层次结构</strong>。优点是能让客户（使用者）以统一的方式处理其中的个别对象（其他选项）和对象组合（子菜单）。</p>
+<h5 id="思路如下："><a href="#思路如下：" class="headerlink" title="思路如下："></a>思路如下：</h5><p>为了使“子菜单”和“其他选项”在形式上实现统一，我们需要定义一个统一的接口对外提供使用，同时规范“子菜单”与“其他选项”的具体实现。对于这个接口，我们希望有一些默认的实现，故而在这里使用抽象类作为这个“接口”。</p>
+<div id="llagsa" data-type="puml" data-display="block" data-align="center" data-src="https://cdn.nlark.com/__puml/b6b371c8ef0ee3241f39a768b0b6fe60.svg" data-width="313" data-height="422" data-text="%40startuml%0A%0AClass%20BaseMenuComponent%20%7B%0A%20%20name%0A%20%20desc%0A%20%20%2BgetName()%0A%20%20%2BgetDesc()%0A%09%2Badd(BaseMenuComponent)%0A%09%2Bremove(BaseMenuComponent)%0A%09%2BgetChild(int)%0A%7D%0A%0AClass%20MenuItem%20%7B%0A%20%20%2BgetName()%0A%20%20%2BgetDesc()%0A%7D%0A%0AClass%20Menu%20%7B%0A%09baseMenuComponents%0A%09%2Badd(BaseMenuComponent)%0A%09%2Bremove(BaseMenuComponent)%0A%09%2BgetChile(int)%0A%7D%0A%0AClass%20MenuVisitor%20%7B%0A%09%0A%7D%0A%0ABaseMenuComponent%20%3C%7C--%20MenuItem%0ABaseMenuComponent%20%3C%7C--%20Menu%0AMenu%20--%3E%20BaseMenuComponent%0AMenuVisitor%20--%3E%20BaseMenuComponent%0A%0A%0A%40enduml"><img src="https://cdn.nlark.com/__puml/b6b371c8ef0ee3241f39a768b0b6fe60.svg" width="313"></div>
+
+<div data-type="alignment" data-value="center" style="text-align:center">
+  <div data-type="p">图1 组合模式类图</div>
+</div>
+
+<p>如图1  组合模式类图所示，Menu代表子菜单，MenuItem代表其他选项，BaseMenuComponent是统一抽象类。MenuVisitor是使用者。Menu和MenuItem都继承了BaseMenuComponent，Menu同时也会使用List<basemenucomponent>用来维护层级关系。</basemenucomponent></p>
+<h5 id="问题-amp-思考："><a href="#问题-amp-思考：" class="headerlink" title="问题&amp;思考："></a>问题&amp;思考：</h5><p>Q：<strong>我们都知道单一职责原则：一个类只有一个责任，但是，这么设计的情况下，一个类有两个职责了</strong>：1. 菜单的固有操作；2. 维护层级关系。这岂不是违反的单一职责原则了吗？<br>A：其实，组合模式就是用这种方式，以违反单一职责原则的方式换取透明性，List<basemenucomponent>里面的元素是“子菜单”还是“其他选项”对使用者来说是透明的。</basemenucomponent></p>
+<p>Q:BaseMenuComponent同时具体两种类型的操作，包括“子菜单”和“其他选项”，<strong>这种情况下，“子菜单”中不就继承了自己不需要的“其他选项”里面的方法了吗</strong>？会造成冗余和数据不安全的问题。<br>A：没错，会产生上述问题。如果要解决上述问题，就需要将责任区分开来放在不同的接口。这么设计会比较安全，但也因此失去“透明性”。回到问题的初衷：让使用者（调用方）不需要理解其中的细节就可以直接处理其中的子菜单和其他选项。为了不让用户使用条件语句和instanceof操作处理不同类型的问题，所以采用了以上设计。换一种理解方式，可以把MenuItem看成没有子菜单的Menu。</p>
+<h4 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h4><p>在软件系统中，有很多方式来表达集合的概念，比如：数组、堆栈等。但是如果调用方如何遍历集合中的对象，不应该需要访知道这些对象的具体实现。而是用通用的方式去遍历这些集合种的对象,所以遍历的这种操作应该被抽象出来。</p>
+<p>为了解决遍历集合的问题，出现了迭代器模式。<br><strong>迭代器模式提供一种方法顺序访问一个聚合对象中的各个元素，而又不暴露其中内部的表示</strong>。迭代器的突出优点是，将遍历元素的能力交给迭代器，而不是聚合对象，让聚合的接口更简洁。如图2 迭代器类图所示。</p>
+<div id="g2ybzv" data-type="puml" data-display="block" data-align="center" data-src="https://cdn.nlark.com/__puml/ab998bb0480fda99250a92109542e380.svg" data-width="306" data-height="371" data-text="%40startuml%0A%0AInterface%20Aggregate%7B%0A%09%2BcreateIterator()%0A%7D%0A%0Aclass%20Client%7B%0A%09%0A%7D%0A%0AInterface%20Iterator%7B%0A%09%2BhasNext()%0A%09%2Bnext()%0A%09%2Bremove()%0A%7D%0A%0Aclass%20ConcreteIterator%7B%0A%09%2BhasNext()%0A%09%2Bnext()%0A%09%2Bremove()%0A%7D%0A%0Aclass%20ConcreteAggregate%7B%0A%09%2BcreateIterator()%0A%7D%0A%0A%0AConcreteIterator%20..%7C%3E%20Iterator%0AConcreteAggregate%20--%3E%20ConcreteIterator%0AConcreteAggregate%20..%7C%3E%20Aggregate%0AClient%20--%3E%20Iterator%0AClient%20--%3E%20Aggregate%0A%0A%40enduml"><img src="https://cdn.nlark.com/__puml/ab998bb0480fda99250a92109542e380.svg" width="306"></div>
+
+<div data-type="alignment" data-value="center" style="text-align:center">
+  <div data-type="p">图2 迭代器模式类图</div>
+</div>
+
+
+<p>如图2所示，迭代器模式中, Aggregate是供所有具体ConcreteAggregate类实现的接口，使用户Client不再依赖于具体的ConcreteAggregate实现。Aggregate中创建Iterator进行遍历访问。<br>调用代码实例如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Iterator iterator = aggregate.createIterator();</span><br><span class="line"><span class="keyword">while</span>(iterator.hasNext())&#123;</span><br><span class="line">    Item item = iterator.next();</span><br><span class="line">    <span class="comment">// 以下可以进一步操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/10/新阶段-这仨月/" rel="next" title="新的阶段-这仨月">
+                <i class="fa fa-chevron-left"></i> 新的阶段-这仨月
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/05/事物的状态-状态模式/" rel="prev" title="事物的状态-状态模式">
+                事物的状态-状态模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/i.jpg" alt="chengshuo">
+          <p class="site-author-name" itemprop="name">chengshuo</p>
+          <p class="site-description motion-element" itemprop="description">博观而约取</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#组合模式"><span class="nav-number">1.</span> <span class="nav-text">组合模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#思路如下："><span class="nav-number">1.1.</span> <span class="nav-text">思路如下：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#问题-amp-思考："><span class="nav-number">1.2.</span> <span class="nav-text">问题&amp;思考：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#迭代器模式"><span class="nav-number">2.</span> <span class="nav-text">迭代器模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chengshuo</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

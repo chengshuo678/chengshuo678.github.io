@@ -1,0 +1,720 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="实习,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="近期需要进行日志收集，将各主机中的日志收集起来，放到elasticSearch中。然后利用es进行统计、搜索。简单介绍一下~">
+<meta name="keywords" content="实习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ElasticSearch与kibana流水账">
+<meta property="og:url" content="http://yoursite.com/2017/03/26/ElasticSearch与kibana流水账/index.html">
+<meta property="og:site_name" content="飞鸿踏雪泥">
+<meta property="og:description" content="近期需要进行日志收集，将各主机中的日志收集起来，放到elasticSearch中。然后利用es进行统计、搜索。简单介绍一下~">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-10T05:08:01.600Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ElasticSearch与kibana流水账">
+<meta name="twitter:description" content="近期需要进行日志收集，将各主机中的日志收集起来，放到elasticSearch中。然后利用es进行统计、搜索。简单介绍一下~">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+
+
+
+
+  <title> ElasticSearch与kibana流水账 | 飞鸿踏雪泥 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">飞鸿踏雪泥</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/26/ElasticSearch与kibana流水账/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chengshuo">
+    <meta itemprop="description" content>
+    <meta itemprop="image" content="/uploads/i.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="飞鸿踏雪泥">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="飞鸿踏雪泥" src>
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ElasticSearch与kibana流水账
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-26T14:20:00+08:00">
+                2017-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>近期需要进行日志收集，将各主机中的日志收集起来，放到elasticSearch中。然后利用es进行统计、搜索。简单介绍一下~</p>
+</blockquote>
+<a id="more"></a>
+
+<blockquote>
+<p>介绍：ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java开发的，并作为Apache许可条款下的开放源码发布，是当前流行的企业级搜索引擎。设计用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。</p>
+</blockquote>
+<h4 id="安装ElasticSearch"><a href="#安装ElasticSearch" class="headerlink" title="安装ElasticSearch"></a>安装ElasticSearch</h4><p>Es篇：安装Es </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.3.zip </span><br><span class="line">unzip elasticsearch-1.7.3.zip </span><br><span class="line">cd elasticsearch</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装Marvels"><a href="#安装Marvels" class="headerlink" title="安装Marvels"></a>安装Marvels</h4><blockquote>
+<p>Marvel是一个插件，可在Elasticsearch目录中运行以下命令来下载和安装：</p>
+</blockquote>
+<blockquote>
+<p>./bin/plugin    -i    elasticsearch/marvel/latest</p>
+</blockquote>
+<blockquote>
+<p>你如果想要禁用监控，你可以通过以下命令关闭Marvel：</p>
+</blockquote>
+<blockquote>
+<p>echo    ‘marvel.agent.enabled:    false’    &gt;&gt;    ./config/elasticsearch.yml</p>
+</blockquote>
+<h4 id="运行Elasticsearch"><a href="#运行Elasticsearch" class="headerlink" title="运行Elasticsearch"></a>运行Elasticsearch</h4><blockquote>
+<p>Elasticsearch已经准备就绪，执行以下命令可在前台启动：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/elasticsearch</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>启动后，如果只有本地可以访问，尝试修改配置文件    elasticsearch.yml<br>中network.host(注意配置文件格式不是以    #    开头的要空一格，        ：    后要空一格) 为    </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">network.host:	0.0.0.0</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>如果想在后台以守护进程模式运行，添加    -d    参数。</p>
+</blockquote>
+<blockquote>
+<p>打开另一个终端进行测试：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl	&apos;http://localhost:9200/?pretty&apos;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>你能看到以下返回信息：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@VM-33-207-ubuntu:~$ curl &apos;http://localhost:9200/?pretty&apos;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;status&quot; : 200,</span><br><span class="line">  &quot;name&quot; : &quot;chengshuoNode&quot;,</span><br><span class="line">  &quot;cluster_name&quot; : &quot;chengshuo_cluster&quot;,</span><br><span class="line">  &quot;version&quot; : &#123;</span><br><span class="line">    &quot;number&quot; : &quot;1.7.3&quot;,</span><br><span class="line">    &quot;build_hash&quot; : &quot;05d4530971ef0ea46d0f4fa6ee64dbc8df659682&quot;,</span><br><span class="line">    &quot;build_timestamp&quot; : &quot;2015-10-15T09:14:17Z&quot;,</span><br><span class="line">    &quot;build_snapshot&quot; : false,</span><br><span class="line">    &quot;lucene_version&quot; : &quot;4.10.4&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;tagline&quot; : &quot;You Know, for Search&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这说明你的ELasticsearch集群已经启动并且正常运行</p>
+</blockquote>
+<h4 id="head"><a href="#head" class="headerlink" title="head"></a>head</h4><p>这是一个非常简单实用的插件，类似于Navicat之于Mysql。方便我们查找数据。</p>
+<p>通过head，可以查看集群几乎所有信息，还能进行简单的搜索查询，观察自动恢复的情况等等。<br>执行下面的命令开始安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./bin/plugin -install mobz/elasticsearch-head</span><br></pre></td></tr></table></figure>
+
+<p>安装完成之后， 可以通过浏览器输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://ip:9200/_plugin/head/</span><br></pre></td></tr></table></figure>
+
+<p>可以查看显示效果。</p>
+<h4 id="bigdesk"><a href="#bigdesk" class="headerlink" title="bigdesk"></a>bigdesk</h4><p>bigdesk是elasticsearch的一个集群监控工具，可以通过它来查看es集群的各种状态，如：cpu、内存使用情况，索引数据、搜索情况，http连接数等。项目git地址： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/lukas-vlcek/bigdesk。</span><br></pre></td></tr></table></figure>
+
+<p>和head一样，它也是个独立的网页程序，使用方式和head一样。<br>插件安装运行： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.bin/plugin -install lukas-vlcek/bigdesk </span><br><span class="line">2.运行es </span><br><span class="line">3.打开http://localhost:9200/_plugin/bigdesk/</span><br></pre></td></tr></table></figure>
+
+<p>当然，也可以直接下载源码运行index.html </p>
+<p>安装显示 kibana</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.elasticsearch.org/kibana/kibana/kibana-3.1.2.zip</span><br><span class="line">unzip kibana-3.1.2.zip</span><br><span class="line">mv kibana-3.1.2/* &lt;tomcat-path&gt;/webapps/kibana</span><br></pre></td></tr></table></figure>
+
+<p>访问<a href="http://localhost:80/kibana/index.html" target="_blank" rel="noopener">http://localhost:80/kibana/index.html</a></p>
+<h4 id="出现问题"><a href="#出现问题" class="headerlink" title="出现问题"></a>出现问题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kibana-returns-connection-failed</span><br></pre></td></tr></table></figure>
+
+<p>解决方法</p>
+<p>在elasticSearch的conf文件中 elasticsearch.yml 添加如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http.cors.allow-origin: &quot;/.*/&quot;</span><br><span class="line">http.cors.enabled: true</span><br></pre></td></tr></table></figure>
+
+<p>访问<a href="http://localhost:80/kibana/index.html" target="_blank" rel="noopener">http://localhost:80/kibana/index.html</a><br>OK</p>
+<p>至于flume的开发呢，我的方式是从github上下载源码，根据具体业务定制一个flume。</p>
+<h4 id="使用ES查询例子"><a href="#使用ES查询例子" class="headerlink" title="使用ES查询例子"></a>使用ES查询例子</h4><p>1、Range与过滤的组合，用于查找uv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">GET flume_index-2017-03-03/flume_type/_search?search_type=count</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot; : &#123;</span><br><span class="line">        &quot;filtered&quot;: &#123;</span><br><span class="line">            &quot;filter&quot;: &#123;</span><br><span class="line">                &quot;range&quot;: &#123;</span><br><span class="line">                    &quot;timeNum&quot;: &#123;</span><br><span class="line">                        &quot;gte&quot;: 1487606000000,</span><br><span class="line">                        &quot;lt&quot;:  1487606060000</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;aggs&quot;:&#123;&quot;uniq_attr&quot;: &#123;&quot;cardinality&quot;: &#123;&quot;field&quot;: &quot;ip&quot;&#125;&#125;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、使用bool进行组合查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">GET flume_index-2017-03-03/flume_type/_search?search_type=count</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot; : &#123;</span><br><span class="line">        &quot;bool&quot;: &#123;</span><br><span class="line">            &quot;must&quot;: &#123;</span><br><span class="line">                &quot;range&quot;: &#123;</span><br><span class="line">                    &quot;timeNum&quot;: &#123;</span><br><span class="line">                        &quot;gte&quot;: 1487606000000,</span><br><span class="line">                        &quot;lt&quot;:  1487606060000</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;must&quot;:&#123;</span><br><span class="line">              &quot;term&quot;:&#123;</span><br><span class="line">                  &quot;spreadId&quot;:&quot;12&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;aggs&quot;:&#123;&quot;uniq_attr&quot;: &#123;&quot;cardinality&quot;: &#123;&quot;field&quot;: &quot;ip&quot;&#125;&#125;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、聚合查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /flume_index-2017-03-03/flume_type/_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;aggs&quot; : &#123;</span><br><span class="line">        &quot;ipProportion&quot; : &#123;</span><br><span class="line">            &quot;terms&quot; : &#123; &quot;field&quot; : &quot;body.ip&quot; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="参考致谢"><a href="#参考致谢" class="headerlink" title="参考致谢"></a>参考致谢</h4><p><a href="https://www.elastic.co/products/kibana" target="_blank" rel="noopener">kibana官网</a></p>
+<p><a href="https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">Elasticsearch官网</a></p>
+<p><a href="http://www.linuxidc.com/Linux/2015-02/113289.htm" target="_blank" rel="noopener">Kibana使用安装</a></p>
+<p><a href="http://blog.csdn.net/ming_311/article/details/50619859" target="_blank" rel="noopener">Kibana基本使用</a></p>
+<p><a href="http://www.cnblogs.com/hanyinglong/p/5409003.html" target="_blank" rel="noopener">Elasticsearch初步使用(安装、Head配置、分词器配置)</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/实习/" rel="tag"># 实习</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/05/关于Linux的TCP相关参数的整理/" rel="next" title="关于Linux的TCP相关参数的整理">
+                <i class="fa fa-chevron-left"></i> 关于Linux的TCP相关参数的整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/19/Nginx小试/" rel="prev" title="Nginx小试">
+                Nginx小试 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/i.jpg" alt="chengshuo">
+          <p class="site-author-name" itemprop="name">chengshuo</p>
+          <p class="site-description motion-element" itemprop="description">博观而约取</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装ElasticSearch"><span class="nav-number">1.</span> <span class="nav-text">安装ElasticSearch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Marvels"><span class="nav-number">2.</span> <span class="nav-text">安装Marvels</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行Elasticsearch"><span class="nav-number">3.</span> <span class="nav-text">运行Elasticsearch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#head"><span class="nav-number">4.</span> <span class="nav-text">head</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bigdesk"><span class="nav-number">5.</span> <span class="nav-text">bigdesk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#出现问题"><span class="nav-number">6.</span> <span class="nav-text">出现问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用ES查询例子"><span class="nav-number">7.</span> <span class="nav-text">使用ES查询例子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考致谢"><span class="nav-number">8.</span> <span class="nav-text">参考致谢</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chengshuo</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

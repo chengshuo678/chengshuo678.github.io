@@ -1,0 +1,717 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="校园,Nginx,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="问题：在集群中有多台服务器的情形下，开发者会在Cookie中记录一些字段，甚至是登录态。所以需要让访问者访问到某台机器后，后续的请求仍然在同一台服务器上处理。">
+<meta name="keywords" content="校园,Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx追加sticky的那些坑">
+<meta property="og:url" content="http://yoursite.com/2017/09/26/Nginx追加sticky的那些坑/index.html">
+<meta property="og:site_name" content="飞鸿踏雪泥">
+<meta property="og:description" content="问题：在集群中有多台服务器的情形下，开发者会在Cookie中记录一些字段，甚至是登录态。所以需要让访问者访问到某台机器后，后续的请求仍然在同一台服务器上处理。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-10T05:08:01.602Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx追加sticky的那些坑">
+<meta name="twitter:description" content="问题：在集群中有多台服务器的情形下，开发者会在Cookie中记录一些字段，甚至是登录态。所以需要让访问者访问到某台机器后，后续的请求仍然在同一台服务器上处理。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+
+
+
+
+  <title> Nginx追加sticky的那些坑 | 飞鸿踏雪泥 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">飞鸿踏雪泥</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/26/Nginx追加sticky的那些坑/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chengshuo">
+    <meta itemprop="description" content>
+    <meta itemprop="image" content="/uploads/i.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="飞鸿踏雪泥">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="飞鸿踏雪泥" src>
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Nginx追加sticky的那些坑
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-26T13:20:35+08:00">
+                2017-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>问题：在集群中有多台服务器的情形下，开发者会在Cookie中记录一些字段，甚至是登录态。所以需要让访问者访问到某台机器后，后续的请求仍然在同一台服务器上处理。</p>
+</blockquote>
+<a id="more"></a>
+
+<h4 id="一、需求分析"><a href="#一、需求分析" class="headerlink" title="一、需求分析"></a>一、需求分析</h4><blockquote>
+<p>目前，负载分发问题的<strong>约束</strong>条件是：</p>
+<ul>
+<li>众多访问者的请求尽可能<strong>均匀地</strong>被分发到后端集群的机器中。</li>
+<li>同一个访问者再次访问，多个请求被<strong>同一台机器</strong>处理。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>IP Hash：利用用户在上网时，一段时间内的ip是不会改变的原理。将用户的ip做哈希，对其请求进行分发。因为用户的ip暂时不变，所以其请求会被分发到同一台机器上。</li>
+<li>基于Cookie做跟踪：第一次请求时，服务器给客户端下发一个cookie，具有特定cookie的请求会分配给同一个服务器。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>上述两种方案中显然第二种更优。因为约束条件第一条，请求尽可能均匀地被分发。用IP做Hash的情况，当属于某种类型IP的用户请求非常多的话，负载会出现不均匀的情况。另外，如果前置还有代理服务器的话，IP相同的情况，也会出现请求分布不均匀。所以采用第二种方案较好，Sticky第三方模块就是利用第二种方案的思路。</p>
+</blockquote>
+<h4 id="二、下载安装"><a href="#二、下载安装" class="headerlink" title="二、下载安装"></a>二、下载安装</h4><h5 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h5><blockquote>
+<p>下载地址：<a href="http://code.google.com/p/nginx-sticky-module/downloads/list" target="_blank" rel="noopener">http://code.google.com/p/nginx-sticky-module/downloads/list</a></p>
+</blockquote>
+<p>或者</p>
+<blockquote>
+<p>wget <a href="https://code.google.com/p/nginx-sticky-module/downloads/detail?name=nginx-sticky-module-1.1.tar.gz" target="_blank" rel="noopener">https://code.google.com/p/nginx-sticky-module/downloads/detail?name=nginx-sticky-module-1.1.tar.gz</a></p>
+</blockquote>
+<p>解压：<br>tar -xzvf nginx-sticky-module-1.1.tar.gz</p>
+<p>我这里解压到</p>
+<blockquote>
+<p>/usr/local/nginx/sticky/nginx-sticky</p>
+</blockquote>
+<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p>在Nginx源码编译的目录下，运行代码：</p>
+<blockquote>
+<p>./configure –prefix=/usr/local/nginx –add-module=<strong>/usr/local/nginx/sticky/nginx-sticky</strong></p>
+</blockquote>
+<blockquote>
+<p>make<br>(不要make install，要不然就相当于重新安装了。)</p>
+</blockquote>
+<p>复制编译后的二进制文件到目录（拷贝前把服务停掉）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/nginx/nginx  /usr/local/nginx/nginx.bak</span><br><span class="line">cp /usr/local/nginx-1.9.3/objs/nginx  /usr/local/nginx/nginx</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><p>在nginx.conf配置文件中，对upstream块添加sticky;即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream myproject&#123;</span><br><span class="line">        #添加sticky模块后加入此配置</span><br><span class="line">        sticky;</span><br><span class="line">        #被代理的服务</span><br><span class="line">        server 192.168.1.100:8081;</span><br><span class="line">        server 192.168.1.101:8080;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="三、问题及解决"><a href="#三、问题及解决" class="headerlink" title="三、问题及解决"></a>三、问题及解决</h4><h5 id="编译出现类型转换错误"><a href="#编译出现类型转换错误" class="headerlink" title="编译出现类型转换错误"></a>编译出现类型转换错误</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cc1: warnings being treated as errors</span><br><span class="line">ngx_http_sticky_module.c: In function ‘ngx_http_get_sticky_peer’:</span><br><span class="line">/ngx_http_sticky_module.c:333: 警告：赋值时将整数赋给指针，未作类型转换</span><br><span class="line">ake[1]: *** [objs/addon/nginx-sticky-module-1.1/ngx_http_sticky_module.o] 错误 1</span><br></pre></td></tr></table></figure>
+
+<p>解决：</p>
+<p>第一步：根据资料 把ngx_http_sticky_misc.c 的281行修改如下:</p>
+<blockquote>
+<p>原digest-&gt;len = ngx_sock_ntop(in,digest<br>        -&gt;data, len, 1);</p>
+</blockquote>
+<blockquote>
+<p>改成digest-&gt;len = ngx_sock_ntop(in,sizeof(struct sockaddr_in),digest<br>        -&gt;data, len, 1);</p>
+</blockquote>
+<p>第二步：对nginx-sticky-module-1.1/ngx_http_sticky_module.c文件也进行修改（主要是1.9.x版本会出现这问题）<br>修改两个地方，如下图：</p>
+<p>第6行添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;nginx.h&gt;</span><br></pre></td></tr></table></figure>
+
+<p>第340行左右修改（iphp-&gt;rrp.current = iphp-&gt;selected_peer;）为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iphp-&gt;rrp.current = peer;</span><br></pre></td></tr></table></figure>
+
+<p>版本问题，修改stick代码后，问题得以解决。</p>
+<hr>
+<h5 id="编译出现hash和md5问题"><a href="#编译出现hash和md5问题" class="headerlink" title="编译出现hash和md5问题"></a>编译出现hash和md5问题</h5><p>问题描述：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ngx_http_sticky_misc.c: In function 「ngx_http_sticky_misc_md5」:</span><br><span class="line">ngx_http_sticky_misc.c:152:15: ERROR：「MD5_DIGEST_LENGTH」 undeclared (first use in this function)</span><br><span class="line">   u_char hash[MD5_DIGEST_LENGTH];</span><br></pre></td></tr></table></figure>
+
+<p>解决：<br>解决方式就是在下载解压缩之后的sticky模块文件夹中，修改ngx_http_sticky_misc.c文件<br>将这两个模块 &lt;openssl/sha.h&gt; and &lt;openssl/md5.h&gt;包含到文件ngx_http_sticky_misc.c<br>下面红色标注地方</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;openssl/sha.h&gt;</span><br><span class="line">#include &lt;openssl/md5.h&gt;</span><br></pre></td></tr></table></figure>
+
+<p>引入的问题，引入之后再重新编译就不会出现这种原因的错误了。</p>
+<hr>
+<h5 id="编译出现依赖的模块问题"><a href="#编译出现依赖的模块问题" class="headerlink" title="编译出现依赖的模块问题"></a>编译出现依赖的模块问题</h5><p>描述：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal error: openssl/aes.h:No such file or directory</span><br></pre></td></tr></table></figure>
+
+<p>解决：<br>尝试编译的程序使用OpenSSL，但是需要和OpenSSL链接的文件（库和头文件）在Linux平台系统上缺少。（其它类似的错误也可以照此处理）</p>
+<p>要解决这个问题，安装OpenSSL。<br>要在Debian、Ubuntu或者其他衍生版上安装OpenSSL：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libssl-dev</span><br></pre></td></tr></table></figure>
+
+<p>要在Fedora、CentOS或者RHEL上安装OpenSSL开发包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install openssl-devel</span><br></pre></td></tr></table></figure>
+
+<p>安装完后，尝试重新编译程序。</p>
+<h4 id="参考-amp-致谢"><a href="#参考-amp-致谢" class="headerlink" title="参考&amp;致谢"></a>参考&amp;致谢</h4><p><a href="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/commits/51efa124a4330e194ef651e597a6038a6f7979dc" target="_blank" rel="noopener">nginx-sticky-module文档</a></p>
+<p><a href="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/issues/18/wont-compile-on-nginx-190" target="_blank" rel="noopener">nginx-sticky-module-ng文档问题</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/校园/" rel="tag"># 校园</a>
+          
+            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/20/Nginx使用及原理/" rel="next" title="Nginx使用及原理">
+                <i class="fa fa-chevron-left"></i> Nginx使用及原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/05/研三的某一天/" rel="prev" title="研三的某一天">
+                研三的某一天 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/i.jpg" alt="chengshuo">
+          <p class="site-author-name" itemprop="name">chengshuo</p>
+          <p class="site-description motion-element" itemprop="description">博观而约取</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、需求分析"><span class="nav-number">1.</span> <span class="nav-text">一、需求分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、下载安装"><span class="nav-number">2.</span> <span class="nav-text">二、下载安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#下载"><span class="nav-number">2.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安装"><span class="nav-number">2.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用"><span class="nav-number">2.3.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、问题及解决"><span class="nav-number">3.</span> <span class="nav-text">三、问题及解决</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#编译出现类型转换错误"><span class="nav-number">3.1.</span> <span class="nav-text">编译出现类型转换错误</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编译出现hash和md5问题"><span class="nav-number">3.2.</span> <span class="nav-text">编译出现hash和md5问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编译出现依赖的模块问题"><span class="nav-number">3.3.</span> <span class="nav-text">编译出现依赖的模块问题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考-amp-致谢"><span class="nav-number">4.</span> <span class="nav-text">参考&amp;致谢</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chengshuo</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

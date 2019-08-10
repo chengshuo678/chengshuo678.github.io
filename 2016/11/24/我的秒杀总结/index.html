@@ -1,0 +1,755 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="实习,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="近期 接到一个十万数量的秒杀任务，后台完全由我写。因为之前对秒杀的处理所知甚少，故趁此机会学习了一下。当然，这里 秒杀 只涉及到 “抢” 的环节，没有下单、支付等，故对性能要求不是那么高。最终，“跌跌撞撞”地还是让系统上线了，目前运行良好。">
+<meta name="keywords" content="实习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的秒杀总结">
+<meta property="og:url" content="http://yoursite.com/2016/11/24/我的秒杀总结/index.html">
+<meta property="og:site_name" content="飞鸿踏雪泥">
+<meta property="og:description" content="近期 接到一个十万数量的秒杀任务，后台完全由我写。因为之前对秒杀的处理所知甚少，故趁此机会学习了一下。当然，这里 秒杀 只涉及到 “抢” 的环节，没有下单、支付等，故对性能要求不是那么高。最终，“跌跌撞撞”地还是让系统上线了，目前运行良好。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-10T05:08:01.603Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的秒杀总结">
+<meta name="twitter:description" content="近期 接到一个十万数量的秒杀任务，后台完全由我写。因为之前对秒杀的处理所知甚少，故趁此机会学习了一下。当然，这里 秒杀 只涉及到 “抢” 的环节，没有下单、支付等，故对性能要求不是那么高。最终，“跌跌撞撞”地还是让系统上线了，目前运行良好。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+
+
+
+
+  <title> 我的秒杀总结 | 飞鸿踏雪泥 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">飞鸿踏雪泥</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/24/我的秒杀总结/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chengshuo">
+    <meta itemprop="description" content>
+    <meta itemprop="image" content="/uploads/i.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="飞鸿踏雪泥">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="飞鸿踏雪泥" src>
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                我的秒杀总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-24T19:50:35+08:00">
+                2016-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>近期 接到一个十万数量的秒杀任务，后台完全由我写。因为之前对秒杀的处理所知甚少，故趁此机会学习了一下。当然，这里 秒杀 只涉及到 “抢” 的环节，没有下单、支付等，故对性能要求不是那么高。最终，“跌跌撞撞”地还是让系统上线了，目前运行良好。</p>
+</blockquote>
+<a id="more"></a>
+
+<h4 id="项目环境"><a href="#项目环境" class="headerlink" title="项目环境"></a>项目环境</h4><blockquote>
+<p>两台业务的服务器，还有一台缓存服务器和一台数据库服务器。<br>在整个项目 的 前端部分 自然离不开 负载均衡。故 这里 还是采用 Nginx 来实现。具体方式采用默认的配置，即轮询的方式。</p>
+</blockquote>
+<h4 id="关于“抢”的环节"><a href="#关于“抢”的环节" class="headerlink" title="关于“抢”的环节"></a>关于“抢”的环节</h4><blockquote>
+<p>intro：一天分为几个时段开抢，每个时段有几分钟的时间抢（该时段的奖品抢完了或者时间到了，该时段抢购就结束了），对于没有抢完的奖品，要求自动“滚到”下一轮。</p>
+</blockquote>
+<blockquote>
+<p>为了满足如上要求，自然得从数据库开始设计。在系统运行前，将十万奖品 批量输入 至数据库。我给 所有奖品 设计了一个<strong>生效时间</strong> 和一个 <strong>是否被抢</strong> 的标志。</p>
+</blockquote>
+<blockquote>
+<p>这里我采用的技巧是（<strong>解决方案</strong>）：<br>每个奖品 都有一个生效时间，这个生效时间是每个时间段的开始时间，只有当前时间大于生 效时间该奖品才可以抢（具体可以用sql控制，这里时间采用ms，时间越往后时间越大）。</p>
+</blockquote>
+<blockquote>
+<p>再 声明 一下抢奖品的<strong>策略</strong>：只有当前时间大于奖品的生效时间，该奖品才可以抢。这样设计解决了对于后面的几轮秒杀可以秒杀到之前没抢完的奖品（因为后面几轮的当前时间大于前面奖品的生效时间）的要求。同时 ，又可以避免 前一时段的秒杀环节 抢到 后面时段的奖品。原因自然是 当前时间比后面几轮的生效时间小。</p>
+</blockquote>
+<blockquote>
+<p>性能方面：为了避免每一次都要去数据库查取符合条件的奖品（生效时间和是否被抢），++我自然需要将奖品一次性地多拿几个放到内存里++。这里 我使用 队列 来存放 符合条件的奖品，每来一个用户，抢走（弹出）队列头部的奖品。后面的用户来了 再弹出一个。从而避免 用户“同时”拿到同一个奖品，从而避免“超卖”现象。</p>
+</blockquote>
+<blockquote>
+<p>那么队列我具体采用什么样的数据结构呢？如下<br>基于链接节点的无界线程安全队列（这个名字很霸气~~）</p>
+</blockquote>
+<pre><code>private static volatile Queue&lt;Coupon&gt; couponQueue;
+static{
+    if (null == couponQueue) {
+        LOG.info(&quot;QueueServiceImpl init!!&quot;);
+        couponQueue = new ConcurrentLinkedQueue&lt;Coupon&gt;(); 
+        }
+}</code></pre><blockquote>
+<p>具体弹出采用什么代码呢？</p>
+</blockquote>
+<pre><code>@Override
+public  Coupon getPoll(String uid) {
+    Coupon coupon = null;
+    synchronized(this){
+        coupon = couponQueue.poll();
+        if (coupon == null) {
+            setQueue();//从数据库里取奖品放入队列的方法
+            coupon = couponQueue.poll();
+        }
+        if (coupon!=null){
+            int row =  couponDao.allocateCoupon(coupon.getId(),uid,CouponConst.Status.USED,System.currentTimeMillis());
+
+            if (row!=1){
+                coupon = null;
+            }
+        }
+    }
+    //打日志
+    if (coupon!=null) {
+        LOG.info(
+                &quot;getPoll uid:{},couponId:{}&quot;,
+                new Object[]{uid, coupon.getId()});
+    }
+    return coupon;
+}</code></pre><blockquote>
+<p>这里有个synchronized，是为了线程安全，避免多个人访问同一段代码产生冲突。<br>那么为什么把“弹出”（如果内存队列里没有了，还会去数据库里一次性取100奖品来放入内存）和update奖品是否被抢状态的代码同时锁住呢？</p>
+</blockquote>
+<blockquote>
+<p>试想这样一种<strong>场景</strong>：内存里原本放100个奖品的队列，经过一段时间后还剩下两个奖品。此时，甲、乙两个用户过来弹出了最后的两个奖品，还未来的及修改奖品状态。此时此刻，丙冲了过来，结果发现队列里没有了，coupon==null，就去setQueue()从数据库里拿符合条件的100个奖品放入内存队列。然而！，甲乙还没来得及将其抢到的奖品修改状态，就是说这两个奖品还没有被标记已经抢过。所以 这两个奖品又会被丙放入内存队列，接着弹出！由后来者再去抢。从而造成一种现象，最后的奖品被多个用户抢到，从而形成冲突。解决方案：加锁！</p>
+</blockquote>
+<blockquote>
+<p>是不是这样就可以了呢？？</p>
+</blockquote>
+<blockquote>
+<p>回答是No！因为我在学校 一般都写的是 一个业务服务器，这里是两个！亲，两个和一个有着巨大差别，这是放在内存里，不是缓存服务器里。所以A服务器取了100个符合条件的奖品，B服务器也取了100个符合条件的奖品，然而！，A和B可能取得都是前100个奖品，就是说，这俩服务器取得是相同的奖品，然后进行发放！怎么办呢？？</p>
+</blockquote>
+<blockquote>
+<p><strong>解决方案</strong>：我首先想到的是将奖品队列放入缓存服务器（1台）里？这样就避免冲突。可是 缓存 用的是 xmemcached，不是redis！没法支持那么多数据结构，而且xmemcached的CAS用起来并不舒服，，，<br>那么，该怎么处理呢~上代码：</p>
+</blockquote>
+<pre><code>int flag = -1 ;//因为 线上有两台服务器， 所以 为避免两台服务器 取 相同的 coupon 放入自己的内存；故采用 id%2==flag 分开。
+
+
+int ip = LocalIPGetter.getLocalServerIpTail(); //获取当前服务器ip
+if (ip == 223) { //如果是A服务器 取id为奇数的奖品放入内存队列
+    flag = 1;
+}else {         //如果是B服务器 取id为偶数的奖品放入内存队列
+    flag = 0;
+}
+
+
+List&lt;Coupon&gt; couponList = couponDao.selectByStatusValidate(CouponConst.Status.INIT,current,100,flag); //两台服务器根据奇偶数进行分类去数据库取奖品。</code></pre><blockquote>
+<p>上述代码就是我的解决思路,是不是太简单了点，把数据库表分成两块，两个服务器互不干扰。</p>
+</blockquote>
+<blockquote>
+<p>还有缓存服务器，我将获奖者名单放在里面，减少对数据库的访问。</p>
+</blockquote>
+<h4 id="关于“抢”的环节-多次点击问题"><a href="#关于“抢”的环节-多次点击问题" class="headerlink" title="关于“抢”的环节 多次点击问题"></a>关于“抢”的环节 多次点击问题</h4><blockquote>
+<p>我遇到这样一个问题（一位用户只能秒杀成功一次）：</p>
+</blockquote>
+<blockquote>
+<p>试想这样一个<strong>场景</strong>，对于某用户甲，点击了“秒杀”按钮。但是由于网速、性能等原因，用户甲比较着急，连续点了好几次。</p>
+</blockquote>
+<blockquote>
+<p>当第一次请求发来时：数据库里没有该用户的记录，资格认证，发现没有秒杀记录，将要添加用户，想进入秒杀流程。注意：这里是将要，还没有添加用户。此刻！！！<br>该用户的第二次点击请求发了过来，资格认证，发现没有秒杀记录，将要添加用户。然而！！！第一次请求添加用户成功，第二次请求又来添加，数据库主键冲突！500！</p>
+</blockquote>
+<blockquote>
+<p><strong>解决方案</strong>：<br>每次点击，收到请求检查缓存没有该账户信息，第一件事放入 缓存(key值为其账户主键)中，同时设置2s后失效。<br>如果 缓存中 有该账户信息，说明 2s 内该用户 访问过，返回411，访问过于频繁。<br>OK</p>
+</blockquote>
+<h4 id="疏忽！"><a href="#疏忽！" class="headerlink" title="疏忽！"></a>疏忽！</h4><blockquote>
+<p>在活动开始的前一天，QA正在火急火燎地测试。自然，线上测试用的是测试数据，奖品的中奖码都是模拟的。注意，我说的是线上测试。<br>晚上，22:00测试完毕。我把数据库里的数据库变成真实数据，就屁颠屁颠地回家了。</p>
+</blockquote>
+<blockquote>
+<p>我想说的是，然而！！！两台业务服务器里的两个奖品队列还是测试的模拟数据，然后我就，，，这个坑，，，<br>切记<br>切记，清空缓存，清空内存<br>重要事情说三遍，清空缓存，清空内存。<br>情空缓存，清空内存</p>
+</blockquote>
+<h4 id="后续的想法"><a href="#后续的想法" class="headerlink" title="后续的想法"></a>后续的想法</h4><blockquote>
+<p>我能不能将抽取、改变状态的 流程 写在数据库里，作为存储过程来调用会不会更快？？<br>然后我就开始写存储过程，，，，</p>
+</blockquote>
+<blockquote>
+<p>然而！！！后来DBA告诉我：</p>
+</blockquote>
+<blockquote>
+<p>存储过程 与 触发器 都不允许。<br>计算尽量不要放在数据库来,<br>数据库主要完成数据存取的功能。</p>
+</blockquote>
+<blockquote>
+<p>如果我这么做，有可能会导致数据库死锁，，，，</p>
+</blockquote>
+<h4 id="待续"><a href="#待续" class="headerlink" title="待续"></a>待续</h4><blockquote>
+<p>我想我如果再写秒杀系统的话 自然会做的更好，以上都是我自己的摸索。后续我会尝试 消息队列（Notify？MetaQ？），用redis？什么有损服务？什么熔断机制？</p>
+</blockquote>
+<blockquote>
+<p>继续探索吧~</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/实习/" rel="tag"># 实习</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/15/关于JSONP的原理/" rel="next" title="关于JSONP的原理">
+                <i class="fa fa-chevron-left"></i> 关于JSONP的原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/26/Redis的使用小结/" rel="prev" title="Redis的使用小结">
+                Redis的使用小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/i.jpg" alt="chengshuo">
+          <p class="site-author-name" itemprop="name">chengshuo</p>
+          <p class="site-description motion-element" itemprop="description">博观而约取</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#项目环境"><span class="nav-number">1.</span> <span class="nav-text">项目环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于“抢”的环节"><span class="nav-number">2.</span> <span class="nav-text">关于“抢”的环节</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于“抢”的环节-多次点击问题"><span class="nav-number">3.</span> <span class="nav-text">关于“抢”的环节 多次点击问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#疏忽！"><span class="nav-number">4.</span> <span class="nav-text">疏忽！</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后续的想法"><span class="nav-number">5.</span> <span class="nav-text">后续的想法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#待续"><span class="nav-number">6.</span> <span class="nav-text">待续</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chengshuo</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
