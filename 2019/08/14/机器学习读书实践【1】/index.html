@@ -66,7 +66,7 @@
 <meta property="og:site_name" content="飞鸿踏雪泥">
 <meta property="og:description" content="复习了Python的基础语法，开始使用Numpy进行数据操作，同时使用JuPyter notebook 实践、记录。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-14T08:34:12.451Z">
+<meta property="og:updated_time" content="2019-08-14T08:50:57.484Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习读书实践【1】">
 <meta name="twitter:description" content="复习了Python的基础语法，开始使用Numpy进行数据操作，同时使用JuPyter notebook 实践、记录。">
@@ -382,7 +382,11 @@
         -0.05362885,   8.37029132,   7.95216801,  21.64118456,
         14.00327488,  -0.52143642,  -4.40416346,  13.31843223,
         -6.6974112 ,  19.52709879,  -6.95182398,  -0.90412052,
-       -11.02669012,   4.27056343,  18.97736721,  24.2468938 ])</code></pre><h3 id="数组切片"><a href="#数组切片" class="headerlink" title="数组切片"></a>数组切片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[行数，列数]  </span><br><span class="line">1. 先行后列，左闭右开</span><br><span class="line">2. 索引从外及里</span><br></pre></td></tr></table></figure>
+       -11.02669012,   4.27056343,  18.97736721,  24.2468938 ])</code></pre><h3 id="数组操作"><a href="#数组操作" class="headerlink" title="数组操作"></a>数组操作</h3><h4 id="数组切片"><a href="#数组切片" class="headerlink" title="数组切片"></a>数组切片</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[行数，列数]  </span><br><span class="line">1. 先行后列，左闭右开</span><br><span class="line">2. 索引从外及里</span><br></pre></td></tr></table></figure>
+
+<h4 id="数组类型修改"><a href="#数组类型修改" class="headerlink" title="数组类型修改"></a>数组类型修改</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对象.astype()</span><br></pre></td></tr></table></figure>
+
+<h4 id="数组去重"><a href="#数组去重" class="headerlink" title="数组去重"></a>数组去重</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.unique(temp)</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">stock_change = np.random.normal(<span class="number">0</span>, <span class="number">1</span>, (<span class="number">8</span>,<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
 
@@ -488,6 +492,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/08/14/机器学习读书实践【2】np运算/" rel="prev" title="机器学习读书实践【2】np运算">
+                机器学习读书实践【2】np运算 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -552,7 +560,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">22</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -604,7 +612,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Numpy"><span class="nav-number">1.</span> <span class="nav-text">Numpy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Numpy-N维数组-ndarray"><span class="nav-number">1.1.</span> <span class="nav-text">Numpy - N维数组 ndarray</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成初始化数组"><span class="nav-number">2.</span> <span class="nav-text">生成初始化数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#普通"><span class="nav-number">2.1.</span> <span class="nav-text">普通</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-生成0和1的数组"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.生成0和1的数组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-从现有数组中生成"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.从现有数组中生成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-生成固定范围数组"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.生成固定范围数组</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布"><span class="nav-number">2.2.</span> <span class="nav-text">分布</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-均匀分布"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.均匀分布</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-正态分布"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.正态分布</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组切片"><span class="nav-number">3.</span> <span class="nav-text">数组切片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组矩阵形状修改"><span class="nav-number">4.</span> <span class="nav-text">数组矩阵形状修改</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Numpy"><span class="nav-number">1.</span> <span class="nav-text">Numpy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Numpy-N维数组-ndarray"><span class="nav-number">1.1.</span> <span class="nav-text">Numpy - N维数组 ndarray</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成初始化数组"><span class="nav-number">2.</span> <span class="nav-text">生成初始化数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#普通"><span class="nav-number">2.1.</span> <span class="nav-text">普通</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-生成0和1的数组"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.生成0和1的数组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-从现有数组中生成"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.从现有数组中生成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-生成固定范围数组"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.生成固定范围数组</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布"><span class="nav-number">2.2.</span> <span class="nav-text">分布</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-均匀分布"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.均匀分布</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-正态分布"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.正态分布</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组操作"><span class="nav-number">3.</span> <span class="nav-text">数组操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数组切片"><span class="nav-number">3.1.</span> <span class="nav-text">数组切片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组类型修改"><span class="nav-number">3.2.</span> <span class="nav-text">数组类型修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组去重"><span class="nav-number">3.3.</span> <span class="nav-text">数组去重</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组矩阵形状修改"><span class="nav-number">4.</span> <span class="nav-text">数组矩阵形状修改</span></a></li></ol></div>
             
 
           </div>
