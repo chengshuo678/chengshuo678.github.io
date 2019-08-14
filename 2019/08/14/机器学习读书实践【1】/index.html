@@ -1,0 +1,747 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="机器学习,Numpy,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="复习了Python的基础语法，开始使用Numpy进行数据操作，同时使用JuPyter notebook 实践、记录。">
+<meta name="keywords" content="机器学习,Numpy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习读书实践【1】">
+<meta property="og:url" content="http://yoursite.com/2019/08/14/机器学习读书实践【1】/index.html">
+<meta property="og:site_name" content="飞鸿踏雪泥">
+<meta property="og:description" content="复习了Python的基础语法，开始使用Numpy进行数据操作，同时使用JuPyter notebook 实践、记录。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-14T08:34:12.451Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习读书实践【1】">
+<meta name="twitter:description" content="复习了Python的基础语法，开始使用Numpy进行数据操作，同时使用JuPyter notebook 实践、记录。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+
+
+
+
+  <title> 机器学习读书实践【1】 | 飞鸿踏雪泥 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">飞鸿踏雪泥</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/14/机器学习读书实践【1】/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chengshuo">
+    <meta itemprop="description" content>
+    <meta itemprop="image" content="/uploads/i.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="飞鸿踏雪泥">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="飞鸿踏雪泥" src>
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                机器学习读书实践【1】
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-14T12:20:35+08:00">
+                2019-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>复习了Python的基础语法，开始使用Numpy进行数据操作，同时使用JuPyter notebook 实践、记录。</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="Numpy"><a href="#Numpy" class="headerlink" title="Numpy"></a>Numpy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. 定义：开源的Python科学计算库，用于快速处理任意维度的数组。</span><br><span class="line">2. 存储对象： ndarray</span><br><span class="line">3. 创建：np.array([])</span><br><span class="line">4. 优势</span><br><span class="line">    - 内存块存储一体</span><br><span class="line">    - 支持并行运算，内部C实现，释放GIL（释放全局锁）</span><br></pre></td></tr></table></figure>
+
+<h4 id="Numpy-N维数组-ndarray"><a href="#Numpy-N维数组-ndarray" class="headerlink" title="Numpy - N维数组 ndarray"></a>Numpy - N维数组 ndarray</h4><ol>
+<li>属性&amp;形状&amp;类型<ul>
+<li>shape</li>
+<li>ndim</li>
+<li>size</li>
+<li>itemsize</li>
+</ul>
+</li>
+</ol>
+<h3 id="生成初始化数组"><a href="#生成初始化数组" class="headerlink" title="生成初始化数组"></a>生成初始化数组</h3><h4 id="普通"><a href="#普通" class="headerlink" title="普通"></a>普通</h4><h5 id="1-生成0和1的数组"><a href="#1-生成0和1的数组" class="headerlink" title="1.生成0和1的数组"></a>1.生成0和1的数组</h5><blockquote>
+<p>np.ones([4,5])</p>
+</blockquote>
+<blockquote>
+<p>np.zeros([3,3])</p>
+</blockquote>
+<h5 id="2-从现有数组中生成"><a href="#2-从现有数组中生成" class="headerlink" title="2.从现有数组中生成"></a>2.从现有数组中生成</h5><blockquote>
+<p>np.array(one_array) # 深拷贝，全新一个实例</p>
+</blockquote>
+<blockquote>
+<p>np.asarray(one_array) # 浅拷贝，指向原有</p>
+</blockquote>
+<h5 id="3-生成固定范围数组"><a href="#3-生成固定范围数组" class="headerlink" title="3.生成固定范围数组"></a>3.生成固定范围数组</h5><blockquote>
+<p>np.linspace(0,10,5) # [0,10] 生成等间隔的5个item</p>
+</blockquote>
+<blockquote>
+<p>np.arange(0,10,2) # [0,10] 生成以2为间隔生成</p>
+</blockquote>
+<h4 id="分布"><a href="#分布" class="headerlink" title="分布"></a>分布</h4><h5 id="1-均匀分布"><a href="#1-均匀分布" class="headerlink" title="1.均匀分布"></a>1.均匀分布</h5><blockquote>
+<p>np.random.uniform(0,10,5) # 均匀分布（low，high，size）</p>
+</blockquote>
+<h5 id="2-正态分布"><a href="#2-正态分布" class="headerlink" title="2.正态分布"></a>2.正态分布</h5><blockquote>
+<p>np.random.normal(0,10,20) # 正态分布（loc，标准差，size）</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">one_array = np.ones([<span class="number">4</span>,<span class="number">5</span>]) <span class="comment"># 按照参数维度，生成全1的数组</span></span><br><span class="line">np.ones_like(one_array)  <span class="comment"># 按照参数数组，生成全1的数组</span></span><br><span class="line">np.zeros([<span class="number">3</span>,<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
+
+<pre><code>array([[0., 0., 0.],
+       [0., 0., 0.],
+       [0., 0., 0.]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">np.array(one_array) <span class="comment"># 深拷贝，全新一个实例</span></span><br><span class="line">np.asarray(one_array) <span class="comment"># 浅拷贝，指向原有</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>array([[1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1.],
+       [1., 1., 1., 1., 1.]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">np.linspace(<span class="number">0</span>,<span class="number">10</span>,<span class="number">5</span>) <span class="comment"># [0,10] 生成等间隔的5个item</span></span><br><span class="line">np.arange(<span class="number">0</span>,<span class="number">10</span>,<span class="number">2</span>) <span class="comment"># [0,10] 生成以2为间隔生成</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>array([0, 2, 4, 6, 8])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.uniform(<span class="number">0</span>,<span class="number">10</span>,<span class="number">5</span>) <span class="comment"># 均匀分布</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>array([5.08178447, 4.02888709, 4.59175026, 6.21041799, 0.90498804])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.normal(<span class="number">0</span>,<span class="number">10</span>,<span class="number">20</span>) <span class="comment"># 正态分布</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>array([  5.67674523,   5.77575242,  -1.85493383,   7.33692221,
+        -0.05362885,   8.37029132,   7.95216801,  21.64118456,
+        14.00327488,  -0.52143642,  -4.40416346,  13.31843223,
+        -6.6974112 ,  19.52709879,  -6.95182398,  -0.90412052,
+       -11.02669012,   4.27056343,  18.97736721,  24.2468938 ])</code></pre><h3 id="数组切片"><a href="#数组切片" class="headerlink" title="数组切片"></a>数组切片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[行数，列数]  </span><br><span class="line">1. 先行后列，左闭右开</span><br><span class="line">2. 索引从外及里</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">stock_change = np.random.normal(<span class="number">0</span>, <span class="number">1</span>, (<span class="number">8</span>,<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>array([[-0.21431481, -0.94781074,  0.72798452,  0.16755977, -0.21868384,
+        -0.76869999, -0.42344986,  1.88452471, -1.09014707,  0.04393599],
+       [ 0.1480258 , -0.83848401, -1.36803501, -1.41729986, -0.95472286,
+         1.59203922, -0.65986402,  0.03174573, -0.18274345, -1.44023589],
+       [ 1.22951175, -0.10736634,  0.0224487 , -0.76569652,  0.39459141,
+         2.11813401,  0.61387705, -1.19309158,  0.81355314,  0.56004444],
+       [-1.19703107, -1.02937508,  0.60327008,  0.18401519, -1.61605819,
+         0.65697408,  0.98575318,  1.78356349,  1.5498125 , -1.06082879],
+       [-1.93006799, -1.19670857,  1.35584068, -0.96465165, -0.42776941,
+        -2.45202067,  0.54192585,  1.05160372, -0.20648608, -1.46869715],
+       [-1.10488814,  0.75455409,  0.13580849,  0.10064928,  0.04829683,
+        -0.52473154, -0.30782629,  1.475804  , -0.93086951,  0.49169795],
+       [-1.52363283, -1.53559218, -0.32670834, -0.75836768, -0.47355597,
+         0.6849614 ,  0.32947873,  0.42595307,  0.86099386,  0.24105507],
+       [-1.34253205,  0.13808892, -0.3581911 ,  0.16412846, -0.01493121,
+        -0.78940982,  0.20047251, -0.69006736,  0.78435666,  0.05314826]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_change[<span class="number">0</span>:<span class="number">3</span>,<span class="number">0</span>:<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+
+<pre><code>array([[-0.21431481, -0.94781074],
+       [ 0.1480258 , -0.83848401],
+       [ 1.22951175, -0.10736634]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_change[<span class="number">0</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<pre><code>-0.9478107415708911</code></pre><h3 id="数组矩阵形状修改"><a href="#数组矩阵形状修改" class="headerlink" title="数组矩阵形状修改"></a>数组矩阵形状修改</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 数组.T # 行列互换</span><br><span class="line">2. 数组.reshape([行，列]) # 排成一行后，重新行列划分。不修改原有变量，如果传-1，代表以另一维度拆分。</span><br><span class="line">3. 数组.resize([行，列]) # 排成一行后，重新行列划分。修改原有变量</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change = np.random.normal(<span class="number">0</span>,<span class="number">1</span>,(<span class="number">4</span>,<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change</span><br></pre></td></tr></table></figure>
+
+<pre><code>array([[-0.54011821,  1.68452432,  0.01165422,  0.92022483, -1.76956384],
+       [ 0.12076425,  0.48550684, -2.07158306,  0.11184936,  0.13483726],
+       [-1.08849942, -0.33872445,  0.19081035, -0.51772807, -0.05330802],
+       [ 1.72971777,  1.15105593, -0.70068092,  0.50980343,  2.6761524 ]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.reshape([<span class="number">5</span>,<span class="number">4</span>]) <span class="comment"># 排成一行后，重新行列划分。</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>array([[-0.54011821,  1.68452432,  0.01165422,  0.92022483],
+       [-1.76956384,  0.12076425,  0.48550684, -2.07158306],
+       [ 0.11184936,  0.13483726, -1.08849942, -0.33872445],
+       [ 0.19081035, -0.51772807, -0.05330802,  1.72971777],
+       [ 1.15105593, -0.70068092,  0.50980343,  2.6761524 ]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.reshape([<span class="number">-1</span>,<span class="number">2</span>]) <span class="comment"># 排成一行后，按照2列划分，行数待确定。</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>array([[-0.54011821,  1.68452432],
+       [ 0.01165422,  0.92022483],
+       [-1.76956384,  0.12076425],
+       [ 0.48550684, -2.07158306],
+       [ 0.11184936,  0.13483726],
+       [-1.08849942, -0.33872445],
+       [ 0.19081035, -0.51772807],
+       [-0.05330802,  1.72971777],
+       [ 1.15105593, -0.70068092],
+       [ 0.50980343,  2.6761524 ]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.resize([<span class="number">5</span>,<span class="number">4</span>]) <span class="comment"># 修改原有变量</span></span><br><span class="line">stock_sharp_change</span><br></pre></td></tr></table></figure>
+
+<pre><code>array([[-0.54011821,  1.68452432,  0.01165422,  0.92022483],
+       [-1.76956384,  0.12076425,  0.48550684, -2.07158306],
+       [ 0.11184936,  0.13483726, -1.08849942, -0.33872445],
+       [ 0.19081035, -0.51772807, -0.05330802,  1.72971777],
+       [ 1.15105593, -0.70068092,  0.50980343,  2.6761524 ]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.T <span class="comment"># 矩阵转置，行列互换</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>array([[-0.54011821, -1.76956384,  0.11184936,  0.19081035,  1.15105593],
+       [ 1.68452432,  0.12076425,  0.13483726, -0.51772807, -0.70068092],
+       [ 0.01165422,  0.48550684, -1.08849942, -0.05330802,  0.50980343],
+       [ 0.92022483, -2.07158306, -0.33872445,  1.72971777,  2.6761524 ]])</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/Numpy/" rel="tag"># Numpy</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/02/服务能力输出小结/" rel="next" title="服务能力输出小结">
+                <i class="fa fa-chevron-left"></i> 服务能力输出小结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/i.jpg" alt="chengshuo">
+          <p class="site-author-name" itemprop="name">chengshuo</p>
+          <p class="site-description motion-element" itemprop="description">博观而约取</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Numpy"><span class="nav-number">1.</span> <span class="nav-text">Numpy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Numpy-N维数组-ndarray"><span class="nav-number">1.1.</span> <span class="nav-text">Numpy - N维数组 ndarray</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成初始化数组"><span class="nav-number">2.</span> <span class="nav-text">生成初始化数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#普通"><span class="nav-number">2.1.</span> <span class="nav-text">普通</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-生成0和1的数组"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.生成0和1的数组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-从现有数组中生成"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.从现有数组中生成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-生成固定范围数组"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.生成固定范围数组</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布"><span class="nav-number">2.2.</span> <span class="nav-text">分布</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-均匀分布"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.均匀分布</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-正态分布"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.正态分布</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组切片"><span class="nav-number">3.</span> <span class="nav-text">数组切片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组矩阵形状修改"><span class="nav-number">4.</span> <span class="nav-text">数组矩阵形状修改</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chengshuo</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
