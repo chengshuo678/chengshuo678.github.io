@@ -66,7 +66,7 @@
 <meta property="og:site_name" content="飞鸿踏雪泥">
 <meta property="og:description" content="KNN算法的理解。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-16T07:23:54.160Z">
+<meta property="og:updated_time" content="2019-08-16T13:32:34.331Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习-KNN算法">
 <meta name="twitter:description" content="KNN算法的理解。">
@@ -327,6 +327,7 @@
 <p>KNN算法的理解。</p>
 </blockquote>
 <a id="more"></a>
+
 <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><blockquote>
 <p>如果一个样本在特征空间中的k个最相似(即特征空间中最邻近)的样本中的大多数属于某一个类别，则该样本也属于这个类别。<br>本文采用欧式距离，即两点之间的直接距离。</p>
 </blockquote>
@@ -381,6 +382,9 @@
 <blockquote>
 <p>模型本身最接近最佳模型。</p>
 </blockquote>
+<p>鸢尾花代码实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;</span><br><span class="line">1.获取数据集</span><br><span class="line">2，数据基本处理</span><br><span class="line">3. 特征工程</span><br><span class="line">4. 机器学习（模型训练）</span><br><span class="line">5. 模型评估</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">from sklearn.datasets import load_iris</span><br><span class="line">from sklearn.model_selection import train_test_split</span><br><span class="line">from sklearn.preprocessing import StandardScaler</span><br><span class="line">from sklearn.neighbors import KNeighborsClassifier</span><br><span class="line"></span><br><span class="line"># 1.获取数据集</span><br><span class="line">iris = load_iris()</span><br><span class="line"># 2，数据基本处理</span><br><span class="line"># 2.1 数据分割</span><br><span class="line">x_train, x_test, y_train, y_test = train_test_split(iris.data, iris.target, random_state=23, test_size=0.1)</span><br><span class="line"></span><br><span class="line"># 3. 特征工程</span><br><span class="line"># 3.1 实例化一个转化器</span><br><span class="line">transfer = StandardScaler()</span><br><span class="line"># 3.2 调用fit_transform方法</span><br><span class="line">x_train = transfer.fit_transform(x_train)</span><br><span class="line">x_test = transfer.fit_transform(x_test)</span><br><span class="line"></span><br><span class="line"># 4. 机器学习（模型训练）</span><br><span class="line"># 4.1 实例化一个估计器</span><br><span class="line">estimator = KNeighborsClassifier(n_neighbors=5)</span><br><span class="line"># 4.2 模型训练</span><br><span class="line">estimator.fit(x_train,y_train)</span><br><span class="line"># 5. 模型评估</span><br><span class="line"># 5.1 输出预测值</span><br><span class="line">y_pre = estimator.predict(x_test)</span><br><span class="line">print(&quot;预测值是：\n&quot;, y_pre)</span><br><span class="line"></span><br><span class="line"># 5.2 输出准确率</span><br><span class="line">ret = estimator.score(x_test, y_test)</span><br><span class="line">print(&quot;准确率：\n&quot;, ret)</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
