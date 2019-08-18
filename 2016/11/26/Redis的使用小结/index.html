@@ -309,6 +309,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -327,14 +332,9 @@
 <p>前言：之前的系统需要将数据库中的数据，作为List放到缓存里，然后由两台服务器取访问缓存。这个操作用Memcached非常之不方便，因为Memcached没有支持那么多数据结构。故上周五将redis加入到系统中，今天做个小结~</p>
 </blockquote>
 <a id="more"></a>
-
 <h4 id="Redis的介绍"><a href="#Redis的介绍" class="headerlink" title="Redis的介绍"></a>Redis的介绍</h4><blockquote>
 <p>以下两段介绍 摘自 百度百科，将redis的优点说的比较清晰。</p>
-</blockquote>
-<blockquote>
-<p>redis是一个key-value存储系统。和Memcached类似，它支持存储的<strong>value类型相对更多</strong>，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是<strong>redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件</strong>，并且在此基础上实现了master-slave(主从)同步。</p>
-</blockquote>
-<blockquote>
+<p>redis是一个key-value存储系统。和Memcached类似，它支持存储的<strong>value类型相对更多</strong>，包括string(字符串)、list(链表)、set(集合)、zset(sorted set —有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是<strong>redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件</strong>，并且在此基础上实现了master-slave(主从)同步。</p>
 <p>Redis 是一个高性能的key-value数据库。 redis的出现，很大程度补偿了memcached这类key/value存储的不足，在部 分场合可以对关系数据库起到很好的补充作用。它提供了Java，C/C++，C#，PHP，JavaScript，Perl，Object-C，Python，Ruby，Erlang等客户端，使用很<strong>方便</strong>。</p>
 </blockquote>
 <h4 id="Redis的下载"><a href="#Redis的下载" class="headerlink" title="Redis的下载"></a>Redis的下载</h4><blockquote>
@@ -352,53 +352,21 @@
 <p>Linux 下安装</p>
 <blockquote>
 <p>下载地址：<a href="http://redis.io/download，下载最新文档版本。" target="_blank" rel="noopener">http://redis.io/download，下载最新文档版本。</a></p>
-</blockquote>
-<blockquote>
 <p>$ wget <a href="http://download.redis.io/releases/redis-2.8.17.tar.gz" target="_blank" rel="noopener">http://download.redis.io/releases/redis-2.8.17.tar.gz</a></p>
-</blockquote>
-<blockquote>
 <p>$ tar xzf redis-2.8.17.tar.gz</p>
-</blockquote>
-<blockquote>
 <p>$ cd redis-2.8.17</p>
-</blockquote>
-<blockquote>
 <p>$ make</p>
-</blockquote>
-<blockquote>
 <p>make完后 redis-2.8.17目录下会出现编译后的redis服务程序redis-server,还有用于测试的客户端程序redis-cli,两个程序位于安装目录 src 目录下：</p>
-</blockquote>
-<blockquote>
 <p>下面启动redis服务.</p>
-</blockquote>
-<blockquote>
 <p>$ cd src</p>
-</blockquote>
-<blockquote>
 <p>$ ./redis-server</p>
-</blockquote>
-<blockquote>
 <p>注意这种方式启动redis 使用的是默认配置。也可以通过启动参数告诉redis使用指定配置文件使用下面命令启动。</p>
-</blockquote>
-<blockquote>
 <p>$ cd src</p>
-</blockquote>
-<blockquote>
 <p>$ ./redis-server redis.conf</p>
-</blockquote>
-<blockquote>
 <p>redis.conf是一个默认的配置文件。我们可以根据需要使用自己的配置文件。<br>启动redis服务进程后，就可以使用测试客户端程序redis-cli和redis服务交互了。 比如：</p>
-</blockquote>
-<blockquote>
 <p>$ cd src</p>
-</blockquote>
-<blockquote>
 <p>$ ./redis-cli</p>
-</blockquote>
-<blockquote>
 <p>redis&gt; set foo bar</p>
-</blockquote>
-<blockquote>
 <p>redis&gt; get foo</p>
 </blockquote>
 <h4 id="如何将Redis融入Java-Springmvc"><a href="#如何将Redis融入Java-Springmvc" class="headerlink" title="如何将Redis融入Java(Springmvc)"></a>如何将Redis融入Java(Springmvc)</h4><h5 id="Maven依赖-新增"><a href="#Maven依赖-新增" class="headerlink" title="Maven依赖(新增)"></a>Maven依赖(新增)</h5><pre><code>&lt;properties&gt;
@@ -415,8 +383,10 @@
     &lt;groupId&gt;redis.clients&lt;/groupId&gt;
     &lt;artifactId&gt;jedis&lt;/artifactId&gt;
     &lt;version&gt;2.7.3&lt;/version&gt;
-&lt;/dependency&gt;</code></pre><h5 id="新增配置文件"><a href="#新增配置文件" class="headerlink" title="新增配置文件"></a>新增配置文件</h5><pre><code>redis.properties 用于存放redis的相关参数
-applicationContext-redis-context.xml 用于实现redis相关的注入</code></pre><p>[redis.properties]</p>
+&lt;/dependency&gt;
+</code></pre><h5 id="新增配置文件"><a href="#新增配置文件" class="headerlink" title="新增配置文件"></a>新增配置文件</h5><pre><code>redis.properties 用于存放redis的相关参数
+applicationContext-redis-context.xml 用于实现redis相关的注入
+</code></pre><p>[redis.properties]</p>
 <ul>
 <li>redis.host=127.0.0.1</li>
 <li>redis.port=6379</li>
@@ -430,39 +400,23 @@ applicationContext-redis-context.xml 用于实现redis相关的注入</code></pr
 </ul>
 <p>[redis.properties]</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</span><br><span class="line">       xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line">       xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans</span><br><span class="line">       http://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">      http://www.springframework.org/schema/tx</span><br><span class="line">      http://www.springframework.org/schema/tx/spring-tx.xsd</span><br><span class="line">       http://www.springframework.org/schema/context</span><br><span class="line">       http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">       &lt;!-- scanner redis properties  --&gt;</span><br><span class="line">    &lt;context:property-placeholder location=&quot;redis.properties&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;maxTotal&quot; value=&quot;$&#123;redis.maxTotal&#125;&quot;/&gt; &lt;!-- 控制一个pool可分配多少个jedis实例 --&gt;</span><br><span class="line">        &lt;property name=&quot;maxIdle&quot; value=&quot;$&#123;redis.maxIdle&#125;&quot;/&gt;&lt;!-- 最大能够保持idel状态的对象数 --&gt;</span><br><span class="line">        &lt;property name=&quot;minIdle&quot; value=&quot;$&#123;redis.minIdle&#125;&quot;/&gt;&lt;!-- 最大能够保持idel状态的对象数 --&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;jedisConnectionFactory&quot;</span><br><span class="line">          class=&quot;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&quot;&gt;</span><br><span class="line">        &lt;constructor-arg ref=&quot;jedisPoolConfig&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;hostName&quot; value=&quot;$&#123;redis.host&#125;&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;port&quot; value=&quot;$&#123;redis.port&#125;&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;password&quot; value =&quot;$&#123;redis.pass&#125;&quot; /&gt;</span><br><span class="line">        &lt;property name=&quot;timeout&quot; value =&quot;$&#123;redis.timeout&#125;&quot; /&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--&lt;bean id=&quot;redisTemplate&quot; class=&quot;org.springframework.data.redis.core.StringRedisTemplate&quot;&gt;--&gt;</span><br><span class="line">    &lt;bean id=&quot;redisTemplate&quot; class=&quot;org.springframework.data.redis.core.RedisTemplate&quot;&gt;</span><br><span class="line">              &lt;property name=&quot;connectionFactory&quot;   ref=&quot;jedisConnectionFactory&quot; /&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
-
 <h5 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h5><blockquote>
 <p>建立Service</p>
-</blockquote>
-<blockquote>
 <p>注：Coupon是我的实体类 需要 implements Serializable</p>
-</blockquote>
-<blockquote>
 <p>RedisService是Redis服务公共接口</p>
-</blockquote>
-<blockquote>
 <p>AbstractRedisService 是抽象的公共实现</p>
-</blockquote>
-<blockquote>
 <p>RedisCouponServiceImpl 是具体实现</p>
 </blockquote>
-<p>层次结构如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Service(&quot;redisCouponService&quot;)</span><br><span class="line">public class RedisCouponServiceImpl&lt;String,Coupon&gt; extends AbstractRedisService&lt;String,Coupon&gt; implements RedisService&lt;String,Coupon&gt; &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p>层次结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Service(&quot;redisCouponService&quot;)</span><br><span class="line">public class RedisCouponServiceImpl&lt;String,Coupon&gt; extends AbstractRedisService&lt;String,Coupon&gt; implements RedisService&lt;String,Coupon&gt; &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>具体代码如下：</p>
 <p>[RedisService]</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public interface RedisService&lt;K,V&gt; &#123;</span><br><span class="line"></span><br><span class="line">    public void setKeyAndValue(K key, V value);</span><br><span class="line"></span><br><span class="line">    public void setKeyAndValueWithTime(K key, V value, Long time, TimeUnit unit);</span><br><span class="line"></span><br><span class="line">    public V getValue(K key);</span><br><span class="line"></span><br><span class="line">    public void rPushList(K key, V value);</span><br><span class="line"></span><br><span class="line">    public V lPopList(K key);</span><br><span class="line"></span><br><span class="line">    public void delKey(K key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>[AbstractRedisService]</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">public abstract class AbstractRedisService&lt;K, V&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    protected RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    // 设置redisTemplate</span><br><span class="line">    public void setRedisTemplate(RedisTemplate&lt;K, V&gt; redisTemplate) &#123;</span><br><span class="line">        this.redisTemplate = redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public RedisTemplate&lt;K, V&gt; getRedisTemplate() &#123;</span><br><span class="line">        return redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setKeyAndValue(K key, V value) &#123;</span><br><span class="line">        getRedisTemplate().opsForValue().set(key, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">     //有过期时间的set</span><br><span class="line">    public void setKeyAndValueWithTime(K key, V value, Long time, TimeUnit unit) &#123;</span><br><span class="line">        getRedisTemplate().opsForValue().set(key, value, time, unit);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public V getValue(K key) &#123;</span><br><span class="line">        return getRedisTemplate().opsForValue().get(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void rPushList(K key, V value) &#123;</span><br><span class="line">        getRedisTemplate().opsForList().rightPush(key, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public V lPopList(K key) &#123;</span><br><span class="line">        return getRedisTemplate().opsForList().leftPop(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void delKey(K key) &#123;</span><br><span class="line">        getRedisTemplate().delete(key);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h5 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h5><p>使用带过期时间的使用，这里过期时间是20秒</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@ContextConfiguration(&#123; &quot;/applicationContext-dao.xml&quot;,</span><br><span class="line">    &quot;/applicationContext-service.xml&quot;,</span><br><span class="line">    &quot;/applicationContext-service-lmswitch.xml&quot;,</span><br><span class="line">    &quot;/applicationContext-redis-context.xml&quot;&#125;</span><br><span class="line">)</span><br><span class="line">public class RedisServiceTest &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private RedisService&lt;String,Coupon&gt; redisCouponService;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void testRedisListTime()&#123;</span><br><span class="line"></span><br><span class="line">        Coupon coupon = new Coupon();</span><br><span class="line">        coupon.setId(1);</span><br><span class="line">        coupon.setCodeType(1);</span><br><span class="line">        coupon.setCouponCode(&quot;FD1111&quot;);</span><br><span class="line"></span><br><span class="line">        redisCouponService.setKeyAndValueWithTime(&quot;test&quot;, coupon, 20L, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void testRedisListTimeGet()&#123;</span><br><span class="line">        Coupon coupon = (Coupon) redisCouponService.getValue(&quot;test&quot;);</span><br><span class="line">        if (coupon != null) &#123;</span><br><span class="line">            System.out.println(coupon.getId());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h4 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h4><blockquote>
 <p>目前，我自己测试通过。以后具体会遇到哪些坑，我会边填边走~~</p>
-</blockquote>
-<blockquote>
 <p>Go 且行且尝试</p>
 </blockquote>
 
@@ -524,6 +478,44 @@ applicationContext-redis-context.xml 用于实现redis相关的注入</code></pr
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -575,7 +567,7 @@ applicationContext-redis-context.xml 用于实现redis相关的注入</code></pr
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -592,7 +584,7 @@ applicationContext-redis-context.xml 用于实现redis相关的注入</code></pr
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -658,6 +650,22 @@ applicationContext-redis-context.xml 用于实现redis相关的注入</code></pr
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -758,10 +766,47 @@ applicationContext-redis-context.xml 用于实现redis相关的注入</code></pr
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

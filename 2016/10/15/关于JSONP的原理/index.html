@@ -309,6 +309,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -327,7 +332,6 @@
 <p>由于前端需要用jsonp的格式，之前没用过。特此在网上查了一下，并把学习的内容和大家分享一下。</p>
 </blockquote>
 <a id="more"></a>
-
 <h4 id="Json与Jsonp"><a href="#Json与Jsonp" class="headerlink" title="Json与Jsonp"></a>Json与Jsonp</h4><ul>
 <li><p>json</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">什么是json：</span><br><span class="line">Json 是一种基于文本的数据描述格式。</span><br><span class="line">    1. 基于纯文本，跨平台传递极其简单；</span><br><span class="line">    2. Javascript原生支持，后台语言几乎全部支持；</span><br><span class="line">    3. 轻量级数据格式，占用字符数量极少，特别适合互联网传递；</span><br><span class="line">    4. 可读性较强(合理的依次缩进之后)；</span><br><span class="line">    5. 容易编写和解析；</span><br><span class="line"></span><br><span class="line">json的格式：</span><br><span class="line">    1. JSON只有两种数据类型描述符，大括号&#123;&#125;和方括号[]，其余英文冒号:是映射符，英文逗号,是分隔符，英文双引号&quot;&quot;是定义符。</span><br><span class="line">    2. 大括号&#123;&#125;用来描述一组“不同类型的无序键值对集合”（每个键值对可以理解为OOP的属性描述），方括号[]用来描述一组“相同类型的有序数据集合”（可对应OOP的数组）。</span><br><span class="line">    3. 上述两种集合中若有多个子项，则通过英文逗号,进行分隔。</span><br><span class="line">    4. 键值对以英文冒号:进行分隔，并且建议键名都加上英文双引号”，以便于不同语言的解析。</span><br><span class="line">    5. JSON内部常用数据类型无非就是字符串、数字、布尔、日期、null，字符串必须用双引号引起来。</span><br><span class="line">　　JSON实例：</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Name&quot;: &quot;cheng&quot;,</span><br><span class="line">        &quot;Age&quot;: 24</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
@@ -336,26 +340,16 @@
 </li>
 </ul>
 <blockquote>
-<p>关于jsonp：我的理解是jsonp是一种借用json作为参数的 数据交换方式。</p>
+<p>关于jsonp：我的理解是jsonp是一种借用json作为参数的 数据交换方式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">引入：</span><br><span class="line">    1. Ajax直接请求普通文件存在跨域无权限访问的问题。（JavaScript出于安全方面的考虑，不允许跨域调用其他页面的对象。eg：a.com 域名下的js无法操作b.com或是c.a.com域名下的对象。）</span><br><span class="line">    2. 但是，Web页面上调用js文件时则不受是否跨域的影响(具有src属性的标签都具有跨域的能力，iframe，image，script)</span><br><span class="line">    3. 所以,那就是在远程服务器上设法把数据（以json的格式）装进&lt;script&gt;的标签里，供前端处理。</span><br><span class="line">    4. 为了便于客户端使用数据，逐渐形成了一种非正式传输协议，人们把它称作JSONP。</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">引入：</span><br><span class="line">    1. Ajax直接请求普通文件存在跨域无权限访问的问题。（JavaScript出于安全方面的考虑，不允许跨域调用其他页面的对象。eg：a.com 域名下的js无法操作b.com或是c.a.com域名下的对象。）</span><br><span class="line">    2. 但是，Web页面上调用js文件时则不受是否跨域的影响(具有src属性的标签都具有跨域的能力，iframe，image，script)</span><br><span class="line">    3. 所以,那就是在远程服务器上设法把数据（以json的格式）装进&lt;script&gt;的标签里，供前端处理。</span><br><span class="line">    4. 为了便于客户端使用数据，逐渐形成了一种非正式传输协议，人们把它称作JSONP。</span><br></pre></td></tr></table></figure>
-
 <h4 id="代码原理示例"><a href="#代码原理示例" class="headerlink" title="代码原理示例"></a>代码原理示例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</span><br><span class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">    var localHandler = function(data)&#123;</span><br><span class="line">        alert(&apos;我是本地函数，远程js带来的数据是：&apos; + data.result);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;http://remoteserver.com/remote.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">    </span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"> </span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
 <p>服务器有个文件remote.js文件代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">localHandler(&#123;&quot;result&quot;:&quot;我是远程js带来的数据&quot;&#125;);</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">相当于服务器的文件remote.js里的localHandler(xxxx)触发了前端的localHandler(data)去执行。</span><br><span class="line">那么问题来了，服务器的文件remote.js是如何知道去调用前端的哪个函数呢？</span><br><span class="line">so，前端需要把函数名用get的方式?callback=localHandler传给服务器。</span><br><span class="line">服务器知道函数名称返回数据：localHandler(&#123;&quot;result&quot;:&quot;我是远程js带来的数据&quot;&#125;)。</span><br><span class="line">客户端接到数据（其实这数据就是一段代码）成功之后，把它放入&lt;script&gt;中执行即可。</span><br><span class="line"></span><br><span class="line">其实关于客户端的这些步骤jquery都封装好了。</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot; src=jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line"> jQuery(document).ready(function()&#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">         type: &quot;get&quot;,</span><br><span class="line">         async: false,</span><br><span class="line">         url: &quot;http://flightQuery.com/jsonp/flightResult.aspx&quot;,</span><br><span class="line">         dataType: &quot;jsonp&quot;,</span><br><span class="line">         jsonp: &quot;callback&quot;,//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)</span><br><span class="line">         jsonpCallback:&quot;flightHandler&quot;,//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写&quot;?&quot;，jQuery会自动为你处理数据</span><br><span class="line">         success: function(json)&#123;</span><br><span class="line">             alert(&apos;你的名字&apos; + json.name);</span><br><span class="line">         &#125;,</span><br><span class="line">         error: function()&#123;</span><br><span class="line">             alert(&apos;fail&apos;);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;);</span><br><span class="line"> &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>这里， jQuery可以自动生成的随机函数名。我会有个大大的疑问，类似与localHandler的回调函数我并没有写啊。其实，善解人意的jquery自动帮我生成回调函数并把数据取出来供success属性方法来调用。</p>
-</blockquote>
-<blockquote>
 <p>至此，jsonp的机制原理我就全明白了。</p>
-</blockquote>
-<blockquote>
 <p>上述资源、思想来源于互联网。</p>
 </blockquote>
 <p>感谢</p>
@@ -421,6 +415,44 @@
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -472,7 +504,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -489,7 +521,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -555,6 +587,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -655,10 +703,47 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

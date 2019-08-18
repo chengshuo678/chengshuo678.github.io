@@ -309,6 +309,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -327,22 +332,17 @@
 <p>问题：在集群中有多台服务器的情形下，开发者会在Cookie中记录一些字段，甚至是登录态。所以需要让访问者访问到某台机器后，后续的请求仍然在同一台服务器上处理。</p>
 </blockquote>
 <a id="more"></a>
-
 <h4 id="一、需求分析"><a href="#一、需求分析" class="headerlink" title="一、需求分析"></a>一、需求分析</h4><blockquote>
 <p>目前，负载分发问题的<strong>约束</strong>条件是：</p>
 <ul>
 <li>众多访问者的请求尽可能<strong>均匀地</strong>被分发到后端集群的机器中。</li>
 <li>同一个访问者再次访问，多个请求被<strong>同一台机器</strong>处理。</li>
 </ul>
-</blockquote>
-<blockquote>
 <p><strong>解决方案</strong>：</p>
 <ul>
 <li>IP Hash：利用用户在上网时，一段时间内的ip是不会改变的原理。将用户的ip做哈希，对其请求进行分发。因为用户的ip暂时不变，所以其请求会被分发到同一台机器上。</li>
 <li>基于Cookie做跟踪：第一次请求时，服务器给客户端下发一个cookie，具有特定cookie的请求会分配给同一个服务器。</li>
 </ul>
-</blockquote>
-<blockquote>
 <p>上述两种方案中显然第二种更优。因为约束条件第一条，请求尽可能均匀地被分发。用IP做Hash的情况，当属于某种类型IP的用户请求非常多的话，负载会出现不均匀的情况。另外，如果前置还有代理服务器的话，IP相同的情况，也会出现请求分布不均匀。所以采用第二种方案较好，Sticky第三方模块就是利用第二种方案的思路。</p>
 </blockquote>
 <h4 id="二、下载安装"><a href="#二、下载安装" class="headerlink" title="二、下载安装"></a>二、下载安装</h4><h5 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h5><blockquote>
@@ -359,54 +359,36 @@
 </blockquote>
 <h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p>在Nginx源码编译的目录下，运行代码：</p>
 <blockquote>
-<p>./configure –prefix=/usr/local/nginx –add-module=<strong>/usr/local/nginx/sticky/nginx-sticky</strong></p>
-</blockquote>
-<blockquote>
+<p>./configure —prefix=/usr/local/nginx —add-module=<strong>/usr/local/nginx/sticky/nginx-sticky</strong></p>
 <p>make<br>(不要make install，要不然就相当于重新安装了。)</p>
 </blockquote>
 <p>复制编译后的二进制文件到目录（拷贝前把服务停掉）:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/nginx/nginx  /usr/local/nginx/nginx.bak</span><br><span class="line">cp /usr/local/nginx-1.9.3/objs/nginx  /usr/local/nginx/nginx</span><br></pre></td></tr></table></figure>
-
-<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><p>在nginx.conf配置文件中，对upstream块添加sticky;即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream myproject&#123;</span><br><span class="line">        #添加sticky模块后加入此配置</span><br><span class="line">        sticky;</span><br><span class="line">        #被代理的服务</span><br><span class="line">        server 192.168.1.100:8081;</span><br><span class="line">        server 192.168.1.101:8080;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><p>在nginx.conf配置文件中，对upstream块添加sticky;即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream myproject&#123;</span><br><span class="line">        #添加sticky模块后加入此配置</span><br><span class="line">        sticky;</span><br><span class="line">        #被代理的服务</span><br><span class="line">        server 192.168.1.100:8081;</span><br><span class="line">        server 192.168.1.101:8080;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <h4 id="三、问题及解决"><a href="#三、问题及解决" class="headerlink" title="三、问题及解决"></a>三、问题及解决</h4><h5 id="编译出现类型转换错误"><a href="#编译出现类型转换错误" class="headerlink" title="编译出现类型转换错误"></a>编译出现类型转换错误</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cc1: warnings being treated as errors</span><br><span class="line">ngx_http_sticky_module.c: In function ‘ngx_http_get_sticky_peer’:</span><br><span class="line">/ngx_http_sticky_module.c:333: 警告：赋值时将整数赋给指针，未作类型转换</span><br><span class="line">ake[1]: *** [objs/addon/nginx-sticky-module-1.1/ngx_http_sticky_module.o] 错误 1</span><br></pre></td></tr></table></figure>
-
 <p>解决：</p>
 <p>第一步：根据资料 把ngx_http_sticky_misc.c 的281行修改如下:</p>
 <blockquote>
 <p>原digest-&gt;len = ngx_sock_ntop(in,digest<br>        -&gt;data, len, 1);</p>
-</blockquote>
-<blockquote>
 <p>改成digest-&gt;len = ngx_sock_ntop(in,sizeof(struct sockaddr_in),digest<br>        -&gt;data, len, 1);</p>
 </blockquote>
 <p>第二步：对nginx-sticky-module-1.1/ngx_http_sticky_module.c文件也进行修改（主要是1.9.x版本会出现这问题）<br>修改两个地方，如下图：</p>
 <p>第6行添加：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;nginx.h&gt;</span><br></pre></td></tr></table></figure>
-
 <p>第340行左右修改（iphp-&gt;rrp.current = iphp-&gt;selected_peer;）为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iphp-&gt;rrp.current = peer;</span><br></pre></td></tr></table></figure>
-
 <p>版本问题，修改stick代码后，问题得以解决。</p>
 <hr>
 <h5 id="编译出现hash和md5问题"><a href="#编译出现hash和md5问题" class="headerlink" title="编译出现hash和md5问题"></a>编译出现hash和md5问题</h5><p>问题描述：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ngx_http_sticky_misc.c: In function 「ngx_http_sticky_misc_md5」:</span><br><span class="line">ngx_http_sticky_misc.c:152:15: ERROR：「MD5_DIGEST_LENGTH」 undeclared (first use in this function)</span><br><span class="line">   u_char hash[MD5_DIGEST_LENGTH];</span><br></pre></td></tr></table></figure>
-
-<p>解决：<br>解决方式就是在下载解压缩之后的sticky模块文件夹中，修改ngx_http_sticky_misc.c文件<br>将这两个模块 &lt;openssl/sha.h&gt; and &lt;openssl/md5.h&gt;包含到文件ngx_http_sticky_misc.c<br>下面红色标注地方</p>
+<p>解决：<br>解决方式就是在下载解压缩之后的sticky模块文件夹中，修改ngx_http_sticky_misc.c文件<br>将这两个模块 <openssl sha.h> and <openssl md5.h>包含到文件ngx_http_sticky_misc.c<br>下面红色标注地方</openssl></openssl></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;openssl/sha.h&gt;</span><br><span class="line">#include &lt;openssl/md5.h&gt;</span><br></pre></td></tr></table></figure>
-
 <p>引入的问题，引入之后再重新编译就不会出现这种原因的错误了。</p>
 <hr>
-<h5 id="编译出现依赖的模块问题"><a href="#编译出现依赖的模块问题" class="headerlink" title="编译出现依赖的模块问题"></a>编译出现依赖的模块问题</h5><p>描述：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal error: openssl/aes.h:No such file or directory</span><br></pre></td></tr></table></figure>
-
+<h5 id="编译出现依赖的模块问题"><a href="#编译出现依赖的模块问题" class="headerlink" title="编译出现依赖的模块问题"></a>编译出现依赖的模块问题</h5><p>描述：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal error: openssl/aes.h:No such file or directory</span><br></pre></td></tr></table></figure></p>
 <p>解决：<br>尝试编译的程序使用OpenSSL，但是需要和OpenSSL链接的文件（库和头文件）在Linux平台系统上缺少。（其它类似的错误也可以照此处理）</p>
-<p>要解决这个问题，安装OpenSSL。<br>要在Debian、Ubuntu或者其他衍生版上安装OpenSSL：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libssl-dev</span><br></pre></td></tr></table></figure>
-
-<p>要在Fedora、CentOS或者RHEL上安装OpenSSL开发包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install openssl-devel</span><br></pre></td></tr></table></figure>
-
+<p>要解决这个问题，安装OpenSSL。<br>要在Debian、Ubuntu或者其他衍生版上安装OpenSSL：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libssl-dev</span><br></pre></td></tr></table></figure></p>
+<p>要在Fedora、CentOS或者RHEL上安装OpenSSL开发包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install openssl-devel</span><br></pre></td></tr></table></figure></p>
 <p>安装完后，尝试重新编译程序。</p>
 <h4 id="参考-amp-致谢"><a href="#参考-amp-致谢" class="headerlink" title="参考&amp;致谢"></a>参考&amp;致谢</h4><p><a href="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/commits/51efa124a4330e194ef651e597a6038a6f7979dc" target="_blank" rel="noopener">nginx-sticky-module文档</a></p>
 <p><a href="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/issues/18/wont-compile-on-nginx-190" target="_blank" rel="noopener">nginx-sticky-module-ng文档问题</a></p>
@@ -471,6 +453,44 @@
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -522,7 +542,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -539,7 +559,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -605,6 +625,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -705,10 +741,47 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

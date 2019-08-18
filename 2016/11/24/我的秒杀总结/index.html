@@ -309,6 +309,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -327,35 +332,25 @@
 <p>近期 接到一个十万数量的秒杀任务，后台完全由我写。因为之前对秒杀的处理所知甚少，故趁此机会学习了一下。当然，这里 秒杀 只涉及到 “抢” 的环节，没有下单、支付等，故对性能要求不是那么高。最终，“跌跌撞撞”地还是让系统上线了，目前运行良好。</p>
 </blockquote>
 <a id="more"></a>
-
 <h4 id="项目环境"><a href="#项目环境" class="headerlink" title="项目环境"></a>项目环境</h4><blockquote>
 <p>两台业务的服务器，还有一台缓存服务器和一台数据库服务器。<br>在整个项目 的 前端部分 自然离不开 负载均衡。故 这里 还是采用 Nginx 来实现。具体方式采用默认的配置，即轮询的方式。</p>
 </blockquote>
 <h4 id="关于“抢”的环节"><a href="#关于“抢”的环节" class="headerlink" title="关于“抢”的环节"></a>关于“抢”的环节</h4><blockquote>
 <p>intro：一天分为几个时段开抢，每个时段有几分钟的时间抢（该时段的奖品抢完了或者时间到了，该时段抢购就结束了），对于没有抢完的奖品，要求自动“滚到”下一轮。</p>
-</blockquote>
-<blockquote>
 <p>为了满足如上要求，自然得从数据库开始设计。在系统运行前，将十万奖品 批量输入 至数据库。我给 所有奖品 设计了一个<strong>生效时间</strong> 和一个 <strong>是否被抢</strong> 的标志。</p>
-</blockquote>
-<blockquote>
 <p>这里我采用的技巧是（<strong>解决方案</strong>）：<br>每个奖品 都有一个生效时间，这个生效时间是每个时间段的开始时间，只有当前时间大于生 效时间该奖品才可以抢（具体可以用sql控制，这里时间采用ms，时间越往后时间越大）。</p>
-</blockquote>
-<blockquote>
 <p>再 声明 一下抢奖品的<strong>策略</strong>：只有当前时间大于奖品的生效时间，该奖品才可以抢。这样设计解决了对于后面的几轮秒杀可以秒杀到之前没抢完的奖品（因为后面几轮的当前时间大于前面奖品的生效时间）的要求。同时 ，又可以避免 前一时段的秒杀环节 抢到 后面时段的奖品。原因自然是 当前时间比后面几轮的生效时间小。</p>
-</blockquote>
-<blockquote>
 <p>性能方面：为了避免每一次都要去数据库查取符合条件的奖品（生效时间和是否被抢），++我自然需要将奖品一次性地多拿几个放到内存里++。这里 我使用 队列 来存放 符合条件的奖品，每来一个用户，抢走（弹出）队列头部的奖品。后面的用户来了 再弹出一个。从而避免 用户“同时”拿到同一个奖品，从而避免“超卖”现象。</p>
-</blockquote>
-<blockquote>
 <p>那么队列我具体采用什么样的数据结构呢？如下<br>基于链接节点的无界线程安全队列（这个名字很霸气~~）</p>
 </blockquote>
-<pre><code>private static volatile Queue&lt;Coupon&gt; couponQueue;
-static{
-    if (null == couponQueue) {
-        LOG.info(&quot;QueueServiceImpl init!!&quot;);
-        couponQueue = new ConcurrentLinkedQueue&lt;Coupon&gt;(); 
-        }
-}</code></pre><blockquote>
+<pre><code>    private static volatile Queue&lt;Coupon&gt; couponQueue;
+    static{
+        if (null == couponQueue) {
+            LOG.info(&quot;QueueServiceImpl init!!&quot;);
+            couponQueue = new ConcurrentLinkedQueue&lt;Coupon&gt;(); 
+            }
+    }
+</code></pre><blockquote>
 <p>具体弹出采用什么代码呢？</p>
 </blockquote>
 <pre><code>@Override
@@ -382,72 +377,48 @@ public  Coupon getPoll(String uid) {
                 new Object[]{uid, coupon.getId()});
     }
     return coupon;
-}</code></pre><blockquote>
+}
+</code></pre><blockquote>
 <p>这里有个synchronized，是为了线程安全，避免多个人访问同一段代码产生冲突。<br>那么为什么把“弹出”（如果内存队列里没有了，还会去数据库里一次性取100奖品来放入内存）和update奖品是否被抢状态的代码同时锁住呢？</p>
-</blockquote>
-<blockquote>
 <p>试想这样一种<strong>场景</strong>：内存里原本放100个奖品的队列，经过一段时间后还剩下两个奖品。此时，甲、乙两个用户过来弹出了最后的两个奖品，还未来的及修改奖品状态。此时此刻，丙冲了过来，结果发现队列里没有了，coupon==null，就去setQueue()从数据库里拿符合条件的100个奖品放入内存队列。然而！，甲乙还没来得及将其抢到的奖品修改状态，就是说这两个奖品还没有被标记已经抢过。所以 这两个奖品又会被丙放入内存队列，接着弹出！由后来者再去抢。从而造成一种现象，最后的奖品被多个用户抢到，从而形成冲突。解决方案：加锁！</p>
-</blockquote>
-<blockquote>
 <p>是不是这样就可以了呢？？</p>
-</blockquote>
-<blockquote>
 <p>回答是No！因为我在学校 一般都写的是 一个业务服务器，这里是两个！亲，两个和一个有着巨大差别，这是放在内存里，不是缓存服务器里。所以A服务器取了100个符合条件的奖品，B服务器也取了100个符合条件的奖品，然而！，A和B可能取得都是前100个奖品，就是说，这俩服务器取得是相同的奖品，然后进行发放！怎么办呢？？</p>
-</blockquote>
-<blockquote>
 <p><strong>解决方案</strong>：我首先想到的是将奖品队列放入缓存服务器（1台）里？这样就避免冲突。可是 缓存 用的是 xmemcached，不是redis！没法支持那么多数据结构，而且xmemcached的CAS用起来并不舒服，，，<br>那么，该怎么处理呢~上代码：</p>
 </blockquote>
-<pre><code>int flag = -1 ;//因为 线上有两台服务器， 所以 为避免两台服务器 取 相同的 coupon 放入自己的内存；故采用 id%2==flag 分开。
+<pre><code>    int flag = -1 ;//因为 线上有两台服务器， 所以 为避免两台服务器 取 相同的 coupon 放入自己的内存；故采用 id%2==flag 分开。
 
 
-int ip = LocalIPGetter.getLocalServerIpTail(); //获取当前服务器ip
-if (ip == 223) { //如果是A服务器 取id为奇数的奖品放入内存队列
-    flag = 1;
-}else {         //如果是B服务器 取id为偶数的奖品放入内存队列
-    flag = 0;
-}
+    int ip = LocalIPGetter.getLocalServerIpTail(); //获取当前服务器ip
+    if (ip == 223) { //如果是A服务器 取id为奇数的奖品放入内存队列
+        flag = 1;
+    }else {         //如果是B服务器 取id为偶数的奖品放入内存队列
+        flag = 0;
+    }
 
 
-List&lt;Coupon&gt; couponList = couponDao.selectByStatusValidate(CouponConst.Status.INIT,current,100,flag); //两台服务器根据奇偶数进行分类去数据库取奖品。</code></pre><blockquote>
+    List&lt;Coupon&gt; couponList = couponDao.selectByStatusValidate(CouponConst.Status.INIT,current,100,flag); //两台服务器根据奇偶数进行分类去数据库取奖品。
+</code></pre><blockquote>
 <p>上述代码就是我的解决思路,是不是太简单了点，把数据库表分成两块，两个服务器互不干扰。</p>
-</blockquote>
-<blockquote>
 <p>还有缓存服务器，我将获奖者名单放在里面，减少对数据库的访问。</p>
 </blockquote>
 <h4 id="关于“抢”的环节-多次点击问题"><a href="#关于“抢”的环节-多次点击问题" class="headerlink" title="关于“抢”的环节 多次点击问题"></a>关于“抢”的环节 多次点击问题</h4><blockquote>
 <p>我遇到这样一个问题（一位用户只能秒杀成功一次）：</p>
-</blockquote>
-<blockquote>
 <p>试想这样一个<strong>场景</strong>，对于某用户甲，点击了“秒杀”按钮。但是由于网速、性能等原因，用户甲比较着急，连续点了好几次。</p>
-</blockquote>
-<blockquote>
 <p>当第一次请求发来时：数据库里没有该用户的记录，资格认证，发现没有秒杀记录，将要添加用户，想进入秒杀流程。注意：这里是将要，还没有添加用户。此刻！！！<br>该用户的第二次点击请求发了过来，资格认证，发现没有秒杀记录，将要添加用户。然而！！！第一次请求添加用户成功，第二次请求又来添加，数据库主键冲突！500！</p>
-</blockquote>
-<blockquote>
 <p><strong>解决方案</strong>：<br>每次点击，收到请求检查缓存没有该账户信息，第一件事放入 缓存(key值为其账户主键)中，同时设置2s后失效。<br>如果 缓存中 有该账户信息，说明 2s 内该用户 访问过，返回411，访问过于频繁。<br>OK</p>
 </blockquote>
 <h4 id="疏忽！"><a href="#疏忽！" class="headerlink" title="疏忽！"></a>疏忽！</h4><blockquote>
 <p>在活动开始的前一天，QA正在火急火燎地测试。自然，线上测试用的是测试数据，奖品的中奖码都是模拟的。注意，我说的是线上测试。<br>晚上，22:00测试完毕。我把数据库里的数据库变成真实数据，就屁颠屁颠地回家了。</p>
-</blockquote>
-<blockquote>
 <p>我想说的是，然而！！！两台业务服务器里的两个奖品队列还是测试的模拟数据，然后我就，，，这个坑，，，<br>切记<br>切记，清空缓存，清空内存<br>重要事情说三遍，清空缓存，清空内存。<br>情空缓存，清空内存</p>
 </blockquote>
 <h4 id="后续的想法"><a href="#后续的想法" class="headerlink" title="后续的想法"></a>后续的想法</h4><blockquote>
 <p>我能不能将抽取、改变状态的 流程 写在数据库里，作为存储过程来调用会不会更快？？<br>然后我就开始写存储过程，，，，</p>
-</blockquote>
-<blockquote>
 <p>然而！！！后来DBA告诉我：</p>
-</blockquote>
-<blockquote>
 <p>存储过程 与 触发器 都不允许。<br>计算尽量不要放在数据库来,<br>数据库主要完成数据存取的功能。</p>
-</blockquote>
-<blockquote>
 <p>如果我这么做，有可能会导致数据库死锁，，，，</p>
 </blockquote>
 <h4 id="待续"><a href="#待续" class="headerlink" title="待续"></a>待续</h4><blockquote>
 <p>我想我如果再写秒杀系统的话 自然会做的更好，以上都是我自己的摸索。后续我会尝试 消息队列（Notify？MetaQ？），用redis？什么有损服务？什么熔断机制？</p>
-</blockquote>
-<blockquote>
 <p>继续探索吧~</p>
 </blockquote>
 
@@ -509,6 +480,44 @@ List&lt;Coupon&gt; couponList = couponDao.selectByStatusValidate(CouponConst.Sta
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -560,7 +569,7 @@ List&lt;Coupon&gt; couponList = couponDao.selectByStatusValidate(CouponConst.Sta
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -577,7 +586,7 @@ List&lt;Coupon&gt; couponList = couponDao.selectByStatusValidate(CouponConst.Sta
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -643,6 +652,22 @@ List&lt;Coupon&gt; couponList = couponDao.selectByStatusValidate(CouponConst.Sta
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -743,10 +768,47 @@ List&lt;Coupon&gt; couponList = couponDao.selectByStatusValidate(CouponConst.Sta
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

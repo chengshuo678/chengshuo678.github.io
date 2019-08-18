@@ -311,6 +311,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -329,7 +334,6 @@
 <p>前段时间，小名同学review原有系统时，提出我们的系统应该引入用于级联更新的机制。说白了，就是发布订阅模式的应用。当时技术评估结论是暂时不需要，但是如果需要实现应该怎么实现呢？后来，我在阅读代码&amp;文档时，发现一个很好的模型可以用来实现上述逻辑。</p>
 </blockquote>
 <a id="more"></a>
-
 <h4 id="先说说应用场景。"><a href="#先说说应用场景。" class="headerlink" title="先说说应用场景。"></a>先说说应用场景。</h4><p>在写应用系统时，经常会有这样的场景：</p>
 <ol>
 <li>更新订单时，需要将这样的变更通知到供应商&amp;商家&amp;卖家。</li>
@@ -355,31 +359,26 @@
 <blockquote>
 <p>EventBus is a publish/subscribe event bus for Android and Java.</p>
 </blockquote>
-<p>简单、高效、体积小。<br>另外，<strong>事件总线EventBus的实现，从DDD的角度来说，</strong>以事件的弱引用方式对我们的模块和领域边界有很好的解耦作用。****</p>
+<p>简单、高效、体积小。<br>另外，<strong>事件总线EventBus的实现，从DDD的角度来说，</strong>以事件的弱引用方式对我们的模块和领域边界有很好的解耦作用。<em>**</em></p>
 <p>科普：</p>
 <blockquote>
 <p>Publisher发布者：用于分发我们的Event事件，在EventBus中通过post方法进行分发传送。<br>Subscriber订阅者：用于接受我们的事件，我们在订阅事件中处理我们接收的数据。<br>Event事件：任何一个对象都可以作为事件，比如任何字符串，事件是发布者和订阅者之间的通信载体。<br>EventBus：类似于中转站，将我们的事件进行对应的分发处理。</p>
 </blockquote>
-<p>按照我的理解，示意图如下：<br><img src="https://cdn.nlark.com/yuque/0/2019/png/143212/1546912321007-34ba518c-91c0-4de3-9567-7ccb2aa15f3c.png#align=left&display=inline&height=163&linkTarget=_blank&name=image.png&originHeight=191&originWidth=464&size=16142&width=395" alt="image.png"></p>
+<p>按照我的理解，示意图如下：<br><img src="https://cdn.nlark.com/yuque/0/2019/png/143212/1546912321007-34ba518c-91c0-4de3-9567-7ccb2aa15f3c.png#align=left&amp;display=inline&amp;height=163&amp;linkTarget=_blank&amp;name=image.png&amp;originHeight=191&amp;originWidth=464&amp;size=16142&amp;width=395" alt="image.png"></p>
 <p>具体代码的简单实现</p>
 <h4 id="EventBus-in-3-steps-copied-from-github"><a href="#EventBus-in-3-steps-copied-from-github" class="headerlink" title="EventBus in 3 steps( copied from github)"></a>EventBus in 3 steps( copied from github)</h4><p>1.Define events:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageEvent</span> </span>&#123; <span class="comment">/* Additional fields if needed */</span> &#125;</span><br></pre></td></tr></table></figure>
-
 <p>2.Prepare subscribers: Declare and annotate your subscribing method, optionally specify a <a href="http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/" target="_blank" rel="noopener">thread mode</a>:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Subscribe</span>(threadMode = ThreadMode.MAIN)  </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessageEvent</span><span class="params">(MessageEvent event)</span> </span>&#123;<span class="comment">/* Do something */</span>&#125;;</span><br></pre></td></tr></table></figure>
-
 <p>Register and unregister your subscriber. For example on Android, activities and fragments should usually register according to their life cycle:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">super</span>.onStart();</span><br><span class="line">     EventBus.getDefault().register(<span class="keyword">this</span>);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">super</span>.onStop();</span><br><span class="line">     EventBus.getDefault().unregister(<span class="keyword">this</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
 <p>3.Post events:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EventBus.getDefault().post(<span class="keyword">new</span> MessageEvent())</span><br></pre></td></tr></table></figure>
-
 <hr>
 <p>具体进一步如何实现，可以参考官网：<br></p>
 <h2 id="http-greenrobot-org-eventbus-documentation-how-to-get-started"><a href="#http-greenrobot-org-eventbus-documentation-how-to-get-started" class="headerlink" title="http://greenrobot.org/eventbus/documentation/how-to-get-started/"></a><a href="http://greenrobot.org/eventbus/documentation/how-to-get-started/" target="_blank" rel="noopener">http://greenrobot.org/eventbus/documentation/how-to-get-started/</a></h2><p>from my point:</p>
-<p>step1. 定义Event基础类（<strong>implements **Serializable），在Event中定义EventBus。</strong>同时，定义成异步的事件总线 和 异常处理。**</p>
+<p>step1. 定义Event基础类（<strong>implements </strong>Serializable），在Event中定义EventBus。<strong>同时，定义成异步的事件总线 和 异常处理。</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> EventBus TEST_BUS = <span class="keyword">new</span> AsyncEventBus(</span><br><span class="line">    <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>,<span class="number">20</span>,<span class="number">0L</span>,TimeUnit.MILLISECONDS,<span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;(),<span class="keyword">new</span> NamedThreadFactory(<span class="string">"test"</span>)),</span><br><span class="line">    ((t, context)-&gt;&#123;&#125;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
 <p>step2. 定义用于传输的ConcreteEvent类。该类extends Event。有自己的属性信息。</p>
 <p>step3. 定义订阅类</p>
 <ol>
@@ -389,7 +388,6 @@
 </li>
 <li><p>同时，配置@AllowConcurrentEvents，用于线程安全。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Subscribe</span><br><span class="line">@AllowConcurrentEvents</span><br><span class="line">public void testSubscribe(@NonNull ConcreteEvent event)&#123;</span><br><span class="line">		// TODO 订阅方处理自己的逻辑</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 </li>
 </ol>
 <h4 id="参考-amp-致谢"><a href="#参考-amp-致谢" class="headerlink" title="参考&amp;致谢"></a>参考&amp;致谢</h4><ul>
@@ -458,6 +456,44 @@
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -509,7 +545,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -526,7 +562,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -592,6 +628,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -692,10 +744,47 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

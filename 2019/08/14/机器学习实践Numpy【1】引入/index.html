@@ -309,6 +309,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -327,9 +332,7 @@
 <p>复习了Python的基础语法，开始使用Numpy进行数据操作，同时使用JuPyter notebook 实践、记录。</p>
 </blockquote>
 <a id="more"></a>
-
 <h3 id="Numpy"><a href="#Numpy" class="headerlink" title="Numpy"></a>Numpy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. 定义：开源的Python科学计算库，用于快速处理任意维度的数组。</span><br><span class="line">2. 存储对象： ndarray</span><br><span class="line">3. 创建：np.array([])</span><br><span class="line">4. 优势</span><br><span class="line">    - 内存块存储一体</span><br><span class="line">    - 支持并行运算，内部C实现，释放GIL（释放全局锁）</span><br></pre></td></tr></table></figure>
-
 <h4 id="Numpy-N维数组-ndarray"><a href="#Numpy-N维数组-ndarray" class="headerlink" title="Numpy - N维数组 ndarray"></a>Numpy - N维数组 ndarray</h4><ol>
 <li>属性&amp;形状&amp;类型<ul>
 <li>shape</li>
@@ -341,20 +344,14 @@
 </ol>
 <h3 id="生成初始化数组"><a href="#生成初始化数组" class="headerlink" title="生成初始化数组"></a>生成初始化数组</h3><h4 id="普通"><a href="#普通" class="headerlink" title="普通"></a>普通</h4><h5 id="1-生成0和1的数组"><a href="#1-生成0和1的数组" class="headerlink" title="1.生成0和1的数组"></a>1.生成0和1的数组</h5><blockquote>
 <p>np.ones([4,5])</p>
-</blockquote>
-<blockquote>
 <p>np.zeros([3,3])</p>
 </blockquote>
 <h5 id="2-从现有数组中生成"><a href="#2-从现有数组中生成" class="headerlink" title="2.从现有数组中生成"></a>2.从现有数组中生成</h5><blockquote>
 <p>np.array(one_array) # 深拷贝，全新一个实例</p>
-</blockquote>
-<blockquote>
 <p>np.asarray(one_array) # 浅拷贝，指向原有</p>
 </blockquote>
 <h5 id="3-生成固定范围数组"><a href="#3-生成固定范围数组" class="headerlink" title="3.生成固定范围数组"></a>3.生成固定范围数组</h5><blockquote>
 <p>np.linspace(0,10,5) # [0,10] 生成等间隔的5个item</p>
-</blockquote>
-<blockquote>
 <p>np.arange(0,10,2) # [0,10] 生成以2为间隔生成</p>
 </blockquote>
 <h4 id="分布"><a href="#分布" class="headerlink" title="分布"></a>分布</h4><h5 id="1-均匀分布"><a href="#1-均匀分布" class="headerlink" title="1.均匀分布"></a>1.均匀分布</h5><blockquote>
@@ -364,32 +361,28 @@
 <p>np.random.normal(0,10,20) # 正态分布（loc，标准差，size）</p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">one_array = np.ones([<span class="number">4</span>,<span class="number">5</span>]) <span class="comment"># 按照参数维度，生成全1的数组</span></span><br><span class="line">np.ones_like(one_array)  <span class="comment"># 按照参数数组，生成全1的数组</span></span><br><span class="line">np.zeros([<span class="number">3</span>,<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
-
 <pre><code>array([[0., 0., 0.],
        [0., 0., 0.],
-       [0., 0., 0.]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">np.array(one_array) <span class="comment"># 深拷贝，全新一个实例</span></span><br><span class="line">np.asarray(one_array) <span class="comment"># 浅拷贝，指向原有</span></span><br></pre></td></tr></table></figure>
-
+       [0., 0., 0.]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">np.array(one_array) <span class="comment"># 深拷贝，全新一个实例</span></span><br><span class="line">np.asarray(one_array) <span class="comment"># 浅拷贝，指向原有</span></span><br></pre></td></tr></table></figure>
 <pre><code>array([[1., 1., 1., 1., 1.],
        [1., 1., 1., 1., 1.],
        [1., 1., 1., 1., 1.],
-       [1., 1., 1., 1., 1.]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">np.linspace(<span class="number">0</span>,<span class="number">10</span>,<span class="number">5</span>) <span class="comment"># [0,10] 生成等间隔的5个item</span></span><br><span class="line">np.arange(<span class="number">0</span>,<span class="number">10</span>,<span class="number">2</span>) <span class="comment"># [0,10] 生成以2为间隔生成</span></span><br></pre></td></tr></table></figure>
-
-<pre><code>array([0, 2, 4, 6, 8])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.uniform(<span class="number">0</span>,<span class="number">10</span>,<span class="number">5</span>) <span class="comment"># 均匀分布</span></span><br></pre></td></tr></table></figure>
-
-<pre><code>array([5.08178447, 4.02888709, 4.59175026, 6.21041799, 0.90498804])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.normal(<span class="number">0</span>,<span class="number">10</span>,<span class="number">20</span>) <span class="comment"># 正态分布</span></span><br></pre></td></tr></table></figure>
-
+       [1., 1., 1., 1., 1.]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">np.linspace(<span class="number">0</span>,<span class="number">10</span>,<span class="number">5</span>) <span class="comment"># [0,10] 生成等间隔的5个item</span></span><br><span class="line">np.arange(<span class="number">0</span>,<span class="number">10</span>,<span class="number">2</span>) <span class="comment"># [0,10] 生成以2为间隔生成</span></span><br></pre></td></tr></table></figure>
+<pre><code>array([0, 2, 4, 6, 8])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.uniform(<span class="number">0</span>,<span class="number">10</span>,<span class="number">5</span>) <span class="comment"># 均匀分布</span></span><br></pre></td></tr></table></figure>
+<pre><code>array([5.08178447, 4.02888709, 4.59175026, 6.21041799, 0.90498804])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.normal(<span class="number">0</span>,<span class="number">10</span>,<span class="number">20</span>) <span class="comment"># 正态分布</span></span><br></pre></td></tr></table></figure>
 <pre><code>array([  5.67674523,   5.77575242,  -1.85493383,   7.33692221,
         -0.05362885,   8.37029132,   7.95216801,  21.64118456,
         14.00327488,  -0.52143642,  -4.40416346,  13.31843223,
         -6.6974112 ,  19.52709879,  -6.95182398,  -0.90412052,
-       -11.02669012,   4.27056343,  18.97736721,  24.2468938 ])</code></pre><h3 id="数组操作"><a href="#数组操作" class="headerlink" title="数组操作"></a>数组操作</h3><h4 id="数组切片"><a href="#数组切片" class="headerlink" title="数组切片"></a>数组切片</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[行数，列数]  </span><br><span class="line">1. 先行后列，左闭右开</span><br><span class="line">2. 索引从外及里</span><br></pre></td></tr></table></figure>
-
+       -11.02669012,   4.27056343,  18.97736721,  24.2468938 ])
+</code></pre><h3 id="数组操作"><a href="#数组操作" class="headerlink" title="数组操作"></a>数组操作</h3><h4 id="数组切片"><a href="#数组切片" class="headerlink" title="数组切片"></a>数组切片</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[行数，列数]  </span><br><span class="line">1. 先行后列，左闭右开</span><br><span class="line">2. 索引从外及里</span><br></pre></td></tr></table></figure>
 <h4 id="数组类型修改"><a href="#数组类型修改" class="headerlink" title="数组类型修改"></a>数组类型修改</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对象.astype()</span><br></pre></td></tr></table></figure>
-
 <h4 id="数组去重"><a href="#数组去重" class="headerlink" title="数组去重"></a>数组去重</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.unique(temp)</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">stock_change = np.random.normal(<span class="number">0</span>, <span class="number">1</span>, (<span class="number">8</span>,<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
-
 <pre><code>array([[-0.21431481, -0.94781074,  0.72798452,  0.16755977, -0.21868384,
         -0.76869999, -0.42344986,  1.88452471, -1.09014707,  0.04393599],
        [ 0.1480258 , -0.83848401, -1.36803501, -1.41729986, -0.95472286,
@@ -405,29 +398,27 @@
        [-1.52363283, -1.53559218, -0.32670834, -0.75836768, -0.47355597,
          0.6849614 ,  0.32947873,  0.42595307,  0.86099386,  0.24105507],
        [-1.34253205,  0.13808892, -0.3581911 ,  0.16412846, -0.01493121,
-        -0.78940982,  0.20047251, -0.69006736,  0.78435666,  0.05314826]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_change[<span class="number">0</span>:<span class="number">3</span>,<span class="number">0</span>:<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
-
+        -0.78940982,  0.20047251, -0.69006736,  0.78435666,  0.05314826]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_change[<span class="number">0</span>:<span class="number">3</span>,<span class="number">0</span>:<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
 <pre><code>array([[-0.21431481, -0.94781074],
        [ 0.1480258 , -0.83848401],
-       [ 1.22951175, -0.10736634]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_change[<span class="number">0</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
-
-<pre><code>-0.9478107415708911</code></pre><h3 id="数组矩阵形状修改"><a href="#数组矩阵形状修改" class="headerlink" title="数组矩阵形状修改"></a>数组矩阵形状修改</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 数组.T # 行列互换</span><br><span class="line">2. 数组.reshape([行，列]) # 排成一行后，重新行列划分。不修改原有变量，如果传-1，代表以另一维度拆分。</span><br><span class="line">3. 数组.resize([行，列]) # 排成一行后，重新行列划分。修改原有变量</span><br></pre></td></tr></table></figure>
-
+       [ 1.22951175, -0.10736634]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_change[<span class="number">0</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>-0.9478107415708911
+</code></pre><h3 id="数组矩阵形状修改"><a href="#数组矩阵形状修改" class="headerlink" title="数组矩阵形状修改"></a>数组矩阵形状修改</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 数组.T # 行列互换</span><br><span class="line">2. 数组.reshape([行，列]) # 排成一行后，重新行列划分。不修改原有变量，如果传-1，代表以另一维度拆分。</span><br><span class="line">3. 数组.resize([行，列]) # 排成一行后，重新行列划分。修改原有变量</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change = np.random.normal(<span class="number">0</span>,<span class="number">1</span>,(<span class="number">4</span>,<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change</span><br></pre></td></tr></table></figure>
-
 <pre><code>array([[-0.54011821,  1.68452432,  0.01165422,  0.92022483, -1.76956384],
        [ 0.12076425,  0.48550684, -2.07158306,  0.11184936,  0.13483726],
        [-1.08849942, -0.33872445,  0.19081035, -0.51772807, -0.05330802],
-       [ 1.72971777,  1.15105593, -0.70068092,  0.50980343,  2.6761524 ]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.reshape([<span class="number">5</span>,<span class="number">4</span>]) <span class="comment"># 排成一行后，重新行列划分。</span></span><br></pre></td></tr></table></figure>
-
+       [ 1.72971777,  1.15105593, -0.70068092,  0.50980343,  2.6761524 ]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.reshape([<span class="number">5</span>,<span class="number">4</span>]) <span class="comment"># 排成一行后，重新行列划分。</span></span><br></pre></td></tr></table></figure>
 <pre><code>array([[-0.54011821,  1.68452432,  0.01165422,  0.92022483],
        [-1.76956384,  0.12076425,  0.48550684, -2.07158306],
        [ 0.11184936,  0.13483726, -1.08849942, -0.33872445],
        [ 0.19081035, -0.51772807, -0.05330802,  1.72971777],
-       [ 1.15105593, -0.70068092,  0.50980343,  2.6761524 ]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.reshape([<span class="number">-1</span>,<span class="number">2</span>]) <span class="comment"># 排成一行后，按照2列划分，行数待确定。</span></span><br></pre></td></tr></table></figure>
-
+       [ 1.15105593, -0.70068092,  0.50980343,  2.6761524 ]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.reshape([<span class="number">-1</span>,<span class="number">2</span>]) <span class="comment"># 排成一行后，按照2列划分，行数待确定。</span></span><br></pre></td></tr></table></figure>
 <pre><code>array([[-0.54011821,  1.68452432],
        [ 0.01165422,  0.92022483],
        [-1.76956384,  0.12076425],
@@ -437,18 +428,19 @@
        [ 0.19081035, -0.51772807],
        [-0.05330802,  1.72971777],
        [ 1.15105593, -0.70068092],
-       [ 0.50980343,  2.6761524 ]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.resize([<span class="number">5</span>,<span class="number">4</span>]) <span class="comment"># 修改原有变量</span></span><br><span class="line">stock_sharp_change</span><br></pre></td></tr></table></figure>
-
+       [ 0.50980343,  2.6761524 ]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.resize([<span class="number">5</span>,<span class="number">4</span>]) <span class="comment"># 修改原有变量</span></span><br><span class="line">stock_sharp_change</span><br></pre></td></tr></table></figure>
 <pre><code>array([[-0.54011821,  1.68452432,  0.01165422,  0.92022483],
        [-1.76956384,  0.12076425,  0.48550684, -2.07158306],
        [ 0.11184936,  0.13483726, -1.08849942, -0.33872445],
        [ 0.19081035, -0.51772807, -0.05330802,  1.72971777],
-       [ 1.15105593, -0.70068092,  0.50980343,  2.6761524 ]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.T <span class="comment"># 矩阵转置，行列互换</span></span><br></pre></td></tr></table></figure>
-
+       [ 1.15105593, -0.70068092,  0.50980343,  2.6761524 ]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stock_sharp_change.T <span class="comment"># 矩阵转置，行列互换</span></span><br></pre></td></tr></table></figure>
 <pre><code>array([[-0.54011821, -1.76956384,  0.11184936,  0.19081035,  1.15105593],
        [ 1.68452432,  0.12076425,  0.13483726, -0.51772807, -0.70068092],
        [ 0.01165422,  0.48550684, -1.08849942, -0.05330802,  0.50980343],
-       [ 0.92022483, -2.07158306, -0.33872445,  1.72971777,  2.6761524 ]])</code></pre>
+       [ 0.92022483, -2.07158306, -0.33872445,  1.72971777,  2.6761524 ]])
+</code></pre>
       
     </div>
 
@@ -509,6 +501,44 @@
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -560,7 +590,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -577,7 +607,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -643,6 +673,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -743,10 +789,47 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

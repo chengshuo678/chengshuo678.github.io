@@ -312,6 +312,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -330,10 +335,7 @@
 <p>引入：最近开发过程中，遇到场景组、场景嵌套的情况，看到代码中运用了组合模式。于是乎，温习了组合模式的应用场景和设计过程。同时，在组合模式运用的过程中，很自然地会出现遍历的情况，这时候迭代器模式就有用武之地。</p>
 </blockquote>
 <a id="more"></a>
-
-<h4 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h4><p>为了更好地说明，我用一个生活中的case进行阐述。菜单和子菜单是生活中常见的名称。菜单包含子菜单和其他选项，子菜单里会有子子菜单和其他选项，依次类推，嵌套结构。<br>如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">文档菜单</span><br><span class="line">   - 新标签页</span><br><span class="line">   - 打开</span><br><span class="line">      - 通过链接打开</span><br><span class="line">      - 最近使用</span><br><span class="line">           - 按日期</span><br><span class="line">           - 使用记录</span><br><span class="line">   - 分享</span><br><span class="line">      - 钉钉分享</span><br><span class="line">      - Email分享</span><br><span class="line">      - 微信分享</span><br><span class="line">   - 关闭</span><br></pre></td></tr></table></figure>
-
+<h4 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h4><p>为了更好地说明，我用一个生活中的case进行阐述。菜单和子菜单是生活中常见的名称。菜单包含子菜单和其他选项，子菜单里会有子子菜单和其他选项，依次类推，嵌套结构。<br>如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">文档菜单</span><br><span class="line">   - 新标签页</span><br><span class="line">   - 打开</span><br><span class="line">      - 通过链接打开</span><br><span class="line">      - 最近使用</span><br><span class="line">           - 按日期</span><br><span class="line">           - 使用记录</span><br><span class="line">   - 分享</span><br><span class="line">      - 钉钉分享</span><br><span class="line">      - Email分享</span><br><span class="line">      - 微信分享</span><br><span class="line">   - 关闭</span><br></pre></td></tr></table></figure></p>
 <p>我们如何在系统中表达这种关系，同时让使用者（调用方）不需要理解其中的细节就可以直接处理其中的子菜单和其他选项呢？</p>
 <hr>
 <p>其实，这种情况就非常适合使用组合模式，<strong>组合模式允许系统将对象组合成树形结构来表现“整体|部分”的层次结构</strong>。优点是能让客户（使用者）以统一的方式处理其中的个别对象（其他选项）和对象组合（子菜单）。</p>
@@ -356,9 +358,7 @@
 </div>
 
 
-<p>如图2所示，迭代器模式中, Aggregate是供所有具体ConcreteAggregate类实现的接口，使用户Client不再依赖于具体的ConcreteAggregate实现。Aggregate中创建Iterator进行遍历访问。<br>调用代码实例如下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Iterator iterator = aggregate.createIterator();</span><br><span class="line"><span class="keyword">while</span>(iterator.hasNext())&#123;</span><br><span class="line">    Item item = iterator.next();</span><br><span class="line">    <span class="comment">// 以下可以进一步操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p>如图2所示，迭代器模式中, Aggregate是供所有具体ConcreteAggregate类实现的接口，使用户Client不再依赖于具体的ConcreteAggregate实现。Aggregate中创建Iterator进行遍历访问。<br>调用代码实例如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Iterator iterator = aggregate.createIterator();</span><br><span class="line"><span class="keyword">while</span>(iterator.hasNext())&#123;</span><br><span class="line">    Item item = iterator.next();</span><br><span class="line">    <span class="comment">// 以下可以进一步操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -418,6 +418,44 @@
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -469,7 +507,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -486,7 +524,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -552,6 +590,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -652,10 +706,47 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

@@ -309,6 +309,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -327,32 +332,28 @@
 <p>复习了Python的基础语法，开始使用Numpy进行数据操作，同时使用JuPyter notebook 实践、记录。</p>
 </blockquote>
 <a id="more"></a>
-
 <h3 id="矩阵与数组"><a href="#矩阵与数组" class="headerlink" title="矩阵与数组"></a>矩阵与数组</h3><h4 id="一、矩阵"><a href="#一、矩阵" class="headerlink" title="一、矩阵"></a>一、矩阵</h4><h5 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. 矩阵加减</span><br><span class="line">- 对应位置+-</span><br><span class="line">2. 矩阵乘</span><br><span class="line">- 标量*矩阵：标量和矩阵每个位置相乘</span><br><span class="line">- 矩阵*矩阵：[M行，N列]*[N行，L列] = [M行，L列]</span><br><span class="line">- 满足结合律，不满足交换律</span><br><span class="line">3. 单位矩阵</span><br><span class="line">- 对角线为1，其他位置为0</span><br><span class="line">3. 矩阵的逆</span><br><span class="line">- 矩阵A * 矩阵B = 单位矩阵，则A与B互为逆矩阵</span><br><span class="line">- 参考链接：https://jingyan.baidu.com/article/1709ad8095e1924634c4f03a.html</span><br><span class="line">5. 矩阵转置</span><br><span class="line">- 行列互换</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">a = np.array([[<span class="number">90</span>,<span class="number">80</span>],[<span class="number">90</span>,<span class="number">88</span>],[<span class="number">70</span>,<span class="number">98</span>]])</span><br><span class="line">a</span><br></pre></td></tr></table></figure>
-
 <pre><code>array([[90, 80],
        [90, 88],
-       [70, 98]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">b = np.array([[<span class="number">0.3</span>],[<span class="number">0.7</span>]])</span><br><span class="line">np.matmul(a,b) <span class="comment"># 仅能矩阵*矩阵</span></span><br><span class="line">np.dot(a,b) <span class="comment"># 能矩阵*矩阵；能矩阵*数</span></span><br></pre></td></tr></table></figure>
-
+       [70, 98]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">b = np.array([[<span class="number">0.3</span>],[<span class="number">0.7</span>]])</span><br><span class="line">np.matmul(a,b) <span class="comment"># 仅能矩阵*矩阵</span></span><br><span class="line">np.dot(a,b) <span class="comment"># 能矩阵*矩阵；能矩阵*数</span></span><br></pre></td></tr></table></figure>
 <pre><code>array([[83. ],
        [88.6],
-       [89.6]])</code></pre><h4 id="二、数组"><a href="#二、数组" class="headerlink" title="二、数组"></a>二、数组</h4><h5 id="数组运算"><a href="#数组运算" class="headerlink" title="数组运算"></a>数组运算</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 数组与数运算(直接运算)</span><br><span class="line">2. 数组与数组运算（满足广播机制）</span><br><span class="line">- numpy会比较数组的shape，满足以下情况，数组才能进行运算</span><br><span class="line">    - 维度相等</span><br><span class="line">    - shape（其中相对应的一个地方为1）</span><br></pre></td></tr></table></figure>
-
+       [89.6]])
+</code></pre><h4 id="二、数组"><a href="#二、数组" class="headerlink" title="二、数组"></a>二、数组</h4><h5 id="数组运算"><a href="#数组运算" class="headerlink" title="数组运算"></a>数组运算</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 数组与数运算(直接运算)</span><br><span class="line">2. 数组与数组运算（满足广播机制）</span><br><span class="line">- numpy会比较数组的shape，满足以下情况，数组才能进行运算</span><br><span class="line">    - 维度相等</span><br><span class="line">    - shape（其中相对应的一个地方为1）</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">arr = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>])</span><br><span class="line">arr</span><br></pre></td></tr></table></figure>
-
-<pre><code>array([1, 2, 3, 4])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>*arr <span class="comment"># 乘</span></span><br></pre></td></tr></table></figure>
-
-<pre><code>array([2, 4, 6, 8])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>*arr + <span class="number">1</span> <span class="comment"># 加</span></span><br></pre></td></tr></table></figure>
-
-<pre><code>array([3, 5, 7, 9])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">2</span>*arr + <span class="number">1</span>)/<span class="number">2</span> <span class="comment"># 除以</span></span><br></pre></td></tr></table></figure>
-
-<pre><code>array([1.5, 2.5, 3.5, 4.5])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arr1 = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]])</span><br><span class="line">arr2 = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]])</span><br><span class="line">arr1+arr2</span><br></pre></td></tr></table></figure>
-
+<pre><code>array([1, 2, 3, 4])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>*arr <span class="comment"># 乘</span></span><br></pre></td></tr></table></figure>
+<pre><code>array([2, 4, 6, 8])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>*arr + <span class="number">1</span> <span class="comment"># 加</span></span><br></pre></td></tr></table></figure>
+<pre><code>array([3, 5, 7, 9])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">2</span>*arr + <span class="number">1</span>)/<span class="number">2</span> <span class="comment"># 除以</span></span><br></pre></td></tr></table></figure>
+<pre><code>array([1.5, 2.5, 3.5, 4.5])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arr1 = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]])</span><br><span class="line">arr2 = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]])</span><br><span class="line">arr1+arr2</span><br></pre></td></tr></table></figure>
 <pre><code>array([[2, 4, 6],
-       [2, 4, 6]])</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+       [2, 4, 6]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -414,6 +415,44 @@
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -465,7 +504,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -482,7 +521,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -548,6 +587,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -648,10 +703,47 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

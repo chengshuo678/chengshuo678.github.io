@@ -309,6 +309,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -327,15 +332,13 @@
 <p>近来重温了一些Java方面关于线程池使用的书籍及使用场景，使用后感觉有必要整理归纳一下。</p>
 </blockquote>
 <a id="more"></a>
-
 <blockquote>
 <p>引入：我们使用线程的时候就去创建一个线程，这样实现起来非常简便。但是会有一个问题：如果并发的线程数量很多，并且每个线程都是执行一个时间很短的任务就结束了，这样频繁创建线程就会大大降低系统的效率，因为频繁创建线程和销毁线程需要时间。</p>
-</blockquote>
-<h5 id="一、基础且必须知道的"><a href="#一、基础且必须知道的" class="headerlink" title="一、基础且必须知道的"></a>一、基础且必须知道的</h5><p>线程池主要是围绕着java.util.concurrent.ThreadPoolExecutor展开的，如果要透彻地了解Java中的线程池，必须先了解这个类。</p>
+<h5 id="一、基础且必须知道的"><a href="#一、基础且必须知道的" class="headerlink" title="一、基础且必须知道的"></a>一、基础且必须知道的</h5></blockquote>
+<p>线程池主要是围绕着java.util.concurrent.ThreadPoolExecutor展开的，如果要透彻地了解Java中的线程池，必须先了解这个类。</p>
 <p>ThreadPoolExecutor继承自AbstractExecutorService类，并提供了四个构造器。但是，仔细观察每个构造器的源码具体实现，发现前面三个构造器其实是调用的第四个构造器进行的初始化工作。</p>
 <p>那我们直接看第四个构造器的具体功能：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">undefined</span><br><span class="line">public ThreadPoolExecutor(int corePoolSize,</span><br><span class="line">                          int maximumPoolSize,</span><br><span class="line">                          long keepAliveTime,</span><br><span class="line">                          TimeUnit unit,</span><br><span class="line">                          BlockingQueue&lt;Runnable&gt; workQueue,</span><br><span class="line">                          ThreadFactory threadFactory,</span><br><span class="line">                          RejectedExecutionHandler handler) ;</span><br></pre></td></tr></table></figure>
-
 <p>这个构造器的功能自然是创建一个线程池（Creates a new {@code ThreadPoolExecutor} with the given initial parameters）</p>
 <ol>
 <li>具体参数的含义如下：</li>
@@ -348,19 +351,15 @@
 <li>workQueue<br>  阻塞队列，用来存储等待执行的任务。该参数的选择会对线程池运行过程产生重大影响。具体影响在下文谈到。</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">一般有：ArrayBlockingQueue、LinkedBlockingQueue、SynchronousQueue</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>threadFactory<br>  线程工厂，主要用来创建线程。</li>
 <li>handler：表示当拒绝处理任务时的策略，有以下四种取值，具体有什么不同也会在下文详细描述。</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。 </span><br><span class="line">ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。 </span><br><span class="line">ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）</span><br><span class="line">ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务</span><br></pre></td></tr></table></figure>
-
 <ol>
 <li>在组织结构上</li>
 </ol>
-<p>ThreadPoolExecutor类继承自AbstractExecutorService，AbstractExecutorService实现了ExecutorService接口，ExecutorService接口又继承自Executor接口。<br>顶层接口：Executor，只有execute()方法，用来定义执行任务的方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span></span>;</span><br></pre></td></tr></table></figure>
-
+<p>ThreadPoolExecutor类继承自AbstractExecutorService，AbstractExecutorService实现了ExecutorService接口，ExecutorService接口又继承自Executor接口。<br>顶层接口：Executor，只有execute()方法，用来定义执行任务的方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span></span>;</span><br></pre></td></tr></table></figure></p>
 <p>二级接口：ExecutorService，定义了 shutdown()、submit()、invokeAll()等主要方法。<br>三级实现类：AbstractExecutorService，实现了ExecutorService接口中的方法。<br>四级实现类：ThreadPoolExecutor进一步扩展功能，主要实现了execute()方法。同时多了些状态获取，控制的方法。并且，定义了四种拒绝处理任务时的策略。</p>
 <ol>
 <li>execute()方法 VS submit()方法</li>
@@ -392,37 +391,29 @@
 <p>三、<strong>拒绝策略</strong></p>
 <p>在ThreadPoolExecutor中定义。</p>
 <p>四种策略</p>
-<p>​    1、AbortPolicy 丢弃任务并抛出RejectedExecutionException异常（常用）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2、DiscardPolicy 丢弃当前将要加入队列的任务本身，无异常抛出。</span><br></pre></td></tr></table></figure>
-
+<p>​    1、AbortPolicy 丢弃任务并抛出RejectedExecutionException异常（常用）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2、DiscardPolicy 丢弃当前将要加入队列的任务本身，无异常抛出。</span><br></pre></td></tr></table></figure></p>
 <p>​    3、DiscardOldestPolicy 丢弃任务队列中最旧任务，随后重新尝试执行任务。</p>
 <p>​    4、CallerRunsPolicy 不进入线程池执行，任务将有调用者线程去执行。</p>
 <h5 id="四、常见应用场景"><a href="#四、常见应用场景" class="headerlink" title="四、常见应用场景"></a>四、常见应用场景</h5><p>场景</p>
 <blockquote>
 <p>描述: 前端一次请求要求3s内返回结果，否则走打底逻辑。很多情况下前端需要的数据是由多个数据源的数据组成，且彼此间没有依赖关系。<br>解决思路<br>如果这些数据采用串行获取，大概率出现超时，所以对于没有依赖关系的数据，则可以并发执行访问。<br>具体执行时，可以采用，传递response引用的方式，多个数据源实例向response中放值。<br>main-idea：将所有submit线程的对应future，放入公共的list中，然后对该list的每个future进行get获取结果&amp;设置超时时间。<br>具体步骤</p>
 </blockquote>
-<h6 id="第一步-规范数据源访问"><a href="#第一步-规范数据源访问" class="headerlink" title="第一步  规范数据源访问"></a>第一步  规范数据源访问</h6><p>定义接口： BaseBuilder&lt;R, S&gt;，同时定义具体方法 build方法：build(R request, S response);</p>
+<h6 id="第一步-规范数据源访问"><a href="#第一步-规范数据源访问" class="headerlink" title="第一步  规范数据源访问"></a>第一步  规范数据源访问</h6><p>定义接口： BaseBuilder<r, s>，同时定义具体方法 build方法：build(R request, S response);</r,></p>
 <p>数据源访问的类 用类ABuilder、BBuilder和CBuilder表示。</p>
 <p>在本次请求中，所有需要访问数据源的类ABuilder、BBuilder和CBuilder都需要实现BaseBuilder接口和build方法。</p>
 <p>例如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ABuilder</span> <span class="keyword">implements</span> <span class="title">BaseBuilder</span>&lt;<span class="title">Request</span>, <span class="title">Response</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">build</span><span class="params">(Request request, Response response)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 获取A数据源的数据</span></span><br><span class="line">            A aResult = aservice.getA(request);</span><br><span class="line">            response.setA(aResult);</span><br><span class="line">        &#125; <span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">            <span class="comment">// 异常处理</span></span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">// 统计信息</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h6 id="第二步-定义线程池信息"><a href="#第二步-定义线程池信息" class="headerlink" title="第二步  定义线程池信息"></a>第二步  定义线程池信息</h6><p>定义类 BaseThreadPoolExecutor&lt;R, S&gt;</p>
+<h6 id="第二步-定义线程池信息"><a href="#第二步-定义线程池信息" class="headerlink" title="第二步  定义线程池信息"></a>第二步  定义线程池信息</h6><p>定义类 BaseThreadPoolExecutor<r, s></r,></p>
 <p>定义成员变量：线程池exec</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ExecutorService exec = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">32</span>, <span class="number">128</span>, <span class="number">200</span>, TimeUnit.MILLISECONDS, <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;(), <span class="keyword">new</span> ThreadPoolExecutor.AbortPolicy());</span><br></pre></td></tr></table></figure>
-
 <p>定义新增线程的方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPool</span><span class="params">(List&lt;Future&gt; futureList,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">final</span> BaseBuilder&lt;R, S&gt; baseBuild, <span class="keyword">final</span> R r, <span class="keyword">final</span> S s)</span> </span>&#123;</span><br><span class="line">​</span><br><span class="line">        Future&lt;Void&gt; future = exec.submit(<span class="keyword">new</span> Callable&lt;Void&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Void <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                baseBuild.build(r, s);</span><br><span class="line">                <span class="keyword">return</span> ;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        futureList.add(future);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>获取数据源结果的方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 获取Future结果</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> futureList</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> expireTime 总超时时间 </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getFutureList</span><span class="params">(List&lt;Future&gt; futureList, <span class="keyword">long</span> expireTime)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (Future ft : futureList) &#123;</span><br><span class="line">            Long start = System.nanoTime();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                ft.get(expireTime, TimeUnit.MILLISECONDS); <span class="comment">//阻塞，线程等待时间</span></span><br><span class="line">                Long timeUse = System.nanoTime() - start;</span><br><span class="line">                expireTime = expireTime - timeUse;</span><br><span class="line">                <span class="keyword">if</span> (expireTime &lt; <span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> XXXException(<span class="string">"time out"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                ft.cancel(<span class="keyword">false</span>);</span><br><span class="line">                LoggerUtils.error(logger, e, <span class="string">""</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h6 id="第三步-调用"><a href="#第三步-调用" class="headerlink" title="第三步 调用"></a>第三步 调用</h6><p>实例化BaseThreadPoolExecutor，并注入</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource</span></span><br><span class="line"><span class="keyword">private</span> BaseThreadPoolExecutor&lt;Request, Response&gt; baseThreadPoolExecutor; <span class="comment">//成员变量</span></span><br></pre></td></tr></table></figure>
-
 <p>在某个方法里开启多线程逻辑</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">List&lt;Future&gt; futureList = Lists.newArrayList();</span><br><span class="line">baseThreadPoolExecutor.addPool(futureList, ABuilder, context, response);</span><br><span class="line">baseThreadPoolExecutor.addPool(futureList, BBuilder, context, response);</span><br><span class="line">baseThreadPoolExecutor.addPool(futureList, CBuilder, context, response);</span><br><span class="line">baseThreadPoolExecutor.getFutureList(futureList, <span class="number">3000000L</span>); <span class="comment">//超时时间为3000000s。</span></span><br></pre></td></tr></table></figure>
-
 <p>此时response中就有我们需要的三个数据源A、B、C的数据了。当然，如果没有就超时或者报错了。</p>
 <p>note：共同对response操作时，最好不要对同一个成员变量操作，以防止线程安全问题的出现。</p>
 <h5 id="五、如何合理配置线程池的大小"><a href="#五、如何合理配置线程池的大小" class="headerlink" title="五、如何合理配置线程池的大小"></a>五、如何合理配置线程池的大小</h5><p>一般需要根据任务的类型来配置线程池大小，目标是整体上保证CPU不要闲着：</p>
@@ -492,6 +483,44 @@
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -543,7 +572,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -560,7 +589,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -626,6 +655,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -726,10 +771,47 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

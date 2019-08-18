@@ -309,6 +309,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
           
 
@@ -327,7 +332,6 @@
 <p>本文主要解释nginx.conf如何配置，和为什么这样配置。</p>
 </blockquote>
 <a id="more"></a>
-
 <h4 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h4><h5 id="1、HTTP代理和反向代理"><a href="#1、HTTP代理和反向代理" class="headerlink" title="1、HTTP代理和反向代理"></a>1、HTTP代理和反向代理</h5><p>先不说教科书上的文绉绉的字段，我也记不住。</p>
 <blockquote>
 <p>我只说的我的理解：代理，相当于一个中间层，将服务的提供者和服务的使用者隔开。</p>
@@ -354,8 +358,6 @@
 <li>一方面，是将单一的重负载分担到多个网络节点上做并行处理，节点将任务处理完毕后汇总返回，这样提高网络系统的处理能力。我感觉，Elasticsearch这种搜索引擎就是采用这种”分而治之”思想。但是这种问题，需要能够划分成子问题。</li>
 <li>另一方面，将大量前端并发访问分担到后端各个服务器节点上分别处理，这样可以有效减少前端用户的等待时间，减轻单机压力。Nginx服务器就是这种。</li>
 </ul>
-</blockquote>
-<blockquote>
 <p>Nginx服务器的负载均衡策略有很多，可以分为两个部分：</p>
 <ul>
 <li>内置策略：包括轮询、加权轮询、IP Hash。</li>
@@ -364,15 +366,12 @@
 </blockquote>
 <h5 id="3、Web缓存"><a href="#3、Web缓存" class="headerlink" title="3、Web缓存"></a>3、Web缓存</h5><p>作为前置的服务器，可以缓存前端请求，将页面静态文件等资源缓存，从而提高性能。</p>
 <h4 id="二、配置文件的基本结构"><a href="#二、配置文件的基本结构" class="headerlink" title="二、配置文件的基本结构"></a>二、配置文件的基本结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">work_process 1;</span><br><span class="line"></span><br><span class="line">events&#123;</span><br><span class="line">    worker_connections 10240;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http&#123;</span><br><span class="line">    include             mine.types;</span><br><span class="line">    default_type        application/octet-stream;</span><br><span class="line">    sendfile            on;</span><br><span class="line">    keepalive_timeout   60;</span><br><span class="line">    server&#123;</span><br><span class="line">        listen          80;</span><br><span class="line">        server_name     localhost;</span><br><span class="line">        location / &#123;</span><br><span class="line">            root html;</span><br><span class="line">            index index.html</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>上述配置文件中，将配置文件的骨架抽离出来了。<br>所有的配置和编程语言一样，括号外面的全局生效，里面的在{}范围内生效，出现冲突，也遵循就近原则。<br>整体上可以看成:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">--nginx.conf</span><br><span class="line">    --全局块</span><br><span class="line">    --events块</span><br><span class="line">    --http块</span><br><span class="line">        --http全局块</span><br><span class="line">        --server块1</span><br><span class="line">        --server块2</span><br><span class="line">        --server块n</span><br></pre></td></tr></table></figure>
-
 <h5 id="1、全局块："><a href="#1、全局块：" class="headerlink" title="1、全局块："></a>1、全局块：</h5><blockquote>
 <p>影响全局，比如work_process指的是nginx可以生成几个进程共同处理请求。官方文档建议是1个，但是出于性能考虑，我认为和计算机的CPU核数相同就好。</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">worker_process 2;     #存在2个work进程处理请求</span><br></pre></td></tr></table></figure>
-
 <h5 id="2、events块"><a href="#2、events块" class="headerlink" title="2、events块"></a>2、events块</h5><blockquote>
 <p>影响Nginx服务器与用户的网络连接。</p>
 </blockquote>
@@ -387,7 +386,6 @@
 <p>处理方案:将接受连接的进程进行序列化，避免争抢。配置如下：</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">accept_mutex on|off;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>是否允许接受多个网络连接<blockquote>
 <p>每个 work process是否接受多个连接，配置如下：</p>
@@ -395,7 +393,6 @@
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">multi_accept on|off;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>选取哪一种事件驱动模型处理连接请求<blockquote>
 <p>将每个消息看成一个事件，当消息来临时。采用什么样的方式处理该事件。有select、poll和epoll等方式。配置如下：</p>
@@ -403,12 +400,10 @@
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use method;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>每个work process可以同时支持的最大连接数目</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">worker_connections 512;</span><br></pre></td></tr></table></figure>
-
 <h5 id="3、http块"><a href="#3、http块" class="headerlink" title="3、http块"></a>3、http块</h5><blockquote>
 <p>重要部分！代理、缓存、日志定义等绝大多数功能都在其中。</p>
 <ul>
@@ -416,7 +411,6 @@
 </ul>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">include         mime.types</span><br><span class="line">default_type    application/octet-stream #处理类型</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><p>日志自定义。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">access_log path [format[buffer=size]]</span><br></pre></td></tr></table></figure>
@@ -429,29 +423,20 @@
 </li>
 <li><p>单连接请求数上限。通过某一连接发送的次数，默认100</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keepalive_requests number;</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
 <h5 id="4、server块"><a href="#4、server块" class="headerlink" title="4、server块"></a>4、server块</h5><p>server块 代表虚拟主机的概念。目的是节约硬件成本，用一台主机对外可以表现出多个机器的感觉。</p>
 <p>每个server块 就相当于一台虚拟主机。</p>
 <ul>
 <li>配置监听<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">listen 80;</span><br><span class="line">server_name ip|域名;</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
 <h5 id="5、location块"><a href="#5、location块" class="headerlink" title="5、location块"></a>5、location块</h5><p>其实是server块中的一个命令，用来匹配请求，然后对该请求进行重写、转发等功能。正则匹配url后进行处理。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    proxy_pass http://defaultServer ; #将请求分发给defaultServer  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h4 id="三、Nginx服务器事件驱动模型"><a href="#三、Nginx服务器事件驱动模型" class="headerlink" title="三、Nginx服务器事件驱动模型"></a>三、Nginx服务器事件驱动模型</h4><blockquote>
 <p>记得有一次面试，面试官是网易金融的架构师。问到了事件驱动模型，我一脸懵逼，囧。所以现在遇到了，单独拉出来记录一下。</p>
-</blockquote>
-<blockquote>
 <p>在Java的SpringMVC那一套中，每个请求都是实打实的请求request，然后交给dispacherServlet来处理各个请求。Servlet就一个实例。然后nginx采用的这套模型和java中的不同。</p>
-</blockquote>
-<blockquote>
 <p>事件驱动模型是由<strong>事件收集器、事件发送器和事件处理器</strong>三部分基本单元构成。</p>
-</blockquote>
-<blockquote>
 <p>在nginx中，基于事件驱动模型，这些消息事件在“事件处理器”中采用的方式是：</p>
 <ul>
 <li>“事件发送器”每传递过来一个请求，“消息事件”就将其放到一个待处理的事件的列表中，使用非阻塞I/O方式调用“事件处理器”来处理请求。</li>
@@ -467,8 +452,6 @@
 <h5 id="3、epoll模型"><a href="#3、epoll模型" class="headerlink" title="3、epoll模型"></a>3、epoll模型</h5><p>epoll是poll的变种，非常优秀！<br>之前的流程是 创建事件列表-&gt;将列表传入内核-&gt;返回结果后轮询列表；<br>当列表事件很多时，效率较低。<br>epoll让内核创建事件描述符。事件发生后，内核将事件的描述符返回给epoll，从而进行处理。所以没有轮询操作。</p>
 <h4 id="四、参考-amp-致谢"><a href="#四、参考-amp-致谢" class="headerlink" title="四、参考&amp;致谢"></a>四、参考&amp;致谢</h4><blockquote>
 <p>《Nginx高性能Web服务器详解》   苗泽编著</p>
-</blockquote>
-<blockquote>
 <p>《Mastering Nginx》                  [瑞士]Dimitri Aivaliotis 著</p>
 </blockquote>
 
@@ -532,6 +515,44 @@
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -583,7 +604,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -600,7 +621,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -666,6 +687,22 @@
 
 
         
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
 
         
       </div>
@@ -766,10 +803,47 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 
