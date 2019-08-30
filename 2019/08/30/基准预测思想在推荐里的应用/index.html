@@ -42,7 +42,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="实习,">
+  <meta name="keywords" content="推荐系统,机器学习,">
 
 
 
@@ -58,18 +58,20 @@
 
 
 
-<meta name="description" content="由于前端需要用jsonp的格式，之前没用过。特此在网上查了一下，并把学习的内容和大家分享一下。">
-<meta name="keywords" content="实习">
+<meta name="description" content="介绍基准预测思想在推荐里的应用">
+<meta name="keywords" content="推荐系统,机器学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于JSONP的原理">
-<meta property="og:url" content="http://yoursite.com/2016/10/15/关于JSONP的原理/index.html">
+<meta property="og:title" content="基准预测思想在推荐里的应用">
+<meta property="og:url" content="http://yoursite.com/2019/08/30/基准预测思想在推荐里的应用/index.html">
 <meta property="og:site_name" content="飞鸿踏雪泥">
-<meta property="og:description" content="由于前端需要用jsonp的格式，之前没用过。特此在网上查了一下，并把学习的内容和大家分享一下。">
+<meta property="og:description" content="介绍基准预测思想在推荐里的应用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-10T05:08:01.602Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6h2dyvnq9j30wi0u016x.jpg">
+<meta property="og:updated_time" content="2019-08-30T04:36:00.454Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于JSONP的原理">
-<meta name="twitter:description" content="由于前端需要用jsonp的格式，之前没用过。特此在网上查了一下，并把学习的内容和大家分享一下。">
+<meta name="twitter:title" content="基准预测思想在推荐里的应用">
+<meta name="twitter:description" content="介绍基准预测思想在推荐里的应用">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6h2dyvnq9j30wi0u016x.jpg">
 
 
 
@@ -101,7 +103,7 @@
 
 
 
-  <title> 关于JSONP的原理 | 飞鸿踏雪泥 </title>
+  <title> 基准预测思想在推荐里的应用 | 飞鸿踏雪泥 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -232,7 +234,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/15/关于JSONP的原理/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/30/基准预测思想在推荐里的应用/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chengshuo">
@@ -256,7 +258,7 @@
             
             
               
-                关于JSONP的原理
+                基准预测思想在推荐里的应用
               
             
           </h1>
@@ -269,8 +271,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-15T10:20:20+08:00">
-                2016-10-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-30T10:20:20+08:00">
+                2019-08-30
               </time>
             
 
@@ -329,33 +331,52 @@
 
       
         <blockquote>
-<p>由于前端需要用jsonp的格式，之前没用过。特此在网上查了一下，并把学习的内容和大家分享一下。</p>
+<p>介绍基准预测思想在推荐里的应用<br><a id="more"></a></p>
 </blockquote>
-<a id="more"></a>
-<h4 id="Json与Jsonp"><a href="#Json与Jsonp" class="headerlink" title="Json与Jsonp"></a>Json与Jsonp</h4><ul>
-<li><p>json</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">什么是json：</span><br><span class="line">Json 是一种基于文本的数据描述格式。</span><br><span class="line">    1. 基于纯文本，跨平台传递极其简单；</span><br><span class="line">    2. Javascript原生支持，后台语言几乎全部支持；</span><br><span class="line">    3. 轻量级数据格式，占用字符数量极少，特别适合互联网传递；</span><br><span class="line">    4. 可读性较强(合理的依次缩进之后)；</span><br><span class="line">    5. 容易编写和解析；</span><br><span class="line"></span><br><span class="line">json的格式：</span><br><span class="line">    1. JSON只有两种数据类型描述符，大括号&#123;&#125;和方括号[]，其余英文冒号:是映射符，英文逗号,是分隔符，英文双引号&quot;&quot;是定义符。</span><br><span class="line">    2. 大括号&#123;&#125;用来描述一组“不同类型的无序键值对集合”（每个键值对可以理解为OOP的属性描述），方括号[]用来描述一组“相同类型的有序数据集合”（可对应OOP的数组）。</span><br><span class="line">    3. 上述两种集合中若有多个子项，则通过英文逗号,进行分隔。</span><br><span class="line">    4. 键值对以英文冒号:进行分隔，并且建议键名都加上英文双引号”，以便于不同语言的解析。</span><br><span class="line">    5. JSON内部常用数据类型无非就是字符串、数字、布尔、日期、null，字符串必须用双引号引起来。</span><br><span class="line">　　JSON实例：</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Name&quot;: &quot;cheng&quot;,</span><br><span class="line">        &quot;Age&quot;: 24</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>jsonp</p>
-</li>
-</ul>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>接上文，<a href="https://www.jianshu.com/p/276a436ca7a9" target="_blank" rel="noopener">KNN在推荐领域的应用</a>文章里介绍了KNN在推荐系统里如何预测评分。但是，在实际用户评论时，每个用户都有自己的评分体系，有的用户要求相对苛刻，五分制的评分里一般只给到一二分，有的用户相对“心慈手软”一般会给到四五分。同时，对于电影来说，有的电影本身自带光环，随上映时间等因素也会有偏差。如何减少上述问题给预测带来的负面影响，本文将着重阐述。</p>
+<h3 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h3><p>无论是个体用户还是物品，评分普遍高于或低于平均值的差值，我们称为偏置(bias)。</p>
 <blockquote>
-<p>关于jsonp：我的理解是jsonp是一种借用json作为参数的 数据交换方式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">引入：</span><br><span class="line">    1. Ajax直接请求普通文件存在跨域无权限访问的问题。（JavaScript出于安全方面的考虑，不允许跨域调用其他页面的对象。eg：a.com 域名下的js无法操作b.com或是c.a.com域名下的对象。）</span><br><span class="line">    2. 但是，Web页面上调用js文件时则不受是否跨域的影响(具有src属性的标签都具有跨域的能力，iframe，image，script)</span><br><span class="line">    3. 所以,那就是在远程服务器上设法把数据（以json的格式）装进&lt;script&gt;的标签里，供前端处理。</span><br><span class="line">    4. 为了便于客户端使用数据，逐渐形成了一种非正式传输协议，人们把它称作JSONP。</span><br></pre></td></tr></table></figure></p>
+<p>所有电影的平均评分$\mu$（即全局平均评分）</p>
+<p>每个用户评分与平均评分$\mu$的偏置值$b_u$</p>
+<p>每部电影所接受的评分与平均评分$\mu$的偏置值$b_i$</p>
 </blockquote>
-<h4 id="代码原理示例"><a href="#代码原理示例" class="headerlink" title="代码原理示例"></a>代码原理示例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</span><br><span class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">    var localHandler = function(data)&#123;</span><br><span class="line">        alert(&apos;我是本地函数，远程js带来的数据是：&apos; + data.result);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;http://remoteserver.com/remote.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">    </span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"> </span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<p>服务器有个文件remote.js文件代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">localHandler(&#123;&quot;result&quot;:&quot;我是远程js带来的数据&quot;&#125;);</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">相当于服务器的文件remote.js里的localHandler(xxxx)触发了前端的localHandler(data)去执行。</span><br><span class="line">那么问题来了，服务器的文件remote.js是如何知道去调用前端的哪个函数呢？</span><br><span class="line">so，前端需要把函数名用get的方式?callback=localHandler传给服务器。</span><br><span class="line">服务器知道函数名称返回数据：localHandler(&#123;&quot;result&quot;:&quot;我是远程js带来的数据&quot;&#125;)。</span><br><span class="line">客户端接到数据（其实这数据就是一段代码）成功之后，把它放入&lt;script&gt;中执行即可。</span><br><span class="line"></span><br><span class="line">其实关于客户端的这些步骤jquery都封装好了。</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot; src=jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line"> jQuery(document).ready(function()&#123;</span><br><span class="line">    $.ajax(&#123;</span><br><span class="line">         type: &quot;get&quot;,</span><br><span class="line">         async: false,</span><br><span class="line">         url: &quot;http://flightQuery.com/jsonp/flightResult.aspx&quot;,</span><br><span class="line">         dataType: &quot;jsonp&quot;,</span><br><span class="line">         jsonp: &quot;callback&quot;,//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)</span><br><span class="line">         jsonpCallback:&quot;flightHandler&quot;,//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写&quot;?&quot;，jQuery会自动为你处理数据</span><br><span class="line">         success: function(json)&#123;</span><br><span class="line">             alert(&apos;你的名字&apos; + json.name);</span><br><span class="line">         &#125;,</span><br><span class="line">         error: function()&#123;</span><br><span class="line">             alert(&apos;fail&apos;);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;);</span><br><span class="line"> &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这里， jQuery可以自动生成的随机函数名。我会有个大大的疑问，类似与localHandler的回调函数我并没有写啊。其实，善解人意的jquery自动帮我生成回调函数并把数据取出来供success属性方法来调用。</p>
-<p>至此，jsonp的机制原理我就全明白了。</p>
-<p>上述资源、思想来源于互联网。</p>
-</blockquote>
-<p>感谢</p>
-<p><a href="http://kb.cnblogs.com/page/139725/" target="_blank" rel="noopener">http://kb.cnblogs.com/page/139725/</a></p>
-<p><a href="http://www.jb51.net/article/46463.htm" target="_blank" rel="noopener">http://www.jb51.net/article/46463.htm</a></p>
-<p><a href="http://www.cnblogs.com/rainman/archive/2011/02/20/1959325.html" target="_blank" rel="noopener">http://www.cnblogs.com/rainman/archive/2011/02/20/1959325.html</a></p>
+<p>那么，预测用户对电影的评分则是：</p>
+<script type="math/tex; mode=display">
+\hat{r}_{ui} = b_{ui} = \mu + b_u + b_i</script><p>举例<sup>[1]</sup>：</p>
+<p>​    比如我们想通过Baseline来预测用户A对电影“阿甘正传”的评分，那么首先计算出整个评分数据集的平均评分$\mu$是3.5分；而用户A是一个比较苛刻的用户，他的评分比较严格，普遍比平均评分低0.5分，即用户A的偏置值$b_i$是-0.5；而电影“阿甘正传”是一部比较热门而且备受好评的电影，它的评分普遍比平均评分要高1.2分，那么电影“阿甘正传”的偏置值$b_i$是+1.2，因此就可以预测出用户A对电影“阿甘正传”的评分为：$3.5+(-0.5)+1.2$，也就是4.2分。</p>
+<p><strong>由此而来，我们把预测某个用户对某个电影的评分，转变成求偏置参数$b_u$和$b_i$的最优解的线性回归问题。</strong></p>
+<p>代价函数是：</p>
+<script type="math/tex; mode=display">
+\begin{split}
+Cost &= \sum_{u,i\in R}(r_{ui}-\hat{r}_{ui})^2
+\\&=\sum_{u,i\in R}(r_{ui}-\mu-b_u-b_i)^2
+\end{split}</script><p>$r_{ui}$代表真实值，$\hat{r}_{ui}$代表预测值，该问题是保证在真实值与预测值误差最小的情况下，找到偏置参数$b_u$和$b_i$的最优解。</p>
+<p>最优化问题是应用数学的重要研究领域，主要研究在给定约束的情况下如何寻求某个因素，使某一指标达到最优。</p>
+<h3 id="梯度下降解法"><a href="#梯度下降解法" class="headerlink" title="梯度下降解法"></a>梯度下降解法</h3><p>如果将代价函数是 $y=k(x+b)^2$,求当y的最小值时，x应该为多少。这个问题很简单，属于高中数学。但是问题在复杂一些，变成$y=k(x+z+b)^2$，x和z 与将会组成一个三维图形。如何找到最低点，可以采用一个逐步逼近的策略，即梯度下降。具体可以参见<a href="https://www.jianshu.com/p/c7e642877b0e" target="_blank" rel="noopener">深入浅出—梯度下降法及其实现</a>。</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6h2dyvnq9j30wi0u016x.jpg" alt="image-20190830012131423"></p>
+<h4 id="推导过程"><a href="#推导过程" class="headerlink" title="推导过程"></a>推导过程</h4><p>损失函数：</p>
+<script type="math/tex; mode=display">
+\begin{split}
+&J(\theta)=Cost=f(b_u, b_i)\\
+\\
+&J(\theta)=\sum_{u,i\in R}(r_{ui}-\mu-b_u-b_i)^2 + \lambda*(\sum_u {b_u}^2 + \sum_i {b_i}^2)
+\end{split}</script><p>梯度下降参数更新原始公式：</p>
+<script type="math/tex; mode=display">
+\theta_j:=\theta_j-\alpha\cfrac{\partial }{\partial \theta_j}J(\theta)</script><p>梯度下降更新$b_u$:</p>
+<p>​    损失函数偏导推导：</p>
+<script type="math/tex; mode=display">
+\begin{split}
+\cfrac{\partial}{\partial b_u} J(\theta)&=\cfrac{\partial}{\partial b_u} f(b_u, b_i)
+\\&=2\sum_{u,i\in R}(r_{ui}-\mu-b_u-b_i)(-1) + 2\lambda{b_u}
+\\&=-2\sum_{u,i\in R}(r_{ui}-\mu-b_u-b_i) + 2\lambda*b_u
+\end{split}</script><p>​    $b_u$更新(因为alpha可以人为控制，所以2可以省略掉)：</p>
+<script type="math/tex; mode=display">
+\begin{split}
+b_u&:=b_u - \alpha*(-\sum_{u,i\in R}(r_{ui}-\mu-b_u-b_i) + \lambda * b_u)\\
+&:=b_u + \alpha*(\sum_{u,i\in R}(r_{ui}-\mu-b_u-b_i) - \lambda* b_u)
+\end{split}</script><p>同理可得，梯度下降更新$b_i$:</p>
+<script type="math/tex; mode=display">
+b_i:=b_i + \alpha*(\sum_{u,i\in R}(r_{ui}-\mu-b_u-b_i) -\lambda*b_i)</script><h6 id><a href="#" class="headerlink" title=" "></a> </h6><h3 id="代码说明"><a href="#代码说明" class="headerlink" title="代码说明"></a>代码说明</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 数据加载</span></span><br><span class="line">dtype = [(<span class="string">"userId"</span>, np.int32), (<span class="string">"movieId"</span>, np.int32), (<span class="string">"rating"</span>, np.float32)]</span><br><span class="line">dataset = pd.read_csv(<span class="string">"./data/ml-latest-small/ratings.csv"</span>, usecols=range(<span class="number">3</span>), dtype=dict(dtype))</span><br><span class="line">print(dataset.head())</span><br><span class="line">users_ratings = dataset.groupby(<span class="string">"userId"</span>).agg([list])</span><br><span class="line">print(users_ratings.head())</span><br><span class="line">items_ratings = dataset.groupby(<span class="string">"movieId"</span>).agg([list])</span><br><span class="line">print(items_ratings.head())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算全局的平均分</span></span><br><span class="line">global_mean = dataset[<span class="string">'rating'</span>].mean()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化bu bi</span></span><br><span class="line">bu = dict(zip(users_ratings.index, np.zeros(len(users_ratings.index))))</span><br><span class="line">bi = dict(zip(items_ratings.index, np.zeros(len(items_ratings.index))))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    print(<span class="string">'iter%d'</span> % i)</span><br><span class="line">    <span class="keyword">for</span> uid, iid, real_rating <span class="keyword">in</span> dataset.itertuples(index=<span class="literal">False</span>):</span><br><span class="line">        <span class="comment"># 计算损失</span></span><br><span class="line">        error = real_rating - (global_mean + bu[uid] + bi[iid])</span><br><span class="line">        bu[uid] += <span class="number">0.1</span> * (error - <span class="number">0.1</span> * bu[uid])</span><br><span class="line">        bi[iid] += <span class="number">0.1</span> * (error - <span class="number">0.1</span> * bi[iid])</span><br><span class="line"></span><br><span class="line">print(bu)</span><br><span class="line">print(bi)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测评分</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predit</span><span class="params">(uid, iid)</span>:</span></span><br><span class="line">    predit_rating = global_mean + bu[uid] + bi[iid]</span><br><span class="line">    <span class="keyword">return</span> predit_rating</span><br><span class="line"></span><br><span class="line">print(predit(<span class="number">1</span>,<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -379,7 +400,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/实习/" rel="tag"># 实习</a>
+            <a href="/tags/推荐系统/" rel="tag"># 推荐系统</a>
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
           
         </div>
       
@@ -388,8 +411,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/08/实习两周技术回顾/" rel="next" title="实习两周技术回顾">
-                <i class="fa fa-chevron-left"></i> 实习两周技术回顾
+              <a href="/2019/08/28/推荐系统的引入/" rel="next" title>
+                <i class="fa fa-chevron-left"></i> 
               </a>
             
           </div>
@@ -398,8 +421,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/11/24/我的秒杀总结/" rel="prev" title="我的秒杀总结">
-                我的秒杀总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/30/KNN在推荐领域的应用/" rel="prev" title="KNN在推荐领域的应用">
+                KNN在推荐领域的应用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -556,7 +579,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Json与Jsonp"><span class="nav-number">1.</span> <span class="nav-text">Json与Jsonp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码原理示例"><span class="nav-number">2.</span> <span class="nav-text">代码原理示例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决思路"><span class="nav-number">2.</span> <span class="nav-text">解决思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度下降解法"><span class="nav-number">3.</span> <span class="nav-text">梯度下降解法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#推导过程"><span class="nav-number">3.1.</span> <span class="nav-text">推导过程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#null"><span class="nav-number">3.1.0.1.</span> <span class="nav-text"> </span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#代码说明"><span class="nav-number">4.</span> <span class="nav-text">代码说明</span></a></li></div>
             
 
           </div>
