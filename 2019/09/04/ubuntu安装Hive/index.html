@@ -66,14 +66,14 @@
 <meta property="og:site_name" content="飞鸿踏雪泥">
 <meta property="og:description" content="为了方便的使用hdfs，我安装个hive，记录如下。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6nsfu29i6j314g04iq4a.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6nsfwcp7ij314g04iq4a.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6nswg6jluj314i0o8nbh.jpg">
-<meta property="og:updated_time" content="2019-09-04T13:33:26.367Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6ntd70athj314g04ijsq.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6ntd5uy85j314g04ijsq.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6ntd6ba2tj314g04ijsq.jpg">
+<meta property="og:updated_time" content="2019-09-04T13:57:06.101Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu16安装HIVE全程记录">
 <meta name="twitter:description" content="为了方便的使用hdfs，我安装个hive，记录如下。">
-<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6nsfu29i6j314g04iq4a.jpg">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6ntd70athj314g04ijsq.jpg">
 
 
 
@@ -344,14 +344,16 @@
 <h3 id="安装-数据获取"><a href="#安装-数据获取" class="headerlink" title="安装-数据获取"></a>安装-数据获取</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz</span><br></pre></td></tr></table></figure>
 <p>然后解压</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf apache-hive-3.1.2-bin.tar.gz</span><br></pre></td></tr></table></figure>
-<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6nsfu29i6j314g04iq4a.jpg" alt="image-20190904154919744"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6ntd70athj314g04ijsq.jpg" alt="image-20190904154919744"></p>
 <h3 id="安装-配置"><a href="#安装-配置" class="headerlink" title="安装-配置"></a>安装-配置</h3><ol>
 <li><p>hive conf 配置</p>
 <p>进入到 解压后的hive目录 找到 conf目录, 修改配置文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp hive-env.sh.template hive-env.sh</span><br><span class="line">vi hive-env.sh</span><br></pre></td></tr></table></figure>
 <p>在hive-env.sh中指定hadoop的路径</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HADOOP_HOME=/home/parallels/app/hadoop-3.1.2</span><br></pre></td></tr></table></figure>
-<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6nsfwcp7ij314g04iq4a.jpg" alt="image-20190904155205013"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6ntd5uy85j314g04ijsq.jpg" alt="image-20190904155205013"></p>
+<p>在系统环境变量里添加(我的是在 ~/.bashrc) 并 source该文件，使其生效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HIVE_HOME=/home/hadoop/app/hive-1.1.0-cdh5.7.0</span><br><span class="line">export PATH=$HIVE_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <ol>
@@ -384,7 +386,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hive --service metastore</span><br></pre></td></tr></table></figure>
 <p>然后执行hive命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hive</span><br></pre></td></tr></table></figure>
-<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6nswg6jluj314i0o8nbh.jpg" alt="image-20190904212215830"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6ntd6ba2tj314g04ijsq.jpg" alt="image-20190904212215830"></p>
 <p>如果没有得到你想要的结果，请在你配置的property.hive.log.dir路径下查看日志，比上网查找原因有用多了，因为配置项比较多，每个人的原因不尽相同。</p>
 <p>比如我，进入hive后，在show databases; 总是提示：Unable to instantiate org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient，后面经过排查是没有初始化mysql的元数据信息。同时，网上因版本问题，配置的方法可能并不适用，自己多看日志多思考。</p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>ubuntu16.04中开启和关闭防火墙 </p>
