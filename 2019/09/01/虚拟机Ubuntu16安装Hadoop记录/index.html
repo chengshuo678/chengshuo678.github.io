@@ -66,17 +66,19 @@
 <meta property="og:site_name" content="飞鸿踏雪泥">
 <meta property="og:description" content="之前安装过但是没有形成文档，这次在虚拟机上重新安装，写个文档记录一下。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p1nmo6j31gu03m758.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p2lk0qj31ig0o6ago.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7ozjj3mj31fy03ujsk.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p08um2j31ik0oudmj.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p189tnj31ca070aco.jpg">
-<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p22radj314e0ac418.jpg">
-<meta property="og:updated_time" content="2019-09-04T01:55:28.588Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85q0jlxj31gu03m758.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85r9yavj31ig0o6dmg.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85qbwrzj31fy03ujsk.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85qw1bcj31ik0ougsb.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85rpnksj31ca070aco.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85s6ewlj314e0ac418.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6naeq5szbj322n0u0h1z.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6naf2eq7bj323o0oowml.jpg">
+<meta property="og:updated_time" content="2019-09-04T13:52:36.856Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="虚拟机Ubuntu16安装Hadoop记录">
 <meta name="twitter:description" content="之前安装过但是没有形成文档，这次在虚拟机上重新安装，写个文档记录一下。">
-<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p1nmo6j31gu03m758.jpg">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85q0jlxj31gu03m758.jpg">
 
 
 
@@ -342,12 +344,12 @@
 <h3 id="JDK的安装"><a href="#JDK的安装" class="headerlink" title="JDK的安装"></a>JDK的安装</h3><ol>
 <li><p>jdk获取(网上找的资源，官网比较慢，近期还需要登录): <a href="https://pan.baidu.com/s/18IicPYf7W0j-sHBXvfKyyg" target="_blank" rel="noopener">百度网盘</a>，下载后并解压至 你想要安装的目录。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf jdk-8u161-linux-x64.tar.gz</span><br></pre></td></tr></table></figure>
-<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p1nmo6j31gu03m758.jpg" alt="image-20190902153125453"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85q0jlxj31gu03m758.jpg" alt="image-20190902153125453"></p>
 </li>
 <li><p>环境变量配置(<strong>在~/.bashrc 最下面添加</strong>)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#set java evironment </span><br><span class="line">export JAVA_HOME=/home/parallels/app/jdk1.8.0_161</span><br><span class="line">export CLASSPATH=.$JAVA_HOME/lib/dt.jar:JAVA_HOME/lib/tools.jar</span><br><span class="line">export PATH=$JAVA_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
 <p>注意：JAVA_HOME<strong>需要改成解压后所在的目录</strong></p>
-<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p2lk0qj31ig0o6ago.jpg" alt="image-20190902161002701"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85r9yavj31ig0o6dmg.jpg" alt="image-20190902161002701"></p>
 <p>注意：如果无法编辑，记得前面加sudo， <strong>记得保存wq</strong></p>
 </li>
 <li><p>配置生效</p>
@@ -355,7 +357,7 @@
 </li>
 <li><p>检验</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
-<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7ozjj3mj31fy03ujsk.jpg" alt="image-20190902161224672"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85qbwrzj31fy03ujsk.jpg" alt="image-20190902161224672"></p>
 <p>返回如上结果，JDK安装完毕。</p>
 </li>
 </ol>
@@ -365,7 +367,7 @@
 </li>
 <li><p>设置环境变量（~/.bashrc）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export HADOOP_HOME=/home/parallels/app/hadoop-3.1.2</span><br><span class="line">export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH</span><br></pre></td></tr></table></figure>
-<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p08um2j31ik0oudmj.jpg" alt="image-20190902163351443"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85qw1bcj31ik0ougsb.jpg" alt="image-20190902163351443"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc  ## source一下，使之生效。</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>配置（../etc/hadoop/）</p>
@@ -389,7 +391,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/start-dfs.sh</span><br></pre></td></tr></table></figure>
 <ol>
 <li><p>提示出错（没有则跳过）</p>
-<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p189tnj31ca070aco.jpg" alt="image-20190902165318600"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85rpnksj31ca070aco.jpg" alt="image-20190902165318600"></p>
 <p>解决：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -e|grep ssh</span><br></pre></td></tr></table></figure>
 <p>没有返回，则可能没有安装ssh, 则安装ssh</p>
@@ -414,10 +416,10 @@
 </li>
 </ol>
 <p>启动成功后显示</p>
-<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n7p22radj314e0ac418.jpg" alt="image-20190904085030339"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6n85s6ewlj314e0ac418.jpg" alt="image-20190904085030339"></p>
 </li>
 </ol>
-<h3 id="HDFS-shell操作练习"><a href="#HDFS-shell操作练习" class="headerlink" title="HDFS shell操作练习"></a>HDFS shell操作练习</h3><ul>
+<h3 id="HDFS-shell操作"><a href="#HDFS-shell操作" class="headerlink" title="HDFS shell操作"></a>HDFS shell操作</h3><ul>
 <li><p>在centos 中创建 test.txt  </p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch test.txt</span><br></pre></td></tr></table></figure>
 </li>
@@ -440,10 +442,26 @@
 <p>hadoop fs -rm -r /hadoop001</p>
 </li>
 </ul>
+<h3 id="页面访问"><a href="#页面访问" class="headerlink" title="页面访问"></a>页面访问</h3><p>因为hadoop用的是3.1版本</p>
+<p>对应的web访问链接是</p>
+<ul>
+<li><p><a href="http://localhost:8088" target="_blank" rel="noopener">http://localhost:8088</a></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6naeq5szbj322n0u0h1z.jpg" alt="image-20190904104242706"></p>
+</li>
+<li><p><a href="http://localhost:9870" target="_blank" rel="noopener">http://localhost:9870</a></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6naf2eq7bj323o0oowml.jpg" alt="image-20190904104301551"></p>
+</li>
+</ul>
+<p>端口不是50070</p>
+<h3 id="坑点"><a href="#坑点" class="headerlink" title="坑点"></a>坑点</h3><p>我配置mysql、hive后，重启一次，发现namenode没有启动起来，<a href="http://localhost:9870无法访问，后来在hdfs-site.xml" target="_blank" rel="noopener">http://localhost:9870无法访问，后来在hdfs-site.xml</a> 在 configuration节点中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;/home/hadoop/app/tmp/dfs/name&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;/home/hadoop/app/tmp/dfs/data&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br></pre></td></tr></table></figure>
+<p>然后有运行了一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop namenode -format</span><br></pre></td></tr></table></figure>
+<p>重新启动才好。但是在启动日志里没有发现异常，坑点。</p>
 <h3 id="参考-amp-致谢"><a href="#参考-amp-致谢" class="headerlink" title="参考&amp;致谢"></a>参考&amp;致谢</h3><p><a href="https://blog.csdn.net/qq_32635069/article/details/80859790" target="_blank" rel="noopener">安装hadoop3.0版本踩坑</a></p>
 <p><a href="https://blog.csdn.net/Mr_Lon/article/details/88198119" target="_blank" rel="noopener">localhost: Permission denied</a></p>
 <p><a href="https://blog.csdn.net/situliang/article/details/72904449" target="_blank" rel="noopener">Ubuntu下搭建hadoop出现Permission denied</a></p>
-<p><a href="https://blog.csdn.net/qq_35614920/article/details/80526376" target="_blank" rel="noopener">Ubuntu16.04下Hadoop3.1的安装与配置</a></p>
+<p><a href="https://blog.csdn.net/qq_35614920/article/details/80526376" target="_blank" rel="noopener">Ubuntu16.04下Hadoop3.1的安装与配置</a><a href="https://blog.csdn.net/qq_35614920/article/details/80526376" target="_blank" rel="noopener">https://blog.csdn.net/qq_35614920/article/details/80526376</a>)</p>
 
       
     </div>
@@ -644,7 +662,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK的安装"><span class="nav-number">1.</span> <span class="nav-text">JDK的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop的安装"><span class="nav-number">2.</span> <span class="nav-text">Hadoop的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDFS-shell操作练习"><span class="nav-number">3.</span> <span class="nav-text">HDFS shell操作练习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考-amp-致谢"><span class="nav-number">4.</span> <span class="nav-text">参考&amp;致谢</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK的安装"><span class="nav-number">1.</span> <span class="nav-text">JDK的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop的安装"><span class="nav-number">2.</span> <span class="nav-text">Hadoop的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDFS-shell操作"><span class="nav-number">3.</span> <span class="nav-text">HDFS shell操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面访问"><span class="nav-number">4.</span> <span class="nav-text">页面访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#坑点"><span class="nav-number">5.</span> <span class="nav-text">坑点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考-amp-致谢"><span class="nav-number">6.</span> <span class="nav-text">参考&amp;致谢</span></a></li></ol></div>
             
 
           </div>
