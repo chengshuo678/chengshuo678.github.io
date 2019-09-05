@@ -45,8 +45,8 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     translation: {
       copy_button: '复制',
@@ -58,7 +58,7 @@
 </script>
 
   <meta name="description" content="博观而约取">
-<meta name="keywords" content="Java">
+<meta name="keywords" content="Java,张城硕,博客">
 <meta property="og:type" content="website">
 <meta property="og:title" content="tags">
 <meta property="og:url" content="http://yoursite.com/tags/index.html">
@@ -134,6 +134,8 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+        <h1 class="site-subtitle" itemprop="description">张城硕的博客</h1>
+      
   </div>
 
   <div class="site-nav-toggle">
@@ -204,9 +206,36 @@
     <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -275,7 +304,7 @@
             </div>
             <div class="tag-cloud-tags">
               
-                <a href="/tags/HBase/" style="font-size: 12px; color: #ccc">HBase</a> <a href="/tags/Hadoop/" style="font-size: 12px; color: #ccc">Hadoop</a> <a href="/tags/Hive/" style="font-size: 15.6px; color: #a7a7a7">Hive</a> <a href="/tags/Java/" style="font-size: 19.2px; color: #818181">Java</a> <a href="/tags/Linux/" style="font-size: 12px; color: #ccc">Linux</a> <a href="/tags/MySQL/" style="font-size: 12px; color: #ccc">MySQL</a> <a href="/tags/Nginx/" style="font-size: 19.2px; color: #818181">Nginx</a> <a href="/tags/Numpy/" style="font-size: 22.8px; color: #5c5c5c">Numpy</a> <a href="/tags/TCP/" style="font-size: 12px; color: #ccc">TCP</a> <a href="/tags/实习/" style="font-size: 26.4px; color: #363636">实习</a> <a href="/tags/想法/" style="font-size: 15.6px; color: #a7a7a7">想法</a> <a href="/tags/感悟/" style="font-size: 15.6px; color: #a7a7a7">感悟</a> <a href="/tags/推荐系统/" style="font-size: 19.2px; color: #818181">推荐系统</a> <a href="/tags/整理/" style="font-size: 12px; color: #ccc">整理</a> <a href="/tags/机器学习/" style="font-size: 30px; color: #111">机器学习</a> <a href="/tags/校园/" style="font-size: 26.4px; color: #363636">校园</a> <a href="/tags/生活/" style="font-size: 12px; color: #ccc">生活</a> <a href="/tags/线性回归/" style="font-size: 12px; color: #ccc">线性回归</a> <a href="/tags/设计模式/" style="font-size: 12px; color: #ccc">设计模式</a>
+                <a href="/tags/HBase/" style="font-size: 14px; color: #ccc">HBase</a> <a href="/tags/Hadoop/" style="font-size: 14px; color: #ccc">Hadoop</a> <a href="/tags/Hive/" style="font-size: 17.2px; color: #a7a7a7">Hive</a> <a href="/tags/Java/" style="font-size: 20.4px; color: #818181">Java</a> <a href="/tags/Linux/" style="font-size: 14px; color: #ccc">Linux</a> <a href="/tags/MySQL/" style="font-size: 14px; color: #ccc">MySQL</a> <a href="/tags/Nginx/" style="font-size: 20.4px; color: #818181">Nginx</a> <a href="/tags/Numpy/" style="font-size: 23.6px; color: #5c5c5c">Numpy</a> <a href="/tags/TCP/" style="font-size: 14px; color: #ccc">TCP</a> <a href="/tags/实习/" style="font-size: 26.8px; color: #363636">实习</a> <a href="/tags/想法/" style="font-size: 17.2px; color: #a7a7a7">想法</a> <a href="/tags/感悟/" style="font-size: 17.2px; color: #a7a7a7">感悟</a> <a href="/tags/推荐系统/" style="font-size: 20.4px; color: #818181">推荐系统</a> <a href="/tags/整理/" style="font-size: 14px; color: #ccc">整理</a> <a href="/tags/机器学习/" style="font-size: 30px; color: #111">机器学习</a> <a href="/tags/校园/" style="font-size: 26.8px; color: #363636">校园</a> <a href="/tags/生活/" style="font-size: 14px; color: #ccc">生活</a> <a href="/tags/线性回归/" style="font-size: 14px; color: #ccc">线性回归</a> <a href="/tags/设计模式/" style="font-size: 14px; color: #ccc">设计模式</a>
               
             </div>
           </div>
@@ -440,6 +469,9 @@
   
 
 
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js?v=3.1.0"></script>
   <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
@@ -466,6 +498,8 @@
 
 
 
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
 
 
 
