@@ -67,7 +67,8 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6qy2h4rk6j314u0piam7.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6r47ljlg1j31no0dowi8.jpg">
-<meta property="og:updated_time" content="2019-09-07T10:10:37.058Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g6r9dhtyamj30u014s112.jpg">
+<meta property="og:updated_time" content="2019-09-07T13:09:17.151Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark引入与理解">
 <meta name="twitter:description" content="Spark学习">
@@ -306,7 +307,7 @@
                 
               
 
-              <time title="创建时间：2019-09-07 14:00:00 / 修改时间：18:10:37" itemprop="dateCreated datePublished" datetime="2019-09-07T14:00:00+08:00">2019-09-07</time>
+              <time title="创建时间：2019-09-07 14:00:00 / 修改时间：21:09:17" itemprop="dateCreated datePublished" datetime="2019-09-07T14:00:00+08:00">2019-09-07</time>
             </span>
           
             
@@ -383,7 +384,7 @@
 <p>添加如下两行（Java home 路径）：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/lib/jdk/jdk1.8.0_144 </span><br><span class="line">SPARK_WORKER_MEMORY=2g</span><br></pre></td></tr></table></figure>
 <p>vi ~/.bashrc</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export SPARK_HOME=/home/parallels/app/spark-2.4.4-bin-hadoop2.7</span><br><span class="line">export PATH=$SPARK_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export SPARK_HOME=/home/parallels/app/spark-2.4.4-bin-hadoop2.7</span><br><span class="line">export PATH=$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH</span><br></pre></td></tr></table></figure>
 <h4 id="进入"><a href="#进入" class="headerlink" title="进入"></a>进入</h4><p>命令行终端输入后，可以进行使用。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark-shell</span><br></pre></td></tr></table></figure>
 <p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6qy2h4rk6j314u0piam7.jpg" alt="image-20190907143800988"></p>
@@ -391,7 +392,16 @@
 <p>在PyCharm创建一个DataFrame如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> SparkSession</span><br><span class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> Row</span><br><span class="line"></span><br><span class="line">spark = SparkSession.builder.appName(<span class="string">'test'</span>).getOrCreate()</span><br><span class="line">sc = spark.sparkContext</span><br><span class="line"><span class="comment"># spark.conf.set("spark.sql.shuffle.partitions", 6)</span></span><br><span class="line"><span class="comment"># ================直接创建==========================</span></span><br><span class="line">l = [(<span class="string">'Ankit'</span>,<span class="number">25</span>),(<span class="string">'Jalfaizy'</span>,<span class="number">22</span>),(<span class="string">'saurabh'</span>,<span class="number">20</span>),(<span class="string">'Bala'</span>,<span class="number">26</span>)]</span><br><span class="line">rdd = sc.parallelize(l)</span><br><span class="line"><span class="comment">#为数据添加列名</span></span><br><span class="line">people = rdd.map(<span class="keyword">lambda</span> x: Row(name=x[<span class="number">0</span>], age=int(x[<span class="number">1</span>])))</span><br><span class="line"><span class="comment">#创建DataFrame</span></span><br><span class="line">schemaPeople = spark.createDataFrame(people)</span><br><span class="line">schemaPeople.show()</span><br></pre></td></tr></table></figure>
 <p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6r47ljlg1j31no0dowi8.jpg" alt="image-20190907164208463"></p>
+<p>通过csv建立</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">from pyspark.sql import SparkSession</span><br><span class="line">from pyspark.sql import Row</span><br><span class="line">from pyspark import SparkConf</span><br><span class="line"></span><br><span class="line">SPARK_APP_NAME = &quot;dataframetest&quot;</span><br><span class="line"></span><br><span class="line">conf = SparkConf()</span><br><span class="line">config = (</span><br><span class="line">    (&quot;spark.app.name&quot;, SPARK_APP_NAME),</span><br><span class="line">    (&quot;spark.executor.memory&quot;, &quot;2g&quot;),</span><br><span class="line">    (&quot;spark.executor.cores&quot;, &quot;2&quot;),</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">conf.setAll(config)</span><br><span class="line"></span><br><span class="line">spark = SparkSession.builder.config(conf=conf).appName(&apos;test&apos;).getOrCreate()</span><br><span class="line">sc = spark.sparkContext</span><br><span class="line"># spark.conf.set(&quot;spark.sql.shuffle.partitions&quot;, 6)</span><br><span class="line"># ================直接创建==========================</span><br><span class="line">l = [(&apos;Ankit&apos;,25),(&apos;Jalfaizy&apos;,22),(&apos;saurabh&apos;,20),(&apos;Bala&apos;,26)]</span><br><span class="line">rdd = sc.parallelize(l)</span><br><span class="line">#为数据添加列名</span><br><span class="line">people = rdd.map(lambda x: Row(name=x[0], age=int(x[1])))</span><br><span class="line">#创建DataFrame</span><br><span class="line">schemaPeople = spark.createDataFrame(people)</span><br><span class="line">schemaPeople.show()</span><br><span class="line"></span><br><span class="line"># ==================从csv读取======================</span><br><span class="line">#加载csv类型的数据并转换为DataFrame</span><br><span class="line">df = spark.read.format(&quot;csv&quot;).option(&quot;header&quot;, &quot;true&quot;).load(&quot;/tmp/iris.csv&quot;)</span><br><span class="line">#显示数据结构</span><br><span class="line">df.printSchema()</span><br><span class="line">#显示前10条数据</span><br><span class="line">df.show(10)</span><br><span class="line">#统计总量</span><br><span class="line">print(df.count())</span><br><span class="line">#列名</span><br><span class="line">print(df.columns)</span><br></pre></td></tr></table></figure>
+<p>其中，需要先在HDFS上放置iris.csv数据。spark-env.sh、spark-dafault.sh、slave文件参考<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hma3M1NS9hcnRpY2xlL2RldGFpbHMvODA3ODQ0MjQ=" title="https://blog.csdn.net/xfks55/article/details/80784424">spark学习-spark安装和启动<i class="fa fa-external-link"></i></span></p>
+<p>如果出现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.net.UnknownHostException</span><br></pre></td></tr></table></figure>
+<p>请参考<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC80NzE2ODk5ZWJhMTk=" title="https://www.jianshu.com/p/4716899eba19">启动Spark报Caused by: java.net.UnknownHostException: iotsparkmaster: unknown error<i class="fa fa-external-link"></i></span></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6r9dhtyamj30u014s112.jpg" alt="image-20190907210906138"></p>
 <h3 id="参考-amp-致谢"><a href="#参考-amp-致谢" class="headerlink" title="参考&amp;致谢"></a>参考&amp;致谢</h3><p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTAxNzEwMzEvYXJ0aWNsZS9kZXRhaWxzLzUxODQ5NTYy" title="https://blog.csdn.net/u010171031/article/details/51849562">https://blog.csdn.net/u010171031/article/details/51849562<i class="fa fa-external-link"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0VuY2hlL2FydGljbGUvZGV0YWlscy84MTE0MjM1Nw==" title="https://blog.csdn.net/Enche/article/details/81142357">https://blog.csdn.net/Enche/article/details/81142357<i class="fa fa-external-link"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC80NzE2ODk5ZWJhMTk=" title="https://www.jianshu.com/p/4716899eba19">https://www.jianshu.com/p/4716899eba19<i class="fa fa-external-link"></i></span></p>
 
     </div>
 
@@ -443,6 +453,10 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/07/HDFS常用Shell命令整理/" rel="prev" title="HDFS的shell操作整理">
+                  HDFS的shell操作整理 <i class="fa fa-chevron-right"></i>
+                </a>
               
             </div>
           </div>
@@ -512,7 +526,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -538,7 +552,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
