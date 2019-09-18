@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>《Spark机器学习》通读</title>
+      <link href="/2019/09/18/%E3%80%8ASpark%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E9%80%9A%E8%AF%BB/"/>
+      <url>/2019/09/18/%E3%80%8ASpark%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E9%80%9A%E8%AF%BB/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>最近，花了三天时间通读了Nick Pentreath的著作《Spark机器学习》。醍醐灌顶，有酣畅淋漓之感，记录、梳理该书的核心内容，避免以后自己遗忘。</p></blockquote><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g73z6plhasj31i00jq49u.jpg" alt="image-20190918210853276"></p><a id="more"></a><p>因为我是做软件工程出身，擅长应用开发、功能实现。对于机器学习算法理解还在学习、加深阶段，该书最大的优点是，实践性很强，每段代码都可以运行（排除极个别代码疏忽错误）；不足之处在于理论讲解不够深入。</p><p>在郑捷的《机器学习-算法原理与编程实践》一书中，说到，”基础决定高度”，我也非常认可这句话。但是，如果没有高度，从我的角度而言，不知道从哪里夯实基础，况且单纯的数学公式推导过于枯燥，没有成就感，很容易磨灭兴趣。所以我先“不求甚解”，把机器学习的算法先应用起来，把“代码”跑起来，看看效果，再一层层刨根问底。</p><h3 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h3><p>主要介绍 Spark环境搭建，略。</p><h3 id="第二章-amp-第三章-数据准备工作-amp-特征介绍"><a href="#第二章-amp-第三章-数据准备工作-amp-特征介绍" class="headerlink" title="第二章&amp;第三章 数据准备工作&amp;特征介绍"></a>第二章&amp;第三章 数据准备工作&amp;特征介绍</h3><ol><li><p>个性化与推荐的联系</p><p>推荐是个性化的一种，推荐通常是显式呈现内容，而个性化偏向隐形，比如搜索等场景。</p></li><li><p>机器学习模型的种类</p><ol><li><p>监督学习</p><p>已标记的数据来学习。</p></li><li><p>无监督学习</p><p>学习过程不需要标记。</p></li></ol></li><li><p>机器学习系统组成</p><p>用户行为 -&gt; 数据收集 -&gt; 数据清理与转化 -&gt; (模型训练 -&gt; 模型测试 )-&gt; 模型部署与整合 -&gt; 推荐给用户。</p><p>其中，模型训练 -&gt; 模型测试，可以迭代多次。</p><p>注意：在模型部署与整合后，同时监控模型准确度相关指标和<strong>业务指标</strong>。</p></li><li><p>特征</p><ul><li>数值特征</li><li>类别特征<ul><li>名义变量，如 职业：程序员、律师</li><li>有序变量，有内在联系。如级别评价，一星，二星。</li></ul></li><li>文本特征<ul><li>词袋（分词-&gt;删除停用词-&gt;提取词干-&gt;向量化）</li></ul></li><li>其他特征 如图像、音频、地理位置等</li><li>派生特征<ul><li>可以把时间，按区间转变为 清晨、上午、中午等类别特征。</li></ul></li></ul><p>特征的正则化</p><blockquote><p>正则转化（减去均值）和标准化（缩放到0-1）</p></blockquote></li></ol><h3 id="第四章-推荐引擎"><a href="#第四章-推荐引擎" class="headerlink" title="第四章 推荐引擎"></a>第四章 推荐引擎</h3><p>推荐模型的分类</p><ul><li><p>基于内容的过滤</p><ul><li>利用物品内容or用户的相似度进行推荐</li></ul></li><li><p>协同过滤</p><ul><li>“众包只会”的体现。</li><li>根据相似用户的喜好计算各个物品的评分，推荐给该用户。</li></ul></li><li><p>矩阵分解</p><ul><li><p>显示矩阵分解</p><blockquote><p><strong>用户因子矩阵</strong>(U,K) 和 <strong>物品因子矩阵</strong> (K,I )的点积来表示 评级矩阵(U,I)</p></blockquote></li><li><p>隐式矩阵分解</p></li><li><p>最小二乘法（ALS）</p><blockquote><p>固定用户因子矩阵or物品因子矩阵，用固定的矩阵和评级更新另一个矩阵。</p><p>之后，将被更新的矩阵固定，更新另一个。</p><p>迭代上述步骤，直至模型收敛。</p></blockquote></li></ul></li></ul><p>推荐模型效果的评估</p><ul><li>均方差（MSE）：各平方误差的和与总数目的商。</li><li>均方根误差（RMSE）：对于·MSE取平方根。</li><li>K值平均准确率（MAPK）：前K个结果与实际相关的结果进行比较。</li></ul><h3 id="第五章-分类模型"><a href="#第五章-分类模型" class="headerlink" title="第五章 分类模型"></a>第五章 分类模型</h3><p>分类模型的种类</p><ul><li><p>线性模型</p><ol><li><p>逻辑回归（sigmod）：损失函数式逻辑损失。</p></li><li><p>线性支持向量机（SVM）：损失函数为合页损失。</p><p>最大间隔分类器，试图训练一个使得类别尽可能分开的权重向量。</p></li></ol></li><li><p>决策树</p><ol><li><p>每一步骤中评估特征分裂的信息增益，最后选择分割数据集最优的特征。</p><p>信息增益通过计算节点不纯度减去分割后的两个子节点不纯度的加权和。</p><p>评估方法：基尼不纯 和 熵</p></li><li><p>适用于<strong>集成方法</strong>，多个决策树，成为<strong>决策树森林</strong>。</p></li></ol></li><li><p>朴素贝叶斯模型</p><blockquote><p>假设： 每个特征分配到某个类别的概率是<strong>独立分布</strong>的。</p><p>基于假设，属于某个类别的概率表示为若干概率乘积的函数，其中这些概率包括某个特征在给定某个类别条件下出现的概率（条件概率），以及该类别的概率（先验概率）。</p></blockquote></li></ul><p>评估分类模型的性能</p><ul><li><p>预测的正确率和错误率</p><blockquote><p>训练样中被正确分类的数目除以总样本数 为 正确率。</p><p>反之，为错误率。</p></blockquote></li><li><p>准确率与召回率</p><ul><li><p>准确率</p><blockquote><p>真阳性的数目除以真阳性和假阳性的总数。</p><p>真阳性：被正确预测的类别为1的样本。</p><p>假阳性：被错误预测为类别为1的样本。</p></blockquote></li><li><p>召回率（与准确率是负相关）</p><blockquote><p>真阳性的数目除以真阳性与假阳性的和</p><p>假阴性：别错误预测为0的样本。</p></blockquote></li><li><p>准确率-召回率（召回率为x）的曲线（PR）</p></li></ul></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 整理 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>记乙亥中秋</title>
       <link href="/2019/09/14/%E8%AE%B0%E4%B9%99%E4%BA%A5%E4%B8%AD%E7%A7%8B/"/>
       <url>/2019/09/14/%E8%AE%B0%E4%B9%99%E4%BA%A5%E4%B8%AD%E7%A7%8B/</url>
@@ -23,19 +48,6 @@
             <tag> 记事 </tag>
             
         </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2019/09/12/%E4%B8%AA%E6%80%A7%E5%8C%96%E7%94%B5%E5%95%86%E5%B9%BF%E5%91%8A%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/"/>
-      <url>/2019/09/12/%E4%B8%AA%E6%80%A7%E5%8C%96%E7%94%B5%E5%95%86%E5%B9%BF%E5%91%8A%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
       
     </entry>
     
@@ -597,7 +609,7 @@
       <link href="/2018/09/05/%E4%BA%8B%E7%89%A9%E7%9A%84%E7%8A%B6%E6%80%81-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/"/>
       <url>/2018/09/05/%E4%BA%8B%E7%89%A9%E7%9A%84%E7%8A%B6%E6%80%81-%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</url>
       
-        <content type="html"><![CDATA[<blockquote><p>前段时间看到有代码在用状态机，而这段时间重温软件设计模式，刚好有状态模式，记录一下。</p></blockquote><a id="more"></a><p>场景：</p><blockquote><p>对于一个自动售卖机的小系统，往往会有，投币、售出、售罄、退钱等状态。状态之间需要转换，才能完成一系列操作，实现某一个完整的功能。</p></blockquote><p>糟糕的解决方案</p><blockquote><p>旧的解决方案是怎样的呢？<br>首先，用常量定义出所有状态。<br>在进行操作时，用if判断当前状态是否是定义出来的某个状态，然后进行相应的操作。同时进行状态的切换。</p></blockquote><p>问题点：</p><blockquote><p>用上述方法解决的问题，会有如下痛点：</p><ol><li>扩展性极差，如果新增一个状态，需要变动原有逻辑代码，严重违反【对扩展开放】的原则。</li><li>随着时间流逝，主流程出现大量的if判断，导致某个方法过于庞大，不利于阅读维护。</li><li>完全是面向过程思维方式，不是面向对象的思考方式。</li></ol></blockquote><p>改良的解决方案</p><blockquote><p>切入点：<strong>将每个状态的行为放在对应的状态类中，每个状态只要实现自己的动作就可以了。</strong><br>思路：</p><ol><li>定义一个状态接口（or 抽象类）。每个动作在接口中都有对应的方法。</li><li>每个具体的状态实现状态接口，并负责自己当前状态下各个方法的实现，eg:售出状态的退钱方法，取东西方法等。</li><li>最后，主流程里将动作委托给对应的状态类。</li></ol></blockquote><p>类图如下</p><div id="0kwigz" data-type="puml" data-display="block" data-align="left" data-src="https://cdn.nlark.com/__puml/4fcbbb2937d1b0ea3d7cde1a9076c21d.svg" data-width="711" data-height="200" data-text="%40startuml%0A%0AInterface%20State%7B%0A%09%2Bhandle()%0A%7D%0A%0Aclass%20ConcreteStateA%7B%0A%09%2Bhandle()%0A%7D%0A%0Aclass%20ConcreteStateB%7B%0A%09%2Bhandle()%0A%7D%0A%0Aclass%20Context%7B%0A%09%2Brequest()%0A%7D%0A%0A%0AConcreteStateA%20..%7C%3E%20State%0AConcreteStateB%20..%7C%3E%20State%0AContext%20--%20State%0A%0Anote%20right%20of%20(Context)%0A%20%20Context%E6%98%AF%E4%B8%8A%E4%B8%8B%E6%96%87%E7%8E%AF%E5%A2%83.%0A%20%20%E5%BD%93%E8%B0%83%E7%94%A8request()%E6%97%B6%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%A7%94%E6%89%98%E7%BB%99state.handle()%0Aend%20note%0A%0A%40enduml"><img src="https://cdn.nlark.com/__puml/4fcbbb2937d1b0ea3d7cde1a9076c21d.svg" width="711"></div><div data-type="alignment" data-value="center" style="text-align:center">  <div data-type="p">图1 状态模式类图</div>  <div data-type="p"></div></div><p>如图1状态模式类图所示，State是定义状态动作的接口，ConcreteStateA与ConcreteStateB是接口State的具体状态。Context是上下文中进行调用，调用State.handle方法，用多态代替了if。</p><p>在具体使用过程中，ConcreteStateA与ConcreteStateB或其他状态可以相互转换，也可以在Context中转换。同时，当遇到拓展时，比如新增状态ConcreteStateC，只需要新增ConcreteStateC实现State接口，完成handle，并在Context里进行调用。</p>]]></content>
+        <content type="html"><![CDATA[<blockquote><p>前段时间看到有代码在用状态机，而这段时间重温软件设计模式，刚好有状态模式，记录一下。</p></blockquote><a id="more"></a><p>场景：</p><blockquote><p>对于一个自动售卖机的小系统，往往会有，投币、售出、售罄、退钱等状态。状态之间需要转换，才能完成一系列操作，实现某一个完整的功能。</p></blockquote><p>糟糕的解决方案</p><blockquote><p>旧的解决方案是怎样的呢？<br>首先，用常量定义出所有状态。<br>在进行操作时，用if判断当前状态是否是定义出来的某个状态，然后进行相应的操作。同时进行状态的切换。</p></blockquote><p>问题点：</p><blockquote><p>用上述方法解决的问题，会有如下痛点：</p><ol><li>扩展性极差，如果新增一个状态，需要变动原有逻辑代码，严重违反【对扩展开放】的原则。</li><li>随着时间流逝，主流程出现大量的if判断，导致某个方法过于庞大，不利于阅读维护。</li><li>完全是面向过程思维方式，不是面向对象的思考方式。</li></ol></blockquote><p>改良的解决方案</p><blockquote><p>切入点：<strong>将每个状态的行为放在对应的状态类中，每个状态只要实现自己的动作就可以了。</strong><br>思路：</p><ol><li>定义一个状态接口（or 抽象类）。每个动作在接口中都有对应的方法。</li><li>每个具体的状态实现状态接口，并负责自己当前状态下各个方法的实现，eg:售出状态的退钱方法，取东西方法等。</li><li>最后，主流程里将动作委托给对应的状态类。</li></ol></blockquote><p>类图如下</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g6zejeaog6j30zm0c8q56.jpg" alt="image-20190914221223233"></p><p>如图1状态模式类图所示，State是定义状态动作的接口，ConcreteStateA与ConcreteStateB是接口State的具体状态。Context是上下文中进行调用，调用State.handle方法，用多态代替了if。</p><p>在具体使用过程中，ConcreteStateA与ConcreteStateB或其他状态可以相互转换，也可以在Context中转换。同时，当遇到拓展时，比如新增状态ConcreteStateC，只需要新增ConcreteStateC实现State接口，完成handle，并在Context里进行调用。</p>]]></content>
       
       
       <categories>
