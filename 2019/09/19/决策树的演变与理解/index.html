@@ -57,19 +57,31 @@
   };
 </script>
 
-  <meta name="description" content="今天是农历年前，在公司上班的最后一天。此刻，还是驻足回顾一下这一年的得与失，记录下自己的成长历程。">
-<meta name="keywords" content="生活">
+  <meta name="description" content="决策树是机器学习十大算法之一，整理下决策树的演变，并把为何这么演变的原因阐述如下，以便加深理解。">
+<meta name="keywords" content="机器学习,决策树">
 <meta property="og:type" content="article">
-<meta property="og:title" content="小记-我的2016">
-<meta property="og:url" content="http://yoursite.com/2017/01/25/小记-我的2016/index.html">
+<meta property="og:title" content="决策树的演变与理解">
+<meta property="og:url" content="http://yoursite.com/2019/09/19/决策树的演变与理解/index.html">
 <meta property="og:site_name" content="飞鸿踏雪泥">
-<meta property="og:description" content="今天是农历年前，在公司上班的最后一天。此刻，还是驻足回顾一下这一年的得与失，记录下自己的成长历程。">
+<meta property="og:description" content="决策树是机器学习十大算法之一，整理下决策树的演变，并把为何这么演变的原因阐述如下，以便加深理解。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-10T05:08:01.600Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g7547k2nr7j310g0fqgwz.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g755by71q0j30sm0d20x6.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g755hjob5xj30s40isn54.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g755wojz44j30yi09iq6n.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g755xvbu5aj30xo0ba0zk.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g7563x6ibuj30rc0a00ww.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g755z7g3a1j30ri0k246p.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g756gplv1cj30se0de78w.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g756hwc8hzj30ra07uq4u.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g756im2zlmj30s40d6n37.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g756j788nkj30r004kq4y.jpg">
+<meta property="og:updated_time" content="2019-09-19T14:23:35.668Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小记-我的2016">
-<meta name="twitter:description" content="今天是农历年前，在公司上班的最后一天。此刻，还是驻足回顾一下这一年的得与失，记录下自己的成长历程。">
-  <link rel="canonical" href="http://yoursite.com/2017/01/25/小记-我的2016/">
+<meta name="twitter:title" content="决策树的演变与理解">
+<meta name="twitter:description" content="决策树是机器学习十大算法之一，整理下决策树的演变，并把为何这么演变的原因阐述如下，以便加深理解。">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g7547k2nr7j310g0fqgwz.jpg">
+  <link rel="canonical" href="http://yoursite.com/2019/09/19/决策树的演变与理解/">
 
 
 <script id="page-configurations">
@@ -83,7 +95,7 @@
   };
 </script>
 
-  <title>小记-我的2016 | 飞鸿踏雪泥</title>
+  <title>决策树的演变与理解 | 飞鸿踏雪泥</title>
   
 
 
@@ -271,7 +283,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/25/小记-我的2016/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/19/决策树的演变与理解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张城硕">
@@ -283,7 +295,7 @@
       <meta itemprop="name" content="飞鸿踏雪泥">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">小记-我的2016
+        <h2 class="post-title" itemprop="name headline">决策树的演变与理解
 
           
         </h2>
@@ -303,19 +315,11 @@
                 
               
 
-              <time title="创建时间：2017-01-25 14:08:21" itemprop="dateCreated datePublished" datetime="2017-01-25T14:08:21+08:00">2017-01-25</time>
+              <time title="创建时间：2019-09-19 20:20:35 / 修改时间：22:23:35" itemprop="dateCreated datePublished" datetime="2019-09-19T20:20:35+08:00">2019-09-19</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-08-10 13:08:01" itemprop="dateModified" datetime="2019-08-10T13:08:01+08:00">2019-08-10</time>
-              </span>
             
           
             <span class="post-meta-item">
@@ -324,7 +328,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/实习/" itemprop="url" rel="index"><span itemprop="name">实习</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
 
                 
                 
@@ -344,47 +348,71 @@
 
       
         <blockquote>
-<p>今天是农历年前，在公司上班的最后一天。此刻，还是驻足回顾一下这一年的得与失，记录下自己的成长历程。</p>
+<p>决策树是机器学习十大算法之一，整理下决策树的演变，并把为何这么演变的原因阐述如下，以便加深理解。</p>
 </blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g7547k2nr7j310g0fqgwz.jpg" alt="image-20190919204757536"></p>
 <a id="more"></a>
-<h5 id="七月-离开"><a href="#七月-离开" class="headerlink" title="七月 - 离开"></a>七月 - 离开</h5><blockquote>
-<p>七月之前，我和好哥们一起，用纸箱将一大摞书从301实验室哼哧哼哧地抱回宿舍。仿佛此刻 我们的学生生活从此结束了。</p>
-<p>明鑫、洪文、诗琦、阳阳、高爽、雪志、伟仔……我们在一起吃过最后一顿饭，诗琦就踏上了前往帝都的高铁。紧接着，我也收拾行李，来到了杭州。一个陌生的城市。</p>
-<p>出了校门，看着火车窗外飞驰过的绿油油的树木，心中有些小忐忑，但更多的走向社会，步入实习的激动。我拖着大大的行李箱，在火热的骄阳下，寻找住所。</p>
-<p>在杭州，公司人性化地分配了两周的免费酒店，两人一间。“当当当”，和我一起住的是来自华南理工的森雨，高高瘦瘦，背个吉他，是个地地道道的南方人。他是在移动开发的部门，也是个实习生，对android比较精通。我呢，喜爱java，一直学习后端开发这个方面。两周很快结束，我在公司附近，余杭区找了个房子，因为不太懂签协议，就租了一年，违约金竟然高达3个月。这样，我就被绑在的余杭区。</p>
+<h3 id="思想起源"><a href="#思想起源" class="headerlink" title="思想起源"></a>思想起源</h3><p>决策树的思想起源很简单，古语有云“朝霞不出门，晚霞行千里”，就是暗合决策树的思想。如果今天有朝霞则可以预测今天有雨；如果看到了晚霞，则代表天气很好，不会下雨。在这里面其实是一个if-else的分支判断。</p>
+<blockquote>
+<p>1966年，CLS学习系统中就已经提出决策树算法的概念。</p>
+<p>1979年，J.R Quinlan 给出ID3算法原型。</p>
 </blockquote>
-<h5 id="八月九月-新地方"><a href="#八月九月-新地方" class="headerlink" title="八月九月 - 新地方"></a>八月九月 - 新地方</h5><blockquote>
-<p>进入公司，我发现，公司和我在学校里学习的那些还是有不少的出入，好在基础语言还是java，计算机基础我还是比较扎实。所以在实习的前两周，都是疯狂地学习各种中间件，什么HSF，TDDL，Tair，对着些，让我感受比较大的就是 知道了互联网公司是如何进行开发软件的，如何进行迭代和上线的。</p>
-<p>其中，印象比较深的就是 关于事务的理解。之前在学校里感觉为了安全 把很多操作都写成事务，然而，在大型互联网公司，为了实现高并发，减少回滚用的不是事务，而是消息机制，比如说notify等。类似这种点，都让我豁然开朗，颇觉得有点意思~~</p>
-<p>历史惊人的相似，和本科一样，我的研究生那些同学陆陆续续地都去了北京，只有极少数人在杭州实习，有的时候就在微信里和北京的同学瞎扯，交流下实习的感想。</p>
-<p>时间飞逝。</p>
+<p>首先，举一个例子。如果通过【年龄】【职业】【信誉】来预测该用户是否会购买某个产品。</p>
+<p>如果我们通过年龄来判断，如果<10不会购买，>10不确定。然后在age&gt;10的基础上判断职业，如果是【学生】，则不会购买；如果是医生会购买；如果是律师不确定，进一步在age&gt;10和职业为律师的基础上判断，如果信誉高的话，会购买，否则不会购买。</10不会购买，></p>
+<p>上述判断，其实生成了一棵决策树。</p>
+<blockquote>
+<p>决策树从根节点到叶结点的一条路径就对应着一条合取规则，因此决策树容易转换成分类规则。</p>
+<p>决策树的<strong>本质</strong>是从数据集中归纳出一组分类规则。</p>
 </blockquote>
-<h5 id="九月-波折"><a href="#九月-波折" class="headerlink" title="九月 - 波折"></a>九月 - 波折</h5><blockquote>
-<p>因为我是18年春季毕业，所以说虽然转正答辩还可以，结局还是被HRG依照公司的规定撵走了。有些无奈。</p>
-<p>就这样，我突然漂泊在了杭州。</p>
-<p>两周后，网易打来电话，恭喜我可以去入职。于是我有辗转到了网易。</p>
+<h5 id="决策树生成思路"><a href="#决策树生成思路" class="headerlink" title="决策树生成思路"></a>决策树生成思路</h5><p>决策树设计为三类节点：根节点、叶子节点和内部节点。</p>
+<ol>
+<li><p>如果从一个空缺的决策树开始，选择一个特征为根节点；</p>
+</li>
+<li><p>我们按照该特征条件进行划分，如果划分到某个子集为空，或子集中的所有样本已经归为同一类别，那么该子集就是叶子节点，否则为内部节点。</p>
+</li>
+<li><p>对于内部节点，需要选择一个新的类别继续对该子集进行划分，直到所有子集都为叶子节点。</p>
+</li>
+</ol>
+<h3 id="ID3算法——信息熵的引入"><a href="#ID3算法——信息熵的引入" class="headerlink" title="ID3算法——信息熵的引入"></a>ID3算法——信息熵的引入</h3><p>特征选择在于选取对训练数据具有分类能力的特征，这样可以提高决策树学习的效率。为了衡量通过选择某个特征后，样本划分信息的变化。引入熵的概念（衡量信息的不确定性），熵的改变越大，说明用该特征的效果越好。</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g755by71q0j30sm0d20x6.jpg" alt="image-20190919212713529"></p>
+<p>那么，通过确定某个特征，熵前后发生变化，学者引入了<strong>信息增益</strong>来衡量这种变化。</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g755hjob5xj30s40isn54.jpg" alt="image-20190919213235522"></p>
+<p>如此以来，我们可以通过信息增益来判断先选择哪个特征来生成决策树的效果更好。</p>
+<p><strong>ID3算法就是选择信息增益作为选取特征的标准。</strong></p>
+<h5 id="ID3算法的描述"><a href="#ID3算法的描述" class="headerlink" title="ID3算法的描述"></a>ID3算法的描述</h5><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g755wojz44j30yi09iq6n.jpg" alt="image-20190919214703964"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g755xvbu5aj30xo0ba0zk.jpg" alt="image-20190919214759884"></p>
+<p>缺陷：信息增益偏向于选择<strong>特征值个数较多</strong>的特征。</p>
+<blockquote>
+<p>比如，对于职业这个特征来说，有学生、律师、会计、教师、农民、士兵等待。</p>
+<p>划分的越细，则信息越确定，熵则越小，信息增益则愈大。</p>
+<p>对于性别这种特征候选数量较小的特征是不公平的。</p>
 </blockquote>
-<h5 id="九月以后-渐稳"><a href="#九月以后-渐稳" class="headerlink" title="九月以后 - 渐稳"></a>九月以后 - 渐稳</h5><blockquote>
-<p>来到网易后，结识了更多的小伙伴，大都和我年龄差距不大，所以很有共同语言。一起吃饭 ，拍代码，加班，上线。</p>
-<p>老大也会经常带我们出去吃大餐，各种美味，加上网易食堂伙食本来就很棒，关键是不要钱。于是，在接下来的几个月，我就胖了十来斤。</p>
-<p>之前租的房子压在手里，只好硬着头皮住下去。所以，我每天6点半就起床坐公交，因为位置偏远，就连班车也不往这边开。大概九点钟可以赶到公司，吃完饭，就开始一天的忙碌。<br>晚上基本9点回去，到住的地方就10点半了。</p>
-<p>每天早晨，尤其是大冬天，天气灰蒙，就得离开温暖的被窝，迎着冰冷的冬风，去公交站等车。睡意朦胧，不幸中的万幸就是，在311公交站旁，大概在6：50都会有一大帮小学生在那里等校车。叽叽喳喳的，家长在后面跟着，这些小学生有的拿着豆浆包子，有的叫着打着，哭闹着，为这这寒冷的早晨添加了不少欢喜。有时候，我就想，这么小的小孩都能起来，我也能起来啊，我也是从小学生过来的。</p>
-<p>在网易的四个月，拍了不少代码，原来不懂得、不了解的也都逐步理解。上线也变得驾轻就熟。</p>
+<h3 id="C4-5算法的引入"><a href="#C4-5算法的引入" class="headerlink" title="C4.5算法的引入"></a>C4.5算法的引入</h3><p>为了解决“信息增益偏向于选择<strong>特征值个数较多</strong>的特征”这个问题。Quinlan提出了C4.5算法。</p>
+<p>C4.5使用<strong>信息增益率</strong>为标准选择特征，解决“信息增益偏向于选择<strong>特征值个数较多</strong>的特征”的这个问题。</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g7563x6ibuj30rc0a00ww.jpg" alt="image-20190919215406203"></p>
+<blockquote>
+<p>1993年，Quinlan发展了ID3算法，提出C4.5算法。</p>
+<p>其中，ID3还有另一个分支为分类回归决策树算法（CART），CART可以用来回归预测。</p>
 </blockquote>
-<h5 id="一月-事故"><a href="#一月-事故" class="headerlink" title="一月 - 事故"></a>一月 - 事故</h5><blockquote>
-<p>接老大安排，做了年会投票、抽奖的系统。服务器需要提供650+的websocket的长连接。</p>
-<p>年会当天,服务器在主持人呼吁大家开始绑定建立连接后，瞬间爆炸！很不幸，服务器崩了。我当着总监+全部门+外邀嘉宾，大概700+人，当场调试线上服务器代码。这中感觉也是没谁了~~</p>
-<p>事后，既然发生了，老大顶着。我只能仔细分析原因，吃一堑长一智。对性能、压力测试这一块，还要仔细深入探究。</p>
-<p>没弄崩过服务器，以后怎么做架构师？</p>
-<p>不过，代价挺大。</p>
+<h5 id="C4-5算法的描述"><a href="#C4-5算法的描述" class="headerlink" title="C4.5算法的描述"></a>C4.5算法的描述</h5><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g755z7g3a1j30ri0k246p.jpg" alt="image-20190919214930084"></p>
+<h3 id="CART算法的引入"><a href="#CART算法的引入" class="headerlink" title="CART算法的引入"></a>CART算法的引入</h3><p>上述的两种算法：ID3和C4.5，适用于分类算法，但是对于回归来说，决策树也可以有所应用。</p>
+<p>CART算法就是一种通过决策树方法实现回归的算法。</p>
+<p>在预测中，CART使用<strong>最小剩余方差</strong>（基尼指数）来判断数据集的最优划分，这个准则是期望划分之后的子树与样本点的误差方差最小。</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g756gplv1cj30se0de78w.jpg" alt="image-20190919220623280"></p>
+<blockquote>
+<p>CART进行预测是把叶子节点设定为一系列<strong>分段线性函数</strong>，这些分段线性函数是对源数据曲线的一种模拟。</p>
 </blockquote>
-<h5 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h5><blockquote>
-<p>这一年，从校园转变到社会，从学生转变到实习生。</p>
-<p>这一年，没赚到什么钱，全交房租了~~，但是对于软件开发那点事儿知道了不少。</p>
-<p>这一年，没什么功绩，但多了些经历。</p>
-<p>希望来年会更好。</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g756hwc8hzj30ra07uq4u.jpg" alt="image-20190919220730658"></p>
+<h5 id="CART算法描述"><a href="#CART算法描述" class="headerlink" title="CART算法描述"></a>CART算法描述</h5><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g756im2zlmj30s40d6n37.jpg" alt="image-20190919220813716"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g756j788nkj30r004kq4y.jpg" alt="image-20190919220842723"></p>
+<h3 id="决策树的公共缺陷"><a href="#决策树的公共缺陷" class="headerlink" title="决策树的公共缺陷"></a>决策树的公共缺陷</h3><p>决策树因为划分越细（树层数越多），在训练集得到的结果越准确，因而很容易过拟合。</p>
+<p>为了解决决策树过拟合的问题，引入<strong>剪枝</strong>的方法。</p>
+<p>剪枝主流方法有两类：先剪枝和后剪枝（悲观剪枝）。</p>
+<p>先剪枝当子集的某个标准低于预定义的阈值时，子集的划分终止。</p>
+<p>后剪枝在整个决策树生成完毕后，估算内部节点所覆盖样本节点的误判率，如果低于阈值，则将其变为叶子节点。</p>
+<blockquote>
+<p>先剪枝<strong>效率高</strong>，适合大规模数据的粗略估计。但容易<strong>导致欠拟合</strong>。</p>
 </blockquote>
-<p>&gt;<br>&gt;<br>&gt;<br>&gt;</p>
 
     </div>
 
@@ -417,7 +445,9 @@
           
           <div class="post-tags">
             
-              <a href="/tags/生活/" rel="tag"># 生活</a>
+              <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+            
+              <a href="/tags/决策树/" rel="tag"># 决策树</a>
             
           </div>
         
@@ -427,8 +457,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2017/01/22/关于年会系统要点的总结/" rel="next" title="关于年会系统要点的总结">
-                  <i class="fa fa-chevron-left"></i> 关于年会系统要点的总结
+                <a href="/2019/09/18/《Spark机器学习》通读/" rel="next" title="《Spark机器学习》通读">
+                  <i class="fa fa-chevron-left"></i> 《Spark机器学习》通读
                 </a>
               
             </div>
@@ -436,10 +466,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2017/02/05/关于Linux的TCP相关参数的整理/" rel="prev" title="关于Linux的TCP相关参数的整理">
-                  关于Linux的TCP相关参数的整理 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -491,7 +517,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#七月-离开"><span class="nav-text">七月 - 离开</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#八月九月-新地方"><span class="nav-text">八月九月 - 新地方</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#九月-波折"><span class="nav-text">九月 - 波折</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#九月以后-渐稳"><span class="nav-text">九月以后 - 渐稳</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一月-事故"><span class="nav-text">一月 - 事故</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#尾声"><span class="nav-text">尾声</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#思想起源"><span class="nav-text">思想起源</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#决策树生成思路"><span class="nav-text">决策树生成思路</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ID3算法——信息熵的引入"><span class="nav-text">ID3算法——信息熵的引入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ID3算法的描述"><span class="nav-text">ID3算法的描述</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C4-5算法的引入"><span class="nav-text">C4.5算法的引入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#C4-5算法的描述"><span class="nav-text">C4.5算法的描述</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CART算法的引入"><span class="nav-text">CART算法的引入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CART算法描述"><span class="nav-text">CART算法描述</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#决策树的公共缺陷"><span class="nav-text">决策树的公共缺陷</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -722,7 +748,7 @@
       repo: 'gitalkComment',
       owner: 'chengshuo678',
       admin: ['chengshuo678'],
-      id: '08b3bbb7cb680121f3df8531ca2ad7bf',
+      id: '9e716a4a42ad27c228cd56c16471180a',
         language: window.navigator.language || window.navigator.userLanguage,
       
       distractionFreeMode: 'true'

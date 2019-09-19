@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>决策树的演变与理解</title>
+      <link href="/2019/09/19/%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E6%BC%94%E5%8F%98%E4%B8%8E%E7%90%86%E8%A7%A3/"/>
+      <url>/2019/09/19/%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E6%BC%94%E5%8F%98%E4%B8%8E%E7%90%86%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>决策树是机器学习十大算法之一，整理下决策树的演变，并把为何这么演变的原因阐述如下，以便加深理解。</p></blockquote><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g7547k2nr7j310g0fqgwz.jpg" alt="image-20190919204757536"></p><a id="more"></a><h3 id="思想起源"><a href="#思想起源" class="headerlink" title="思想起源"></a>思想起源</h3><p>决策树的思想起源很简单，古语有云“朝霞不出门，晚霞行千里”，就是暗合决策树的思想。如果今天有朝霞则可以预测今天有雨；如果看到了晚霞，则代表天气很好，不会下雨。在这里面其实是一个if-else的分支判断。</p><blockquote><p>1966年，CLS学习系统中就已经提出决策树算法的概念。</p><p>1979年，J.R Quinlan 给出ID3算法原型。</p></blockquote><p>首先，举一个例子。如果通过【年龄】【职业】【信誉】来预测该用户是否会购买某个产品。</p><p>如果我们通过年龄来判断，如果<10不会购买，>10不确定。然后在age&gt;10的基础上判断职业，如果是【学生】，则不会购买；如果是医生会购买；如果是律师不确定，进一步在age&gt;10和职业为律师的基础上判断，如果信誉高的话，会购买，否则不会购买。</10不会购买，></p><p>上述判断，其实生成了一棵决策树。</p><blockquote><p>决策树从根节点到叶结点的一条路径就对应着一条合取规则，因此决策树容易转换成分类规则。</p><p>决策树的<strong>本质</strong>是从数据集中归纳出一组分类规则。</p></blockquote><h5 id="决策树生成思路"><a href="#决策树生成思路" class="headerlink" title="决策树生成思路"></a>决策树生成思路</h5><p>决策树设计为三类节点：根节点、叶子节点和内部节点。</p><ol><li><p>如果从一个空缺的决策树开始，选择一个特征为根节点；</p></li><li><p>我们按照该特征条件进行划分，如果划分到某个子集为空，或子集中的所有样本已经归为同一类别，那么该子集就是叶子节点，否则为内部节点。</p></li><li><p>对于内部节点，需要选择一个新的类别继续对该子集进行划分，直到所有子集都为叶子节点。</p></li></ol><h3 id="ID3算法——信息熵的引入"><a href="#ID3算法——信息熵的引入" class="headerlink" title="ID3算法——信息熵的引入"></a>ID3算法——信息熵的引入</h3><p>特征选择在于选取对训练数据具有分类能力的特征，这样可以提高决策树学习的效率。为了衡量通过选择某个特征后，样本划分信息的变化。引入熵的概念（衡量信息的不确定性），熵的改变越大，说明用该特征的效果越好。</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g755by71q0j30sm0d20x6.jpg" alt="image-20190919212713529"></p><p>那么，通过确定某个特征，熵前后发生变化，学者引入了<strong>信息增益</strong>来衡量这种变化。</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g755hjob5xj30s40isn54.jpg" alt="image-20190919213235522"></p><p>如此以来，我们可以通过信息增益来判断先选择哪个特征来生成决策树的效果更好。</p><p><strong>ID3算法就是选择信息增益作为选取特征的标准。</strong></p><h5 id="ID3算法的描述"><a href="#ID3算法的描述" class="headerlink" title="ID3算法的描述"></a>ID3算法的描述</h5><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g755wojz44j30yi09iq6n.jpg" alt="image-20190919214703964"></p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g755xvbu5aj30xo0ba0zk.jpg" alt="image-20190919214759884"></p><p>缺陷：信息增益偏向于选择<strong>特征值个数较多</strong>的特征。</p><blockquote><p>比如，对于职业这个特征来说，有学生、律师、会计、教师、农民、士兵等待。</p><p>划分的越细，则信息越确定，熵则越小，信息增益则愈大。</p><p>对于性别这种特征候选数量较小的特征是不公平的。</p></blockquote><h3 id="C4-5算法的引入"><a href="#C4-5算法的引入" class="headerlink" title="C4.5算法的引入"></a>C4.5算法的引入</h3><p>为了解决“信息增益偏向于选择<strong>特征值个数较多</strong>的特征”这个问题。Quinlan提出了C4.5算法。</p><p>C4.5使用<strong>信息增益率</strong>为标准选择特征，解决“信息增益偏向于选择<strong>特征值个数较多</strong>的特征”的这个问题。</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g7563x6ibuj30rc0a00ww.jpg" alt="image-20190919215406203"></p><blockquote><p>1993年，Quinlan发展了ID3算法，提出C4.5算法。</p><p>其中，ID3还有另一个分支为分类回归决策树算法（CART），CART可以用来回归预测。</p></blockquote><h5 id="C4-5算法的描述"><a href="#C4-5算法的描述" class="headerlink" title="C4.5算法的描述"></a>C4.5算法的描述</h5><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g755z7g3a1j30ri0k246p.jpg" alt="image-20190919214930084"></p><h3 id="CART算法的引入"><a href="#CART算法的引入" class="headerlink" title="CART算法的引入"></a>CART算法的引入</h3><p>上述的两种算法：ID3和C4.5，适用于分类算法，但是对于回归来说，决策树也可以有所应用。</p><p>CART算法就是一种通过决策树方法实现回归的算法。</p><p>在预测中，CART使用<strong>最小剩余方差</strong>（基尼指数）来判断数据集的最优划分，这个准则是期望划分之后的子树与样本点的误差方差最小。</p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g756gplv1cj30se0de78w.jpg" alt="image-20190919220623280"></p><blockquote><p>CART进行预测是把叶子节点设定为一系列<strong>分段线性函数</strong>，这些分段线性函数是对源数据曲线的一种模拟。</p></blockquote><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g756hwc8hzj30ra07uq4u.jpg" alt="image-20190919220730658"></p><h5 id="CART算法描述"><a href="#CART算法描述" class="headerlink" title="CART算法描述"></a>CART算法描述</h5><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g756im2zlmj30s40d6n37.jpg" alt="image-20190919220813716"></p><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g756j788nkj30r004kq4y.jpg" alt="image-20190919220842723"></p><h3 id="决策树的公共缺陷"><a href="#决策树的公共缺陷" class="headerlink" title="决策树的公共缺陷"></a>决策树的公共缺陷</h3><p>决策树因为划分越细（树层数越多），在训练集得到的结果越准确，因而很容易过拟合。</p><p>为了解决决策树过拟合的问题，引入<strong>剪枝</strong>的方法。</p><p>剪枝主流方法有两类：先剪枝和后剪枝（悲观剪枝）。</p><p>先剪枝当子集的某个标准低于预定义的阈值时，子集的划分终止。</p><p>后剪枝在整个决策树生成完毕后，估算内部节点所覆盖样本节点的误判率，如果低于阈值，则将其变为叶子节点。</p><blockquote><p>先剪枝<strong>效率高</strong>，适合大规模数据的粗略估计。但容易<strong>导致欠拟合</strong>。</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+            <tag> 决策树 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>《Spark机器学习》通读</title>
       <link href="/2019/09/18/%E3%80%8ASpark%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E9%80%9A%E8%AF%BB/"/>
       <url>/2019/09/18/%E3%80%8ASpark%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E9%80%9A%E8%AF%BB/</url>
