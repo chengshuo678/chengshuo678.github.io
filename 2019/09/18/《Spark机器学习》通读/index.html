@@ -66,7 +66,7 @@
 <meta property="og:description" content="最近，花了三天时间通读了Nick Pentreath的著作《Spark机器学习》。醍醐灌顶，有酣畅淋漓之感，记录、梳理该书的核心内容，避免以后自己遗忘。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g73z6plhasj31i00jq49u.jpg">
-<meta property="og:updated_time" content="2019-09-18T14:54:34.897Z">
+<meta property="og:updated_time" content="2019-09-19T05:11:29.102Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Spark机器学习》通读">
 <meta name="twitter:description" content="最近，花了三天时间通读了Nick Pentreath的著作《Spark机器学习》。醍醐灌顶，有酣畅淋漓之感，记录、梳理该书的核心内容，避免以后自己遗忘。">
@@ -305,11 +305,19 @@
                 
               
 
-              <time title="创建时间：2019-09-18 17:20:35 / 修改时间：22:54:34" itemprop="dateCreated datePublished" datetime="2019-09-18T17:20:35+08:00">2019-09-18</time>
+              <time title="创建时间：2019-09-18 17:20:35" itemprop="dateCreated datePublished" datetime="2019-09-18T17:20:35+08:00">2019-09-18</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-09-19 13:11:29" itemprop="dateModified" datetime="2019-09-19T13:11:29+08:00">2019-09-19</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -344,7 +352,7 @@
 <a id="more"></a>
 <p>因为我是做软件工程出身，擅长应用开发、功能实现。对于机器学习算法理解还在学习、加深阶段，该书最大的优点是，实践性很强，每段代码都可以运行（排除极个别代码疏忽错误）；不足之处在于理论讲解不够深入。</p>
 <p>在郑捷的《机器学习-算法原理与编程实践》一书中，说到，”基础决定高度”，我也非常认可这句话。但是，如果没有高度，从我的角度而言，不知道从哪里夯实基础，况且单纯的数学公式推导过于枯燥，没有成就感，很容易磨灭兴趣。所以我先“不求甚解”，把机器学习的算法先应用起来，把“代码”跑起来，看看效果，再一层层刨根问底。</p>
-<h3 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h3><p>主要介绍 Spark环境搭建，略。</p>
+<h3 id="第一章-环境搭建"><a href="#第一章-环境搭建" class="headerlink" title="第一章 环境搭建"></a>第一章 环境搭建</h3><p>主要介绍 Spark环境搭建，略。</p>
 <h3 id="第二章-amp-第三章-数据准备工作-amp-特征介绍"><a href="#第二章-amp-第三章-数据准备工作-amp-特征介绍" class="headerlink" title="第二章&amp;第三章 数据准备工作&amp;特征介绍"></a>第二章&amp;第三章 数据准备工作&amp;特征介绍</h3><ol>
 <li><p>个性化与推荐的联系</p>
 <p>推荐是个性化的一种，推荐通常是显式呈现内容，而个性化偏向隐形，比如搜索等场景。</p>
@@ -388,8 +396,7 @@
 </blockquote>
 </li>
 </ol>
-<h3 id="第四章-推荐引擎"><a href="#第四章-推荐引擎" class="headerlink" title="第四章 推荐引擎"></a>第四章 推荐引擎</h3><p>推荐模型的分类</p>
-<ul>
+<h3 id="第四章-推荐引擎"><a href="#第四章-推荐引擎" class="headerlink" title="第四章 推荐引擎"></a>第四章 推荐引擎</h3><h4 id="推荐模型的分类"><a href="#推荐模型的分类" class="headerlink" title="推荐模型的分类"></a>推荐模型的分类</h4><ul>
 <li><p>基于内容的过滤</p>
 <ul>
 <li>利用物品内容or用户的相似度进行推荐</li>
@@ -420,14 +427,12 @@
 </ul>
 </li>
 </ul>
-<p>推荐模型效果的评估</p>
-<ul>
+<h4 id="推荐模型效果的评估"><a href="#推荐模型效果的评估" class="headerlink" title="推荐模型效果的评估"></a>推荐模型效果的评估</h4><ul>
 <li>均方差（MSE）：各平方误差的和与总数目的商。</li>
 <li>均方根误差（RMSE）：对于·MSE取平方根。</li>
 <li>K值平均准确率（MAPK）：前K个结果与实际相关的结果进行比较。</li>
 </ul>
-<h3 id="第五章-分类模型"><a href="#第五章-分类模型" class="headerlink" title="第五章 分类模型"></a>第五章 分类模型</h3><p>分类模型的种类</p>
-<ul>
+<h3 id="第五章-分类模型"><a href="#第五章-分类模型" class="headerlink" title="第五章 分类模型"></a>第五章 分类模型</h3><h4 id="分类模型的种类"><a href="#分类模型的种类" class="headerlink" title="分类模型的种类"></a>分类模型的种类</h4><ul>
 <li><p>线性模型</p>
 <ol>
 <li><p>逻辑回归（sigmod）：损失函数式逻辑损失。</p>
@@ -456,14 +461,12 @@
 </ul>
 <p>评估分类模型的性能</p>
 <ul>
-<li><p>预测的正确率和错误率</p>
-<blockquote>
+<li><h4 id="预测的正确率和错误率"><a href="#预测的正确率和错误率" class="headerlink" title="预测的正确率和错误率"></a>预测的正确率和错误率</h4><blockquote>
 <p>训练样中被正确分类的数目除以总样本数 为 正确率。</p>
 <p>反之，为错误率。</p>
 </blockquote>
 </li>
-<li><p>准确率与召回率</p>
-<ul>
+<li><h4 id="准确率与召回率"><a href="#准确率与召回率" class="headerlink" title="准确率与召回率"></a>准确率与召回率</h4><ul>
 <li><p>准确率</p>
 <blockquote>
 <p>真阳性的数目除以真阳性和假阳性的总数。</p>
@@ -479,8 +482,107 @@
 </li>
 <li><p>准确率-召回率（召回率为x）的曲线（PR）</p>
 </li>
+<li><p>ROC曲线与AUC</p>
+<ul>
+<li><p>真阳性率（TPR）</p>
+<blockquote>
+<p><strong>真阳性</strong>的样本数除以<strong>真阳性</strong>和<strong>假阳性</strong>样本数之和。</p>
+</blockquote>
+</li>
+<li><p>假阳性率（FPR）</p>
+<blockquote>
+<p><strong>假阳性</strong>的样本数厨艺<strong>假阳性</strong>和<strong>真阳性</strong>的样本数之和。</p>
+</blockquote>
+</li>
+</ul>
+<p>ROC是真阳性率与假阴性率的图形化解释。</p>
+<p>ROC下的面积为AUC。</p>
+</li>
 </ul>
 </li>
+</ul>
+<h3 id="第六章-回归模型"><a href="#第六章-回归模型" class="headerlink" title="第六章 回归模型"></a>第六章 回归模型</h3><h4 id="回归模型的种类"><a href="#回归模型的种类" class="headerlink" title="回归模型的种类"></a>回归模型的种类</h4><ul>
+<li><p>线性模型（最小二乘回归）</p>
+<ul>
+<li><p>损失函数为平方损失</p>
+</li>
+<li><p>正则化</p>
+<blockquote>
+<p>L1正则化LASSO；L2正则化为岭回归。</p>
+</blockquote>
+</li>
+<li><p>决策树模型</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="第七章-聚类模型"><a href="#第七章-聚类模型" class="headerlink" title="第七章 聚类模型"></a>第七章 聚类模型</h3><h4 id="聚类模型的类型"><a href="#聚类模型的类型" class="headerlink" title="聚类模型的类型"></a>聚类模型的类型</h4><ul>
+<li><p>K-均值聚类</p>
+<ul>
+<li>模糊K-均值</li>
+</ul>
+</li>
+<li><p>混合模型</p>
+<blockquote>
+<p>模糊K-均值的扩展，混合模型假设样本的数据是由某种概率分布产生的。</p>
+</blockquote>
+</li>
+<li><p>层次聚类</p>
+<ul>
+<li>凝聚聚类</li>
+<li>分裂式聚类</li>
+</ul>
+</li>
+</ul>
+<h4 id="评估聚类模型的性能"><a href="#评估聚类模型的性能" class="headerlink" title="评估聚类模型的性能"></a>评估聚类模型的性能</h4><ul>
+<li><p>内部评价指标</p>
+<ul>
+<li>WCSS</li>
+<li>Davies-Bouldin指数</li>
+<li>Dunn指数</li>
+<li>轮廓系数</li>
+</ul>
+</li>
+<li><p>外部评价指标</p>
+<blockquote>
+<p>使用带标注的数据进行评估</p>
+</blockquote>
+<ul>
+<li>Rand measure</li>
+<li>F-measure</li>
+<li>雅卡尔系数（Jarcard index）</li>
+</ul>
+</li>
+</ul>
+<h3 id="第八章-数据降维"><a href="#第八章-数据降维" class="headerlink" title="第八章 数据降维"></a>第八章 数据降维</h3><p>降维方法从一个D维的数据输入提取出K维表示，K一般远远小于D。</p>
+<blockquote>
+<p>被抽取的维度表示应该仍能捕捉大部分原始数据的变化和结构。</p>
+</blockquote>
+<p>目的：缩减维度可以排除数据中的噪音并保留数据原有的隐含结构。</p>
+<h4 id="降维方法的种类"><a href="#降维方法的种类" class="headerlink" title="降维方法的种类"></a>降维方法的种类</h4><ul>
+<li>PCA（主成分分析）</li>
+<li>SVD（奇异值分解）</li>
+<li>聚类方法也可以用来降维</li>
+</ul>
+<h3 id="第九章-高级文本处理技术"><a href="#第九章-高级文本处理技术" class="headerlink" title="第九章 高级文本处理技术"></a>第九章 高级文本处理技术</h3><h4 id="特征抽取"><a href="#特征抽取" class="headerlink" title="特征抽取"></a>特征抽取</h4><ul>
+<li>短语加强表示<ul>
+<li>词袋模型</li>
+<li>词频-逆文本频率（TF-IDF）</li>
+</ul>
+</li>
+<li>特征哈希</li>
+<li>Word2Vec分布向量表示</li>
+</ul>
+<h3 id="第十章-Spark-Stream-实时机器学习"><a href="#第十章-Spark-Stream-实时机器学习" class="headerlink" title="第十章 Spark Stream 实时机器学习"></a>第十章 Spark Stream 实时机器学习</h3><ul>
+<li>流处理<ul>
+<li>输入源</li>
+<li>转换</li>
+<li>执行算子</li>
+<li>窗口算子</li>
+</ul>
+</li>
+<li>缓存与容错</li>
+<li>应用创建&amp;在线学习</li>
 </ul>
 
     </div>
@@ -584,7 +686,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章"><span class="nav-text">第一章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章-amp-第三章-数据准备工作-amp-特征介绍"><span class="nav-text">第二章&amp;第三章 数据准备工作&amp;特征介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四章-推荐引擎"><span class="nav-text">第四章 推荐引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五章-分类模型"><span class="nav-text">第五章 分类模型</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章-环境搭建"><span class="nav-text">第一章 环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章-amp-第三章-数据准备工作-amp-特征介绍"><span class="nav-text">第二章&amp;第三章 数据准备工作&amp;特征介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四章-推荐引擎"><span class="nav-text">第四章 推荐引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#推荐模型的分类"><span class="nav-text">推荐模型的分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#推荐模型效果的评估"><span class="nav-text">推荐模型效果的评估</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五章-分类模型"><span class="nav-text">第五章 分类模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分类模型的种类"><span class="nav-text">分类模型的种类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#预测的正确率和错误率"><span class="nav-text">预测的正确率和错误率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准确率与召回率"><span class="nav-text">准确率与召回率</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六章-回归模型"><span class="nav-text">第六章 回归模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#回归模型的种类"><span class="nav-text">回归模型的种类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第七章-聚类模型"><span class="nav-text">第七章 聚类模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#聚类模型的类型"><span class="nav-text">聚类模型的类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#评估聚类模型的性能"><span class="nav-text">评估聚类模型的性能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第八章-数据降维"><span class="nav-text">第八章 数据降维</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#降维方法的种类"><span class="nav-text">降维方法的种类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第九章-高级文本处理技术"><span class="nav-text">第九章 高级文本处理技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特征抽取"><span class="nav-text">特征抽取</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第十章-Spark-Stream-实时机器学习"><span class="nav-text">第十章 Spark Stream 实时机器学习</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
