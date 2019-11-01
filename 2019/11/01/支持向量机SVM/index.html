@@ -85,7 +85,7 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g8iluoy8v3j30uy0lmq78.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g8im0fcbvgj30ue0tcjzm.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g8imcquumwj30u00zgjyk.jpg">
-<meta property="og:updated_time" content="2019-11-01T08:33:09.113Z">
+<meta property="og:updated_time" content="2019-11-01T08:57:41.347Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机SVM总结">
 <meta name="twitter:description" content="对SVM算法的总结">
@@ -324,7 +324,7 @@
                 
               
 
-              <time title="创建时间：2019-11-01 20:11:35 / 修改时间：16:33:09" itemprop="dateCreated datePublished" datetime="2019-11-01T20:11:35+08:00">2019-11-01</time>
+              <time title="创建时间：2019-11-01 20:11:35 / 修改时间：16:57:41" itemprop="dateCreated datePublished" datetime="2019-11-01T20:11:35+08:00">2019-11-01</time>
             </span>
           
             
@@ -402,6 +402,8 @@ y^{(i)}\left(w^{T} x^{(i)}+b\right) \geq 1</script><p><img src="https://tva1.sin
 <p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g8ilfqc47dj30o204874r.jpg" alt="image-20191101155707698"></p>
 <p>如何解决上述数学问题呢？引入<strong>线性可分支持向量机的对偶算法</strong>。</p>
 <p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g8ili7e3epj30u806cdju.jpg" alt="image-20191101155929877"></p>
+<h4 id="为什么要转为对偶问题？"><a href="#为什么要转为对偶问题？" class="headerlink" title="为什么要转为对偶问题？"></a><strong>为什么要转为对偶问题</strong>？</h4><p>(a)  目前处理的模型严重依赖于数据集的维度d，如果维度d太高就会严重提升运算时间；</p>
+<p>(b)  对偶问题事实上把SVM<strong>从依赖d个维度转变到依赖N个数据点</strong>，考虑到在最后计算时只有支持向量才有意义，所以这个计算量实际上比N小很多。</p>
 <h3 id="三、Soft-Margin3和SVM的正则化"><a href="#三、Soft-Margin3和SVM的正则化" class="headerlink" title="三、Soft Margin3和SVM的正则化"></a>三、Soft Margin3和SVM的正则化</h3><p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g83nwvu9iuj311b0u07kz.jpg" alt="image-20191019175918107"></p>
 <p>为了提高决策函数的泛化能力，需要有一定的<strong>容错能力</strong>。</p>
 <p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g83o1cjhfpj31uv0u0x3e.jpg" alt="image-20191019180334971"></p>
@@ -525,7 +527,7 @@ y^{(i)}\left(w^{T} x^{(i)}+b\right) \geq 1</script><p><img src="https://tva1.sin
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、背景描述"><span class="nav-text">一、背景描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、转化为数学问题"><span class="nav-text">二、转化为数学问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、Soft-Margin3和SVM的正则化"><span class="nav-text">三、Soft Margin3和SVM的正则化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、核函数"><span class="nav-text">四、核函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核函数的引入"><span class="nav-text">核函数的引入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的核函数"><span class="nav-text">常用的核函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、SMO（序列最小最优化算法）"><span class="nav-text">五、SMO（序列最小最优化算法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、背景描述"><span class="nav-text">一、背景描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、转化为数学问题"><span class="nav-text">二、转化为数学问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要转为对偶问题？"><span class="nav-text">为什么要转为对偶问题？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、Soft-Margin3和SVM的正则化"><span class="nav-text">三、Soft Margin3和SVM的正则化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、核函数"><span class="nav-text">四、核函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核函数的引入"><span class="nav-text">核函数的引入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的核函数"><span class="nav-text">常用的核函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、SMO（序列最小最优化算法）"><span class="nav-text">五、SMO（序列最小最优化算法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
