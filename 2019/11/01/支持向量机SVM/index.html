@@ -85,7 +85,7 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g8iluoy8v3j30uy0lmq78.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g8im0fcbvgj30ue0tcjzm.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6ly1g8imcquumwj30u00zgjyk.jpg">
-<meta property="og:updated_time" content="2019-11-01T08:57:41.347Z">
+<meta property="og:updated_time" content="2019-11-02T04:07:34.525Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机SVM总结">
 <meta name="twitter:description" content="对SVM算法的总结">
@@ -324,11 +324,19 @@
                 
               
 
-              <time title="创建时间：2019-11-01 20:11:35 / 修改时间：16:57:41" itemprop="dateCreated datePublished" datetime="2019-11-01T20:11:35+08:00">2019-11-01</time>
+              <time title="创建时间：2019-11-01 20:11:35" itemprop="dateCreated datePublished" datetime="2019-11-01T20:11:35+08:00">2019-11-01</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-02 12:07:34" itemprop="dateModified" datetime="2019-11-02T12:07:34+08:00">2019-11-02</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -424,7 +432,26 @@ y^{(i)}\left(w^{T} x^{(i)}+b\right) \geq 1</script><p><img src="https://tva1.sin
 <p>第一：两个变量的二次规划求解问题</p>
 <p>第二：变量的选择</p>
 <p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g8imcquumwj30u00zgjyk.jpg" alt="image-20191101162851332"></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMyNzQyMDA5L2FydGljbGUvZGV0YWlscy84MTgzODE1Mg==" title="https://blog.csdn.net/qq_32742009/article/details/81838152">https://blog.csdn.net/qq_32742009/article/details/81838152<i class="fa fa-external-link"></i></span></p>
+<h3 id="SVM优缺点"><a href="#SVM优缺点" class="headerlink" title="SVM优缺点"></a>SVM优缺点</h3><h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><ol>
+<li><p>非线性映射是SVM方法的理论基础,SVM利用内积核函数代替向高维空间的非线性映射；</p>
+</li>
+<li><p>对特征空间划分的最优超平面是SVM的目标,最大化分类边际的思想是SVM方法的核心；</p>
+</li>
+<li><p>支持向量是SVM的训练结果,在SVM分类决策中起决定作用的是支持向量；<br>SVM 的最终决策函数只由少数的支持向量所确定,计算的复杂性取决于支持向量的数目,而不是样本空间的维数,这在某种意义上避免了“维数灾难”。</p>
+</li>
+<li><p>小样本集上分类效果通常比较好。<br>少数支持向量决定了最终结果,这不但可以帮助我们抓住关键样本、“剔除”大量冗余样本,而且注定了该方法不但算法简单,而且具有较好的“鲁棒”性。这种“鲁棒”性主要体现在:<br>①增、删非支持向量样本对模型没有影响;</p>
+<p>②支持向量样本集具有一定的鲁棒性;</p>
+<p>③有些成功的应用中,SVM 方法对核的选取不敏感</p>
+<p>SVM 是一种有坚实理论基础的新颖的小样本学习方法。它基本上不涉及概率测度及大数定律等,因此不同于现有的统计方法。从本质上看,它避开了从归纳到演绎的传统过程,实现了高效的从训练样本到预报样本的“转导推理”,大大简化了通常的分类和回归等问题。</p>
+</li>
+</ol>
+<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><ol>
+<li>SVM算法对大规模训练样本难以实施。由于SVM是借助二次规划来求解支持向量，而求解二次规划将涉及m阶矩阵的计算（m为样本的个数），当m数目很大时该矩阵的存储和计算将耗费大量的机器内存和运算时间（上面有讲）。有比较多的改进算法及分布式的方法研究（以后补上）。</li>
+<li>用SVM解决多分类问题存在困难。</li>
+<li>传统的SVM就是解决二分类问题的，上面有介绍不少解决多分类问题的SVM技巧，不过各种方法都一定程度上的缺陷。</li>
+<li>对缺失值敏感，核函数的选择与调参比较复杂。</li>
+</ol>
+<h3 id="参考-amp-致谢"><a href="#参考-amp-致谢" class="headerlink" title="参考&amp;致谢"></a>参考&amp;致谢</h3><p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMyNzQyMDA5L2FydGljbGUvZGV0YWlscy84MTgzODE1Mg==" title="https://blog.csdn.net/qq_32742009/article/details/81838152">https://blog.csdn.net/qq_32742009/article/details/81838152<i class="fa fa-external-link"></i></span></p>
 
     </div>
 
@@ -477,6 +504,10 @@ y^{(i)}\left(w^{T} x^{(i)}+b\right) \geq 1</script><p><img src="https://tva1.sin
 
             <div class="post-nav-prev post-nav-item">
               
+                <a href="/2019/11/02/【转】如何解决机器学习中数据不平衡问题/" rel="prev" title="【转】如何解决机器学习中数据不平衡问题">
+                  【转】如何解决机器学习中数据不平衡问题 <i class="fa fa-chevron-right"></i>
+                </a>
+              
             </div>
           </div>
         
@@ -527,7 +558,7 @@ y^{(i)}\left(w^{T} x^{(i)}+b\right) \geq 1</script><p><img src="https://tva1.sin
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、背景描述"><span class="nav-text">一、背景描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、转化为数学问题"><span class="nav-text">二、转化为数学问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要转为对偶问题？"><span class="nav-text">为什么要转为对偶问题？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、Soft-Margin3和SVM的正则化"><span class="nav-text">三、Soft Margin3和SVM的正则化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、核函数"><span class="nav-text">四、核函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核函数的引入"><span class="nav-text">核函数的引入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的核函数"><span class="nav-text">常用的核函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、SMO（序列最小最优化算法）"><span class="nav-text">五、SMO（序列最小最优化算法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、背景描述"><span class="nav-text">一、背景描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、转化为数学问题"><span class="nav-text">二、转化为数学问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要转为对偶问题？"><span class="nav-text">为什么要转为对偶问题？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、Soft-Margin3和SVM的正则化"><span class="nav-text">三、Soft Margin3和SVM的正则化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、核函数"><span class="nav-text">四、核函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核函数的引入"><span class="nav-text">核函数的引入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的核函数"><span class="nav-text">常用的核函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、SMO（序列最小最优化算法）"><span class="nav-text">五、SMO（序列最小最优化算法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVM优缺点"><span class="nav-text">SVM优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点："><span class="nav-text">优点：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点："><span class="nav-text">缺点：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考-amp-致谢"><span class="nav-text">参考&amp;致谢</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -545,7 +576,7 @@ y^{(i)}\left(w^{T} x^{(i)}+b\right) \geq 1</script><p><img src="https://tva1.sin
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -571,7 +602,7 @@ y^{(i)}\left(w^{T} x^{(i)}+b\right) \geq 1</script><p><img src="https://tva1.sin
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
