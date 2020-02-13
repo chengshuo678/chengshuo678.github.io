@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32x32.jpg?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+<link rel="stylesheet" href="//fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.4.0',
+    exturl: true,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":true},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="2019年11月底到2019年12月初，我来到上海，找个三周的工作。有Java开发岗和数据挖掘岗，第一周没什么准备，加上看数据挖掘看了三个月，Java面试基本上一败涂地，第二周准备了下，逐渐拿了几家offer。后来有同学想参考我的找工作经历，遂总结如下。本篇主要从Java开发的角度整理。">
+<meta name="keywords" content="感悟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="上海找工作三周小结">
+<meta property="og:url" content="http://yoursite.com/2020/01/26/上海找工作三周小结/index.html">
+<meta property="og:site_name" content="飞鸿踏雪泥">
+<meta property="og:description" content="2019年11月底到2019年12月初，我来到上海，找个三周的工作。有Java开发岗和数据挖掘岗，第一周没什么准备，加上看数据挖掘看了三个月，Java面试基本上一败涂地，第二周准备了下，逐渐拿了几家offer。后来有同学想参考我的找工作经历，遂总结如下。本篇主要从Java开发的角度整理。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-02-13T14:43:21.441Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="上海找工作三周小结">
+<meta name="twitter:description" content="2019年11月底到2019年12月初，我来到上海，找个三周的工作。有Java开发岗和数据挖掘岗，第一周没什么准备，加上看数据挖掘看了三个月，Java面试基本上一败涂地，第二周准备了下，逐渐拿了几家offer。后来有同学想参考我的找工作经历，遂总结如下。本篇主要从Java开发的角度整理。">
+  <link rel="canonical" href="http://yoursite.com/2020/01/26/上海找工作三周小结/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>上海找工作三周小结 | 飞鸿踏雪泥</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">飞鸿踏雪泥</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">张城硕的博客</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/26/上海找工作三周小结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张城硕">
+      <meta itemprop="description" content="博观而约取">
+      <meta itemprop="image" content="/images/i.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="飞鸿踏雪泥">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">上海找工作三周小结
+
+          
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+ 
+               
+
+
+             <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-26 11:20:35" itemprop="dateCreated datePublished" datetime="2020-01-26T11:20:35+08:00">2020-01-26</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-13 22:43:21" itemprop="dateModified" datetime="2020-02-13T22:43:21+08:00">2020-02-13</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/生活/" itemprop="url" rel="index"><span itemprop="name">生活</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>2019年11月底到2019年12月初，我来到上海，找个三周的工作。有Java开发岗和数据挖掘岗，第一周没什么准备，加上看数据挖掘看了三个月，Java面试基本上一败涂地，第二周准备了下，逐渐拿了几家offer。后来有同学想参考我的找工作经历，遂总结如下。本篇主要从Java开发的角度整理。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="一、基础篇"><a href="#一、基础篇" class="headerlink" title="一、基础篇"></a>一、基础篇</h3><p>1.1 手写算法</p>
+<p>基本上一线互联网的面试过程中，都有现场手<strong>写算法的过程</strong>。所以算法一定要有所准备，免得因为准备不足、算法有漏洞而影响面试官对自己的印象。结合三周的算法题目，手写算法整体上可以分为 <strong>字符串、排序、查找、链表、树和动态规划</strong>这几个方面。比较高频面试题的自然是快速排序，当然有的部分面试官会在快速排序上做个变种，但是基本上思路是不变的。其次，次高频的是链表的考察，比如链表的逆转、判断是否有环等。动态规划方面往往问的是思路。最后，也有面试官会给具体的业务场景，需要面试者抽象出算法进行解决业务问题。</p>
+<ul>
+<li>判断字符串是否是回文串。</li>
+<li>找出最大长度的回文串。</li>
+<li>排序各个算法的时间复杂度，手写快速排序与冒泡排序。</li>
+<li>链表的逆转。</li>
+<li>判断单链表是否有环，找出单链表里的环的交叉点。</li>
+<li>树的遍历、树的高度。</li>
+<li>贪心算法与动态规划。</li>
+</ul>
+<p>1.2 计算机基础（网络&amp;操作系统）</p>
+<p>计算机基础方面，也有部分公司的部分面试官会问。比较高频的是<strong>计算机网络</strong>方面的知识，具体有TCP协议、TCP三次握手、四次挥手。比如，TCP为什么要设计成三次握手。另外，也有面试官考察操作系统里<strong>虚拟内存</strong>的相关知识。</p>
+<p>我印象比较深的是，一个面试官问我TCP的拥塞控制。</p>
+<ul>
+<li>TCP为什么要设计成三次握手？</li>
+<li>HTTP请求是如何访问到你的服务器的资源的，如果有spring框架，还会问如何定位资源的。</li>
+</ul>
+<p>1.3 Java基础</p>
+<p>Java基础涉及的主要有Java基础类型、 Java集合类、Java多线程、Jvm内存模型与垃圾回收。比较<strong>高频</strong>的问题如下：</p>
+<ul>
+<li>Java8中concurrentHashMap的put与get操作的具体过程，如何保证线程安全的。</li>
+<li>Java 关键字synchronized的用法及其原理，Java8中有哪些改进（锁膨胀的过程）</li>
+<li>Java原子类型的原理，CAS原理（unsafe包），能否保证线程安全？</li>
+<li>Jvm内存模型，CMS垃圾回收与G1垃圾回收。</li>
+</ul>
+<p>1.4 数据库基础</p>
+<p>数据库也是面试的<strong>重点项</strong>。因为各大厂的业务都需要用到数据库。</p>
+<ul>
+<li>数据库索引：Mysql的索引结构，B+树索引（为何不用B树），簇索引，覆盖索引的过程。什么场景的查询不会命中索引？</li>
+<li>数据库的事物隔离级别：会找具体的场景考察，不能只知道概念。<strong>MVVC的原理</strong>。</li>
+<li>数据库的锁：乐观锁、悲观锁、S锁、X锁等。</li>
+</ul>
+<p>1.5 中间件</p>
+<p>简历上写了中间件，就会问。而且会问到<strong>具体原理与应用场景</strong>。所以要慎写！</p>
+<ul>
+<li>消息中间件（Kafka、Metaq、Notify、Activemq等），找一个用过的需要理解原理。其实，使用都很简单。原理方面，<strong>消息中间件如何保证不重复不遗漏</strong>。</li>
+<li>RPC原理</li>
+<li>分库分表中间件</li>
+<li>限流中间件</li>
+</ul>
+<h3 id="二、项目篇"><a href="#二、项目篇" class="headerlink" title="二、项目篇"></a>二、项目篇</h3><p>项目上主要会问你负责的项目，我的理解其实还是考察你的沟通能力和解决问题的能力。如果项目比较大，先描述项目整体背景再说你具体负责的部分，不夸大不谦虚。</p>
+<ul>
+<li>项目的<strong>背景&amp;价值</strong>，解决了什么问题？</li>
+<li>项目中的<strong>难点</strong>，解决方案&amp;改进，有的会问业界其他同类型问题的解决方案。</li>
+<li>故障的处理。</li>
+</ul>
+<h3 id="三、软实力"><a href="#三、软实力" class="headerlink" title="三、软实力"></a>三、软实力</h3><p>软件开发过程中其实软实力也是不可或缺的一部分。当然，不是每个面试官都会直接问的。同样一个问题，有的应聘者可以描述清楚有的人并不能。</p>
+<ul>
+<li>问题发现&amp;处理能力&amp;持续优化能力。</li>
+<li>方案推进，因为需要团队协作。</li>
+<li>沟通能力。</li>
+</ul>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>如果你偶然看到这篇文章，我会劝你积累在平时，业务与技术并重。如果你在找工作，我会告诉你临阵磨枪很重要。</p>
+<p>我的心路历程，承受了几次打击，后来利用周末迅速调整状态，逐渐转好。失败的原因有个人也有公司的原因。个人准备不充分，有的公司年底并不打算实际招人。另外，面试过程中面过小厂也面过大厂，遇到过如浴春风的面试官也遇到过高高在上的面试官，过与不过保持平常心，不卑不亢。</p>
+<p>加油！未来一定会更好！</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+        <div id="reward-container">
+  <div>觉得不错？</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatPay.png" alt="张城硕 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/感悟/" rel="tag"># 感悟</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/14/转载如何解决机器学习中数据不平衡问题/" rel="next" title="转载如何解决机器学习中数据不平衡问题">
+                  <i class="fa fa-chevron-left"></i> 转载如何解决机器学习中数据不平衡问题
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/02/01/2019再见2020你好/" rel="prev" title="2019再见2020你好">
+                  2019再见2020你好 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、基础篇"><span class="nav-text">一、基础篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、项目篇"><span class="nav-text">二、项目篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、软实力"><span class="nav-text">三、软实力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写在最后"><span class="nav-text">写在最后</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/i.jpg"
+      alt="张城硕">
+  <p class="site-author-name" itemprop="name">张城硕</p>
+  <div class="site-description" itemprop="description">博观而约取</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2NoZW5nc2h1bzY3OA==" title="GitHub &rarr; https://github.com/chengshuo678"><i class="fa fa-fw fa-github"></i>GitHub</span>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <span class="exturl" data-url="bWFpbHRvOmNoZW5nc2h1b3poYW5nQDEyNi5jb20=" title="E-Mail &rarr; mailto:chengshuozhang@126.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <span class="exturl" data-url="aHR0cHM6Ly9wYW5qaW5nc2hlbi5naXRodWIuaW8=" title="https://panjingshen.github.io">潘哒的竹林</span>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N4ZjEwNjE5MjY5NTk=" title="https://blog.csdn.net/sxf1061926959">石翔夫的个人博客</span>
+        </li>
+      
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张城硕</span>
+</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0Lm9yZw==">NexT.Mist</span> v7.4.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/muse.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '6ab2d7892119e92e3f93',
+      clientSecret: '581616bbf0f940d2668251b19b02ad337dc5a7a4',
+      repo: 'gitalkComment',
+      owner: 'chengshuo678',
+      admin: ['chengshuo678'],
+      id: '0878ae804effedaa46cdf76c5f518e3c',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
